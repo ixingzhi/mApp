@@ -42,10 +42,10 @@ public class UserService {
 //            cursor.close();
 //            return true;
 //        }
-        if(cursor.moveToFirst()){
-            do{
 
-            }while (cursor.moveToNext());
+        cursor.moveToFirst();
+        if(!cursor.moveToFirst()){
+            cursor.moveToNext();
             cursor.close();
             return true;
         }
