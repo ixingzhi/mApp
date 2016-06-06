@@ -1,0 +1,146 @@
+package com.example.xiedongdong.app02.activity;
+
+import android.graphics.Color;
+import android.os.Bundle;
+import android.os.Message;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.example.xiedongdong.app02.adapter.ImageAdapter;
+import com.example.xiedongdong.app02.adapter.ImageHandler;
+import com.example.xiedongdong.app02.R;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by xiedongdong on 16/5/24.
+ */
+public class HomeFragment extends Fragment implements View.OnClickListener{
+    //图片适配器
+    private ImageAdapter imageAdapter;
+    //存放图片的数组
+    private List<View> imageList;
+    //ViewPager
+    //private static final String LOG_TAG = "HomeFragment";
+    public ImageHandler handler = new ImageHandler(new WeakReference<HomeFragment>(this));
+    public android.support.v4.view.ViewPager viewPager;
+
+    //存放点Id的集合
+    private int[] dotsId={R.id.tv_dot1,R.id.tv_dot2,R.id.tv_dot3,R.id.tv_dot4};
+    //点
+    private TextView tv_dot1,tv_dot2,tv_dot3,tv_dot4;
+    //存放点（.）的集合
+    private TextView[] dots;
+
+    @Nullable
+    @Override
+
+
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.home_pager,container,false);
+        //初始化界面
+
+        viewPager=(ViewPager)view.findViewById(R.id.vp_content);
+        View iv01=View.inflate(view.getContext(),R.layout.home_viewpager_img01,null);
+        View iv02=View.inflate(view.getContext(),R.layout.home_viewpager_img02,null);
+        View iv03=View.inflate(view.getContext(),R.layout.home_viewpager_img03,null);
+        View iv04=View.inflate(view.getContext(),R.layout.home_viewpager_img04,null);
+
+        imageList=new ArrayList<>();
+        imageList.add(iv01);
+        imageList.add(iv02);
+        imageList.add(iv03);
+        imageList.add(iv04);
+
+        //点的索引
+        tv_dot1=(TextView)view.findViewById(R.id.tv_dot1);
+        tv_dot2=(TextView)view.findViewById(R.id.tv_dot2);
+        tv_dot3=(TextView)view.findViewById(R.id.tv_dot3);
+        tv_dot4=(TextView)view.findViewById(R.id.tv_dot4);
+
+
+        dots=new TextView[imageList.size()];
+        for (int i=0;i<imageList.size();i++){
+            dots[i]=(TextView) view.findViewById(dotsId[i]);
+
+        }
+
+        imageAdapter=new ImageAdapter(imageList);
+        //绑定适配器
+        viewPager.setAdapter(imageAdapter);
+        //给viewpager页面设置页面改变监听
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            //配合Adapter的currentItem字段进行设置。
+
+            /**
+             * 这个方法有一个参数position，代表"哪个"页面被选中。当用手指滑动翻页的时候，
+             * 如果翻动成功了（滑动的距离够长），手指抬起来就会立即执行这个方法
+             */
+            @Override
+            public void onPageSelected(int arg0) {
+                handler.sendMessage(Message.obtain(handler, ImageHandler.MSG_PAGE_CHANGED, arg0, 0));
+
+                for (int i=0;i<dots.length;i++){
+                    if((arg0)==i){
+                        dots[i].setTextColor(Color.WHITE);
+                    }else{
+                        dots[i].setTextColor(Color.GRAY);
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+            }
+
+            //覆写该方法实现轮播效果的暂停和恢复
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+                switch (arg0) {
+                    case ViewPager.SCROLL_STATE_DRAGGING:
+                        handler.sendEmptyMessage(ImageHandler.MSG_KEEP_SILENT);
+                        break;
+                    case ViewPager.SCROLL_STATE_IDLE:
+                        handler.sendEmptyMessageDelayed(ImageHandler.MSG_UPDATE_IMAGE, ImageHandler.MSG_DELAY);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+
+        //默认在中间，使用户看不到边界
+        //viewPager.setCurrentItem(Integer.MAX_VALUE/2);
+        //改成：
+        //默认在中间附近，使用户看不到边界
+        int mid = Integer.MAX_VALUE/2;
+        //初始显示第一个
+        viewPager.setCurrentItem(mid - mid/imageList.size());
+
+        //开始轮播效果
+        handler.sendEmptyMessageDelayed(ImageHandler.MSG_UPDATE_IMAGE, ImageHandler.MSG_DELAY);
+
+
+        return view;
+
+    }
+
+    @Override
+    public void onClick(View view) {
+
+
+    }
+}
+
+
+
+
