@@ -120,7 +120,7 @@ public class ChangePasswordActivity extends Activity implements View.OnClickList
     }
 
     private boolean alterPassword() {
-        String txt_currentUser=(tv_currentUser).getText().toString().trim();
+        String txt_currentUser=(tv_currentUser).getText().toString().trim();  //获取到当前登录用户
         String txt_newPassword=(et_changePassword_newPassword).getText().toString().trim();
 
         if(new UserService(ChangePasswordActivity.this).getUsernameByUpdatePassword(txt_newPassword,txt_currentUser)){

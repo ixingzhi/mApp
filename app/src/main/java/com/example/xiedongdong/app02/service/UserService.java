@@ -38,14 +38,7 @@ public class UserService {
         SQLiteDatabase db=dbHelper.getReadableDatabase();
         String sql="select * from user where username=? and password=?";
         Cursor cursor=db.rawQuery(sql,new String[]{txt_username,txt_password});
-//        if(cursor.moveToFirst()==true){
-//            cursor.close();
-//            return true;
-//        }
-
-        cursor.moveToFirst();
-        if(!cursor.moveToFirst()){
-            cursor.moveToNext();
+        if(cursor.moveToFirst()==true){
             cursor.close();
             return true;
         }
@@ -57,10 +50,12 @@ public class UserService {
         SQLiteDatabase db=dbHelper.getWritableDatabase();
         String sql="select username from user where username=?";
         Cursor cursor=db.rawQuery(sql,new String[]{txt_newUsername});
+
         if(cursor.moveToFirst()==true){
             cursor.close();
             return true;
         }
+
         return false;
     }
 
