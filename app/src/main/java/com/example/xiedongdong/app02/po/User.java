@@ -1,9 +1,11 @@
 package com.example.xiedongdong.app02.po;
 
+import cn.bmob.v3.BmobObject;
+
 /**
  * Created by xiedongdong on 16/6/1.
  */
-public class User {
+public class User extends BmobObject {
     private String username;
     private String password;
     private String email;

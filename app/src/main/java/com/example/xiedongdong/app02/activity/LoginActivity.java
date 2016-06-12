@@ -14,17 +14,25 @@ import com.example.xiedongdong.app02.R;
 import com.example.xiedongdong.app02.po.User;
 import com.example.xiedongdong.app02.service.UserService;
 
+import java.util.List;
+
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.FindListener;
+
 /**
  * Created by xiedongdong on 16/5/29.
  */
 public class LoginActivity extends Activity implements View.OnClickListener{
     private Button btn_login;
     private TextView tv_register;
+    private final String ApplicationID="6df39e42d1f641e92cd618e2db9a22bf";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Bmob.initialize(this,ApplicationID);
 
         initView();
     }
@@ -54,23 +62,49 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     }
 
     private void checkLogin() {
-        String txt_username=((EditText)findViewById(R.id.et_userName)).getText().toString().trim();
+        final String txt_username=((EditText)findViewById(R.id.et_userName)).getText().toString().trim();
         String txt_password=((EditText)findViewById(R.id.et_password)).getText().toString().trim();
 
+        BmobQuery<User> query=new BmobQuery<>();
+        query.addWhereEqualTo("username",txt_username);
+        query.addWhereEqualTo("password",txt_password);
 
-        if(new UserService(LoginActivity.this).getUserByUsernamePassword(txt_username,txt_password)){
-            Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
-            /**
-             * 存储用户的登录名信息,登录后从我的页面获取登录用户的用户名
-             */
-            SharedPreferences.Editor editor=getSharedPreferences("user",MODE_PRIVATE).edit();
-            editor.putString("username",txt_username);
-            editor.commit();
+        query.findObjects(this,new FindListener<User>() {
+            @Override
+            public void onSuccess(List<User> footBallers) {
+                for (User fb:footBallers)
+                {
+                    Toast.makeText(LoginActivity.this,"查询成功"+fb.getUsername(),Toast.LENGTH_SHORT).show();
+                }
+                SharedPreferences.Editor editor=getSharedPreferences("user",MODE_PRIVATE).edit();
+                editor.putString("username",txt_username);
+                editor.commit();
 
-            startActivity(new Intent(LoginActivity.this,MainActivity.class));
-            LoginActivity.this.finish();
-        }else{
-            Toast.makeText(LoginActivity.this,"登录信息有误或未注册",Toast.LENGTH_SHORT).show();
-        }
+                startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                LoginActivity.this.finish();
+            }
+
+            @Override
+            public void onError(String s) {
+
+            }
+
+        });
+
+
+//        if(new UserService(LoginActivity.this).getUserByUsernamePassword(txt_username,txt_password)){
+//            Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+//            /**
+//             * 存储用户的登录名信息,登录后从我的页面获取登录用户的用户名
+//             */
+//            SharedPreferences.Editor editor=getSharedPreferences("user",MODE_PRIVATE).edit();
+//            editor.putString("username",txt_username);
+//            editor.commit();
+//
+//            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+//            LoginActivity.this.finish();
+//        }else{
+//            Toast.makeText(LoginActivity.this,"登录信息有误或未注册",Toast.LENGTH_SHORT).show();
+//        }
     }
 }

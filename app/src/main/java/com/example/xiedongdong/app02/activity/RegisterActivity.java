@@ -2,6 +2,7 @@ package com.example.xiedongdong.app02.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,15 +12,21 @@ import com.example.xiedongdong.app02.R;
 import com.example.xiedongdong.app02.po.User;
 import com.example.xiedongdong.app02.service.UserService;
 
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.listener.InsertListener;
+
 /**
  * Created by xiedongdong on 16/5/30.
  */
 public class RegisterActivity extends Activity implements View.OnClickListener{
     private Button btn_okRegister;
+    private final String ApplicationID="6df39e42d1f641e92cd618e2db9a22bf";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        //初始化Bmob数据服务
+        Bmob.initialize(this,ApplicationID);
 
         initView();
     }
@@ -34,13 +41,16 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
         switch (view.getId()){
             case R.id.btn_okRegister:
                 if(checkForm()){
-                    insertUserInfo();
+                    //insertUserInfo();
+                    BmobinsertUserInfo();
+
 
                 }
 
         }
 
     }
+
 
     private boolean checkForm() {
 
@@ -89,6 +99,34 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
         }else{
             Toast.makeText(RegisterActivity.this,"注册失败",Toast.LENGTH_SHORT).show();
         }
+
+
+    }
+
+
+    private void BmobinsertUserInfo() {
+        //获取输入的信息
+        String txt_newUsername=((EditText)findViewById(R.id.et_newUsername)).getText().toString().trim();
+        String txt_newPassword=((EditText)findViewById(R.id.et_newPassword)).getText().toString().trim();
+        String txt_email=((EditText)findViewById(R.id.et_email)).getText().toString().trim();
+
+        User user=new User();
+        user.setUsername(txt_newUsername);
+        user.setPassword(txt_newPassword);
+        user.setEmail(txt_email);
+
+        user.insertObject(this, new InsertListener() {
+            @Override
+            public void onSuccess() {
+                // TODO Auto-generated method stub
+                Log.d("RegisterActivity.this","添加成功");
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                // TODO Auto-generated method stub
+            }
+        });
 
 
     }

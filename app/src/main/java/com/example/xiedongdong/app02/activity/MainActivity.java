@@ -2,21 +2,16 @@ package com.example.xiedongdong.app02.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.example.xiedongdong.app02.R;
-import com.example.xiedongdong.app02.activity.CommunityFragment;
-import com.example.xiedongdong.app02.activity.HomeFragment;
-import com.example.xiedongdong.app02.activity.MeFragment;
+
 
 /**
  * Created by xiedongdong on 16/5/24.
@@ -34,8 +29,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private Fragment tab01;
     private Fragment tab02;
     private Fragment tab03;
-    public Handler handler;
-    public ViewPager viewPager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
