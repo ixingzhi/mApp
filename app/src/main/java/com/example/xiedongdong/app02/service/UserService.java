@@ -36,7 +36,7 @@ public class UserService {
 
     public boolean getUserByUsernamePassword(String txt_username,String txt_password) {
         SQLiteDatabase db=dbHelper.getReadableDatabase();
-        String sql="select * from user where username=? and password=?";
+        String sql="select username,password from user where username=? and password=?";
         Cursor cursor=db.rawQuery(sql,new String[]{txt_username,txt_password});
         if(cursor.moveToFirst()==true){
             cursor.close();

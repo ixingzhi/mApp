@@ -1,5 +1,6 @@
 package com.example.xiedongdong.app02.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
@@ -9,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.xiedongdong.app02.adapter.ImageAdapter;
@@ -38,6 +40,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     private TextView tv_dot1,tv_dot2,tv_dot3,tv_dot4;
     //存放点（.）的集合
     private TextView[] dots;
+
+    private ImageView iv_chuizi;
 
     @Nullable
     @Override
@@ -130,12 +134,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         handler.sendEmptyMessageDelayed(ImageHandler.MSG_UPDATE_IMAGE, ImageHandler.MSG_DELAY);
 
 
+        iv_chuizi=(ImageView)view.findViewById(R.id.iv_chuizi);
+        iv_chuizi.setOnClickListener(this);
+
+
         return view;
 
     }
 
     @Override
     public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.iv_chuizi:
+                startActivity(new Intent(getActivity(),WebViewTest.class));
+                break;
+            default:
+                break;
+        }
 
 
     }
