@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.example.xiedongdong.app02.R;
 import com.example.xiedongdong.app02.po.User;
-import com.example.xiedongdong.app02.service.UserService;
 
 import java.util.List;
 
