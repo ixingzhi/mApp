@@ -13,6 +13,8 @@ import com.example.xiedongdong.app02.po.User;
 import com.example.xiedongdong.app02.service.UserService;
 
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.InsertListener;
 
 /**
@@ -41,12 +43,11 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
         switch (view.getId()){
             case R.id.btn_okRegister:
                 if(checkForm()){
-                    //insertUserInfo();
                     BmobinsertUserInfo();
-
-
                 }
-
+                break;
+            default:
+                break;
         }
 
     }
@@ -82,52 +83,38 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
 
     }
 
-    private void insertUserInfo() {
-
-        //获取输入的信息
-        String txt_newUsername=((EditText)findViewById(R.id.et_newUsername)).getText().toString().trim();
-        String txt_newPassword=((EditText)findViewById(R.id.et_newPassword)).getText().toString().trim();
-        String txt_email=((EditText)findViewById(R.id.et_email)).getText().toString().trim();
-
-        User user=new User();
-        user.setUsername(txt_newUsername);
-        user.setPassword(txt_newPassword);
-        user.setEmail(txt_email);
-
-        if(new UserService(RegisterActivity.this).insertUser(user)){
-            Toast.makeText(RegisterActivity.this,"注册成功,返回登录",Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(RegisterActivity.this,"注册失败",Toast.LENGTH_SHORT).show();
-        }
-
-
-    }
-
-
     private void BmobinsertUserInfo() {
         //获取输入的信息
         String txt_newUsername=((EditText)findViewById(R.id.et_newUsername)).getText().toString().trim();
         String txt_newPassword=((EditText)findViewById(R.id.et_newPassword)).getText().toString().trim();
         String txt_email=((EditText)findViewById(R.id.et_email)).getText().toString().trim();
 
+
         User user=new User();
         user.setUsername(txt_newUsername);
         user.setPassword(txt_newPassword);
         user.setEmail(txt_email);
 
-        user.insertObject(this, new InsertListener() {
+        user.signUp(this, new InsertListener() {
             @Override
             public void onSuccess() {
-                // TODO Auto-generated method stub
-                Log.d("RegisterActivity.this","添加成功");
+                Toast.makeText(RegisterActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
-            public void onFailure(String msg) {
-                // TODO Auto-generated method stub
+            public void onFailure(String s) {
+                Toast.makeText(RegisterActivity.this,"注册shibai:"+s,Toast.LENGTH_SHORT).show();
+
             }
         });
 
 
+
+
+
+
+
     }
+
 }

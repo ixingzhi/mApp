@@ -13,11 +13,10 @@ import android.widget.Toast;
 import com.example.xiedongdong.app02.R;
 import com.example.xiedongdong.app02.po.User;
 
-import java.util.List;
 
 import cn.bmob.v3.Bmob;
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.listener.InsertListener;
 
 /**
  * Created by xiedongdong on 16/5/29.
@@ -31,7 +30,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Bmob.initialize(this,ApplicationID);
+        Bmob.initialize(LoginActivity.this,ApplicationID);
 
         initView();
     }
@@ -64,46 +63,33 @@ public class LoginActivity extends Activity implements View.OnClickListener{
         final String txt_username=((EditText)findViewById(R.id.et_userName)).getText().toString().trim();
         String txt_password=((EditText)findViewById(R.id.et_password)).getText().toString().trim();
 
-        BmobQuery<User> query=new BmobQuery<>();
-        query.addWhereEqualTo("username",txt_username);
-        query.addWhereEqualTo("password",txt_password);
-
-        query.findObjects(this,new FindListener<User>() {
+        User user=new User();
+        user.setUsername(txt_username);
+        user.setPassword(txt_password);
+        user.login(LoginActivity.this, new InsertListener() {
             @Override
-            public void onSuccess(List<User> footBallers) {
-                for (User fb:footBallers)
-                {
-                    Toast.makeText(LoginActivity.this,"查询成功"+fb.getUsername(),Toast.LENGTH_SHORT).show();
-                }
+            public void onSuccess() {
+                Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+                /**
+                 * 存储用户的登录名信息,登录后从我的页面获取登录用户的用户名
+                 */
                 SharedPreferences.Editor editor=getSharedPreferences("user",MODE_PRIVATE).edit();
                 editor.putString("username",txt_username);
                 editor.commit();
-
                 startActivity(new Intent(LoginActivity.this,MainActivity.class));
                 LoginActivity.this.finish();
+
             }
 
             @Override
-            public void onError(String s) {
+            public void onFailure(String s) {
+                Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();
 
             }
-
         });
 
 
-//        if(new UserService(LoginActivity.this).getUserByUsernamePassword(txt_username,txt_password)){
-//            Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
-//            /**
-//             * 存储用户的登录名信息,登录后从我的页面获取登录用户的用户名
-//             */
-//            SharedPreferences.Editor editor=getSharedPreferences("user",MODE_PRIVATE).edit();
-//            editor.putString("username",txt_username);
-//            editor.commit();
-//
-//            startActivity(new Intent(LoginActivity.this,MainActivity.class));
-//            LoginActivity.this.finish();
-//        }else{
-//            Toast.makeText(LoginActivity.this,"登录信息有误或未注册",Toast.LENGTH_SHORT).show();
-//        }
+
+
     }
 }
