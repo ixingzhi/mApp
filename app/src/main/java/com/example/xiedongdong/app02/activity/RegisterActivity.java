@@ -14,7 +14,7 @@ import com.example.xiedongdong.app02.R;
 import com.example.xiedongdong.app02.po.User;
 
 import cn.bmob.v3.Bmob;
-import cn.bmob.v3.listener.InsertListener;
+import cn.bmob.v3.listener.SaveListener;
 
 /**
  * Created by xiedongdong on 16/5/30.
@@ -82,22 +82,22 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         String txt_username=et_usernmae.getText().toString().trim();
 
         if(!TextUtils.isEmpty(txt_phoneNum) && !TextUtils.isEmpty(txt_newPassword)){
-            User user=new User();
+            final User user=new User();
             user.setPhoneNum(txt_phoneNum);
             user.setPassword(txt_newPassword);
             user.setUsername(txt_username);
 
-            user.insertObject(RegisterActivity.this, new InsertListener() {
+            user.save(RegisterActivity.this, new SaveListener() {
                 @Override
                 public void onSuccess() {
                     Toast.makeText(RegisterActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
-                public void onFailure(String s) {
+                public void onFailure(int i, String s) {
                     Toast.makeText(RegisterActivity.this,"注册失败："+s,Toast.LENGTH_SHORT).show();
-
                 }
+
             });
         }
 

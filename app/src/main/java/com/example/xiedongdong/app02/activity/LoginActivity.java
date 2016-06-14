@@ -107,9 +107,11 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                 }
 
                 @Override
-                public void onError(String s) {
-                    Toast.makeText(LoginActivity.this,"登录失败："+s,Toast.LENGTH_SHORT).show();
+                public void onError(int i, String s) {
+
+                    Toast.makeText(LoginActivity.this,"登录失败："+i+s,Toast.LENGTH_SHORT).show();
                 }
+
             });
 
         }
