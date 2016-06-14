@@ -1,50 +1,73 @@
 package com.example.xiedongdong.app02.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.xiedongdong.app02.R;
 import com.example.xiedongdong.app02.po.User;
-import com.example.xiedongdong.app02.service.UserService;
 
 import cn.bmob.v3.Bmob;
-import cn.bmob.v3.BmobObject;
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.InsertListener;
 
 /**
  * Created by xiedongdong on 16/5/30.
  */
-public class RegisterActivity extends Activity implements View.OnClickListener{
-    private Button btn_okRegister;
+
+public class RegisterActivity extends Activity implements View.OnClickListener {
+    private EditText et_phoneNum;
+    private EditText et_newPassword;
+    private EditText et_usernmae;
+    private EditText et_securityCode;
+    private Button btn_sendSecurityCode;
+    private Button btn_register;
+    private TextView tv_existAccount;
+
     private final String ApplicationID="6df39e42d1f641e92cd618e2db9a22bf";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-        //初始化Bmob数据服务
-        Bmob.initialize(this,ApplicationID);
+        setContentView(R.layout.register);
+        Bmob.initialize(RegisterActivity.this,ApplicationID);
 
         initView();
+        initEvent();
+    }
+
+    private void initEvent() {
+        btn_sendSecurityCode.setOnClickListener(this);
+        btn_register.setOnClickListener(this);
+        tv_existAccount.setOnClickListener(this);
+
     }
 
     private void initView() {
-        btn_okRegister=(Button)findViewById(R.id.btn_okRegister);
-        btn_okRegister.setOnClickListener(this);
+        et_phoneNum=(EditText)findViewById(R.id.et_phoneNum);
+        et_newPassword=(EditText)findViewById(R.id.et_newPassword);
+        et_usernmae=(EditText)findViewById(R.id.et_userName);
+        et_securityCode=(EditText)findViewById(R.id.et_securityCode);
+        btn_sendSecurityCode=(Button)findViewById(R.id.btn_sendSecurityCode);
+        btn_register=(Button)findViewById(R.id.btn_register);
+        tv_existAccount=(TextView)findViewById(R.id.tv_existAccount);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.btn_okRegister:
-                if(checkForm()){
-                    BmobinsertUserInfo();
-                }
+            case R.id.btn_sendSecurityCode:
+                //发送验证码
+                break;
+            case R.id.btn_register:
+                isRegister();
+                break;
+            case R.id.tv_existAccount:
+                startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
                 break;
             default:
                 break;
@@ -52,69 +75,32 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
 
     }
 
+    //判断注册信息
+    public void isRegister() {
+        String txt_phoneNum=et_phoneNum.getText().toString().trim();
+        String txt_newPassword=et_newPassword.getText().toString().trim();
+        String txt_username=et_usernmae.getText().toString().trim();
 
-    private boolean checkForm() {
+        if(!TextUtils.isEmpty(txt_phoneNum) && !TextUtils.isEmpty(txt_newPassword)){
+            User user=new User();
+            user.setPhoneNum(txt_phoneNum);
+            user.setPassword(txt_newPassword);
+            user.setUsername(txt_username);
 
-        //获取输入的信息
-        String txt_newUsername=((EditText)findViewById(R.id.et_newUsername)).getText().toString().trim();
-        String txt_newPassword=((EditText)findViewById(R.id.et_newPassword)).getText().toString().trim();
-        String txt_okPassword=((EditText)findViewById(R.id.et_okPassword)).getText().toString().trim();
-        String txt_email=((EditText)findViewById(R.id.et_email)).getText().toString().trim();
+            user.insertObject(RegisterActivity.this, new InsertListener() {
+                @Override
+                public void onSuccess() {
+                    Toast.makeText(RegisterActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
+                }
 
-        if(new UserService(RegisterActivity.this).getUserByUsername(txt_newUsername)){
-            Toast.makeText(RegisterActivity.this,"用户名已被注册",Toast.LENGTH_LONG).show();
-            return (false);
+                @Override
+                public void onFailure(String s) {
+                    Toast.makeText(RegisterActivity.this,"注册失败："+s,Toast.LENGTH_SHORT).show();
+
+                }
+            });
         }
 
-        if(txt_newUsername.length()<4 || txt_newPassword.length()<4 || txt_okPassword.length()<4){
-            Toast.makeText(this,"注册信息不完善或用户名密码没有大余4个字符",Toast.LENGTH_LONG).show();
-            return (false);
-        }
-
-        if(txt_newPassword.equals(txt_okPassword)){
-
-        }else
-        {
-            Toast.makeText(RegisterActivity.this,"两次输入密码不一致",Toast.LENGTH_LONG).show();
-            return (false);
-        }
-
-        return (true);
-
+        return ;
     }
-
-    private void BmobinsertUserInfo() {
-        //获取输入的信息
-        String txt_newUsername=((EditText)findViewById(R.id.et_newUsername)).getText().toString().trim();
-        String txt_newPassword=((EditText)findViewById(R.id.et_newPassword)).getText().toString().trim();
-        String txt_email=((EditText)findViewById(R.id.et_email)).getText().toString().trim();
-
-
-        User user=new User();
-        user.setUsername(txt_newUsername);
-        user.setPassword(txt_newPassword);
-        user.setEmail(txt_email);
-
-        user.signUp(this, new InsertListener() {
-            @Override
-            public void onSuccess() {
-                Toast.makeText(RegisterActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
-
-            }
-
-            @Override
-            public void onFailure(String s) {
-                Toast.makeText(RegisterActivity.this,"注册shibai:"+s,Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-
-
-
-
-
-
-    }
-
 }
