@@ -7,12 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.example.xiedongdong.app02.Base.BaseActivity;
 import com.example.xiedongdong.app02.R;
 
 /**
  * Created by xiedongdong on 16/6/2.
  */
-public class MoreFunctionActivity extends Activity implements View.OnClickListener{
+public class MoreFunctionActivity extends BaseActivity implements View.OnClickListener{
     private LinearLayout ll_disappeared;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

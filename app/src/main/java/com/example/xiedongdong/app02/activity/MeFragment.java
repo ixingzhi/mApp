@@ -1,26 +1,26 @@
 package com.example.xiedongdong.app02.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.xiedongdong.app02.Base.BaseFragment;
+import com.example.xiedongdong.app02.Bmob.BmobUserManager;
 import com.example.xiedongdong.app02.R;
+import com.example.xiedongdong.app02.po.User;
+
+import cn.bmob.v3.BmobUser;
 
 /**
  * Created by xiedongdong on 16/5/24.
  */
-public class MeFragment extends Fragment implements View.OnClickListener {
+public class MeFragment extends BaseFragment implements View.OnClickListener {
     private TextView tv_username;
     private Button btn_quitUsername;
     private LinearLayout ll_aboutSoft;
@@ -29,6 +29,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     private LinearLayout ll_myCollect;
     private LinearLayout ll_moreFunction;
     private TextView tv_currentUser;
+
+
 
     @Nullable
     @Override
@@ -61,12 +63,10 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         /**
          * 从ShardPerferences中获取用户名信息
          */
-        readUserInfo();
+        initData();
 
         return view;
     }
-
-
 
     @Override
     public void onClick(View v) {
@@ -79,10 +79,10 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.ll_myPosts:
-                Toast.makeText(getContext(),"正在开发中",Toast.LENGTH_SHORT).show();
+                showToast("正在开发中");
                 break;
             case R.id.ll_myCollect:
-                Toast.makeText(getContext(),"正在开发中",Toast.LENGTH_SHORT).show();
+                showToast("正在开发中");
                 break;
             case R.id.ll_aboutSoft:
                 startActivity(new Intent(getActivity(),AboutSoftActivity.class));
@@ -95,9 +95,9 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.btn_quitUsername:
                 if(isLogin()){
-                    Toast.makeText(getContext(),"未登录",Toast.LENGTH_SHORT).show();
+                    showToast("未登录");
                 }else{
-                    clearUserInfo();
+                    logOut();
                     getActivity().finish();
                     startActivity(new Intent(getActivity(),LoginActivity.class));
                 }
@@ -110,34 +110,35 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    private void readUserInfo() {
-        SharedPreferences pref=getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
-        String username=pref.getString("username","");
-        if(username.equals("")){
-
-        }else{
-            tv_username.setText(username);
+    /**
+     * 初始化数据
+     */
+    private void initData() {
+        BmobUser userInfo=BmobUser.getCurrentUser(getContext());
+        if(userInfo!=null){
+            tv_username.setText(userInfo.getUsername());
         }
-
     }
 
-    private void clearUserInfo() {
-        SharedPreferences pref=getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
-        pref.edit().clear().commit();
+    /**
+     * 退出用户
+     */
+    private void logOut() {
+
+        BmobUser.logOut(getActivity());   //清除缓存用户
     }
 
+    /**
+     * 检测是否登录
+     */
     public boolean isLogin() {
-        SharedPreferences pref=getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
-        String username=pref.getString("username","");
-        if(username.equals("")){
+        User userInfo= BmobUser.getCurrentUser(getActivity(),User.class);
+        if(userInfo==null){
             return true;
         }
 
         return false;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
+
 }

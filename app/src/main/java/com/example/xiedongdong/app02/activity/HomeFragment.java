@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.xiedongdong.app02.Base.BaseFragment;
 import com.example.xiedongdong.app02.adapter.ImageAdapter;
 import com.example.xiedongdong.app02.adapter.ImageHandler;
 import com.example.xiedongdong.app02.R;
@@ -24,7 +25,7 @@ import java.util.List;
 /**
  * Created by xiedongdong on 16/5/24.
  */
-public class HomeFragment extends Fragment implements View.OnClickListener{
+public class HomeFragment extends BaseFragment implements View.OnClickListener{
     //图片适配器
     private ImageAdapter imageAdapter;
     //存放图片的数组

@@ -11,13 +11,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.xiedongdong.app02.Base.BaseActivity;
 import com.example.xiedongdong.app02.R;
 import com.example.xiedongdong.app02.service.UserService;
 
 /**
  * Created by xiedongdong on 16/6/2.
  */
-public class ChangePasswordActivity extends Activity implements View.OnClickListener {
+public class ChangePasswordActivity extends BaseActivity implements View.OnClickListener {
     private TextView tv_currentUser;
     private Button btn_commmit;
     private EditText et_oldPassword;

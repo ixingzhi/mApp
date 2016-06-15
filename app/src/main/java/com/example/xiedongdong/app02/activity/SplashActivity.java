@@ -5,12 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.example.xiedongdong.app02.Base.BaseActivity;
 import com.example.xiedongdong.app02.R;
 
 /**
  * Created by xiedongdong on 16/5/29.
  */
-public class SplashActivity extends Activity {
+public class SplashActivity extends BaseActivity {
     private static final long SPLASH_DELAY_MILLIS=2000;
 
     @Override
