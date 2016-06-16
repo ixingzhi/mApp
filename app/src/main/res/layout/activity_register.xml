@@ -180,16 +180,19 @@
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
             android:paddingLeft="10dp"
-            android:layout_weight="100"
+            android:layout_weight="70"
             android:textSize="20dp"/>
 
-        <Button
-            android:id="@+id/btn_sendSecurityCode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
+        <TextView
+            android:id="@+id/tv_sendSecurityCode"
+            android:layout_width="160dp"
+            android:layout_height="30dp"
+            android:layout_weight="30"
+            android:layout_marginRight="4dp"
+            android:gravity="center"
             android:singleLine="true"
-            android:text="发送验证码"/>
+            android:text="发送验证码"
+            android:background="@drawable/background_blue"/>
 
         <View
             android:layout_width="2dp"

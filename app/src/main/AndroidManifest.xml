@@ -46,6 +46,7 @@
         <activity android:name=".activity.WebViewTest"/>
 
         <activity android:name=".activity.TermsActivity"/>
+
     </application>
 
 </manifest>
