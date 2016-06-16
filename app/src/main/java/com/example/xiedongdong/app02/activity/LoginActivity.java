@@ -96,7 +96,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                         startActivity(new Intent(LoginActivity.this,MainActivity.class));
                         LoginActivity.this.finish();
                     }else{
-                        showToast("登录失败");
+                        showToast("登录信息有误");
                     }
                 }
             });

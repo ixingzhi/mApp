@@ -77,7 +77,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.btn_register:
                 if(checkInfoFrom()){
-
+                    register();
                 }
                 break;
             case R.id.tv_terms:
@@ -98,7 +98,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     private void sendSecurityCode() {
         String txt_phoneNum=et_phoneNum.getText().toString().trim();
-        new TimeCount(RegisterActivity.this,60000,1000,tv_sendSecurityCode).start();
 
         if(!TextUtils.isEmpty(txt_phoneNum)){
             Bmob.requestSMSCode(RegisterActivity.this, txt_phoneNum, "mAppSMS", new RequestSMSCodeListener() {
@@ -106,7 +105,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 public void done(Integer smsId, BmobException ex) {
                     if(ex==null){
                         showToast("短信发送成功");
-
+                        new TimeCount(RegisterActivity.this,60000,1000,tv_sendSecurityCode).start();
                     }
                 }
             });
@@ -116,61 +115,84 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     }
 
+    /**
+     * 检查输入信息是否正确
+     * @return
+     */
     private boolean checkInfoFrom() {
-        String txt_phoneNum=et_phoneNum.getText().toString().trim();
-        String txt_newPassword=et_newPassword.getText().toString().trim();
-        String txt_username=et_usernmae.getText().toString().trim();
-        String txt_securityCode=et_securityCode.getText().toString().trim();
+        String txt_phoneNum = et_phoneNum.getText().toString().trim();
+        String txt_newPassword = et_newPassword.getText().toString().trim();
+        String txt_username = et_usernmae.getText().toString().trim();
+        String txt_securityCode = et_securityCode.getText().toString().trim();
 
-        /**
-         * 验证手机验证码是否正确
-         */
-        if(!TextUtils.isEmpty(txt_securityCode)){
+        if (TextUtils.isEmpty(txt_phoneNum) && TextUtils.isEmpty(txt_newPassword)
+                && TextUtils.isEmpty(txt_username) && TextUtils.isEmpty(txt_securityCode)) {
+
+            showToast("请完善信息");
+        } else if (!cb_agreeTerms.isChecked()) {
+            showToast("未同意条款");
+        }else if(checkSecurityCode()==false){
+            showToast("验证码错误");
+        }
+        else {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * 验证验证码是否正确
+     */
+    boolean blag=true;
+    private boolean checkSecurityCode() {
+        String txt_phoneNum = et_phoneNum.getText().toString().trim();
+        String txt_securityCode = et_securityCode.getText().toString().trim();
+
+        if(blag){
             Bmob.verifySmsCode(RegisterActivity.this, txt_phoneNum, txt_securityCode, new VerifySMSCodeListener() {
                 @Override
                 public void done(BmobException e) {
                     if(e==null){
                         Log.e("RegisterActivity","验证码验证成功");
+                        blag=true;
                     }else{
-                        showToast("验证码错误"+e);
+                        Log.e("RegisterActivity","验证码错误");
+                        blag=false;
+
                     }
                 }
             });
-        }
-        else if(cb_agreeTerms.isChecked()){
 
         }
-
-        else if(!TextUtils.isEmpty(txt_phoneNum) && !TextUtils.isEmpty(txt_newPassword)){
-            BmobUser bmobUser=new BmobUser();
-            bmobUser.setMobilePhoneNumber(txt_phoneNum);
-            bmobUser.setPassword(txt_username);
-            bmobUser.setUsername(txt_username);
-
-            bmobUser.signUp(RegisterActivity.this, new SaveListener() {
-                @Override
-                public void onSuccess() {
-                    showToast("注册成功");
-                }
-
-                @Override
-                public void onFailure(int i, String s) {
-                    showToast("注册失败:"+i+":"+s);
-                }
-            });
-        }
-
-        else{
-            showToast("请完善信息并同意条款");
-            return (false);
-        }
-
-
-
-        return true;
+        return blag;
     }
 
+    /**
+     * 注册
+     */
+    public void register(){
+        String txt_phoneNum = et_phoneNum.getText().toString().trim();
+        String txt_username = et_usernmae.getText().toString().trim();
 
+        BmobUser bmobUser=new BmobUser();
+        bmobUser.setMobilePhoneNumber(txt_phoneNum);
+        bmobUser.setPassword(txt_username);
+        bmobUser.setUsername(txt_username);
+
+        bmobUser.signUp(RegisterActivity.this, new SaveListener() {
+            @Override
+            public void onSuccess() {
+                showToast("注册成功");
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                showToast("注册失败:"+i+":"+s);
+            }
+        });
+
+    }
 
 }
 
