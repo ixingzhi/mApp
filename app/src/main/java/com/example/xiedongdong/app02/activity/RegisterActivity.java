@@ -1,5 +1,6 @@
 package com.example.xiedongdong.app02.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -35,6 +36,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private TextView tv_terms;
     private Button btn_register;
     private TextView tv_existAccount;
+
+    boolean blag=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +117,32 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         }
 
     }
+    /**
+     * 验证验证码是否正确
+     */
+
+    private boolean checkSecurityCode() {
+        String txt_phoneNum = et_phoneNum.getText().toString().trim();
+        String txt_securityCode = et_securityCode.getText().toString().trim();
+
+        if(true){
+            Bmob.verifySmsCode(RegisterActivity.this, txt_phoneNum, txt_securityCode, new VerifySMSCodeListener() {
+                @Override
+                public void done(BmobException e) {
+                    if(e==null){
+                        Log.e("RegisterActivity","验证码验证成功");
+                        blag=true;
+                    }else{
+                        Log.e("RegisterActivity","验证码错误");
+                        blag=false;
+
+                    }
+                }
+            });
+
+        }
+        return blag;
+    }
 
     /**
      * 检查输入信息是否正确
@@ -141,32 +170,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         return false;
     }
 
-    /**
-     * 验证验证码是否正确
-     */
-    boolean blag=true;
-    private boolean checkSecurityCode() {
-        String txt_phoneNum = et_phoneNum.getText().toString().trim();
-        String txt_securityCode = et_securityCode.getText().toString().trim();
 
-        if(blag){
-            Bmob.verifySmsCode(RegisterActivity.this, txt_phoneNum, txt_securityCode, new VerifySMSCodeListener() {
-                @Override
-                public void done(BmobException e) {
-                    if(e==null){
-                        Log.e("RegisterActivity","验证码验证成功");
-                        blag=true;
-                    }else{
-                        Log.e("RegisterActivity","验证码错误");
-                        blag=false;
-
-                    }
-                }
-            });
-
-        }
-        return blag;
-    }
 
     /**
      * 注册
@@ -174,6 +178,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     public void register(){
         String txt_phoneNum = et_phoneNum.getText().toString().trim();
         String txt_username = et_usernmae.getText().toString().trim();
+
+        final ProgressDialog progress=new ProgressDialog(RegisterActivity.this);
+        progress.setCanceledOnTouchOutside(false);
+        progress.setMessage("正在注册中...");
+        progress.show();
 
         BmobUser bmobUser=new BmobUser();
         bmobUser.setMobilePhoneNumber(txt_phoneNum);
@@ -183,12 +192,20 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         bmobUser.signUp(RegisterActivity.this, new SaveListener() {
             @Override
             public void onSuccess() {
-                showToast("注册成功");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progress.setMessage("注册成功");
+                    }
+                });
+                progress.dismiss();
+                Log.d("RegisterActivity","注册成功");
             }
 
             @Override
             public void onFailure(int i, String s) {
-                showToast("注册失败:"+i+":"+s);
+                showToast("注册失败:"+s);
+                progress.dismiss();
             }
         });
 

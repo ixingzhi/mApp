@@ -1,5 +1,6 @@
 package com.example.xiedongdong.app02.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -58,7 +59,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_login:
-                isLogin();
+                CheckLogin();
                 break;
             case R.id.tv_forgetPassword:
 
@@ -75,16 +76,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
     /**
      *对登录信息进行处理
-     *用手机号和密码判断进行登录
+     *用手机号/用户名   密码判断进行登录
      */
 
-    public void isLogin(){
+    public void CheckLogin(){
         final String txt_account=et_account.getText().toString().trim();
         String txt_password=et_password.getText().toString().trim();
 
+
+
         if(!TextUtils.isEmpty(txt_account) && !TextUtils.isEmpty(txt_password)) {
+            final ProgressDialog progress=new ProgressDialog(LoginActivity.this);
+            progress.setCanceledOnTouchOutside(false);
+            progress.setMessage("正在登录中...");
+            progress.show();
+
             BmobUser bmobUser=new BmobUser();
             bmobUser.setMobilePhoneNumber(txt_account);
+            bmobUser.setUsername(txt_account);
             bmobUser.setPassword(txt_password);
 
             BmobUser.loginByAccount(LoginActivity.this, txt_account, txt_password, new LogInListener<BmobUser>() {
@@ -92,11 +101,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                 @Override
                 public void done(BmobUser bmobUser, BmobException e) {
                     if(bmobUser!=null){
-                        showToast("登录成功");
+                        Log.e("LoginActivity:","登录成功");
                         startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                        progress.dismiss();
                         LoginActivity.this.finish();
                     }else{
                         showToast("登录信息有误");
+                        progress.dismiss();
                     }
                 }
             });

@@ -1,29 +1,39 @@
 package com.example.xiedongdong.app02.activity;
 
-import android.app.Activity;
-import android.content.Context;
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.xiedongdong.app02.Base.BaseActivity;
 import com.example.xiedongdong.app02.R;
-import com.example.xiedongdong.app02.service.UserService;
+import com.example.xiedongdong.app02.util.TimeCount;
+
+
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.RequestSMSCodeListener;
+import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.VerifySMSCodeListener;
 
 /**
  * Created by xiedongdong on 16/6/2.
  */
 public class ChangePasswordActivity extends BaseActivity implements View.OnClickListener {
     private TextView tv_currentUser;
-    private Button btn_commmit;
-    private EditText et_oldPassword;
+    private TextView tv_changePassword_phoneNumber;
     private EditText et_changePassword_newPassword;
-    private EditText et_changePassword_okNewPassword;
+    private EditText et_changePassword_securityCode;
+    private TextView tv_changePassword_sendSecurityCode;
+    private Button btn_changePassword_commit;
+
+    boolean blag=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,36 +43,20 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
         tv_currentUser = (TextView) findViewById(R.id.tv_currentUser);
         tv_currentUser.setOnClickListener(this);
 
-        btn_commmit = (Button) findViewById(R.id.btn_commit);
-        btn_commmit.setOnClickListener(this);
+        tv_changePassword_phoneNumber=(TextView) findViewById(R.id.tv_changePassword_phoneNumber);
 
-        et_oldPassword=(EditText)findViewById(R.id.et_oldPassword);
         et_changePassword_newPassword=(EditText)findViewById(R.id.et_changePassword_newPassword);
-        et_changePassword_okNewPassword=(EditText)findViewById(R.id.et_changePassword_okNewPassword);
 
+        et_changePassword_securityCode=(EditText)findViewById(R.id.et_changePassword_securityCode);
 
-        currentUserInfo();
+        tv_changePassword_sendSecurityCode=(TextView)findViewById(R.id.tv_changePassword_sendSecurityCode);
+        tv_changePassword_sendSecurityCode.setOnClickListener(this);
 
-    }
+        btn_changePassword_commit = (Button) findViewById(R.id.btn_changePassword_commit);
+        btn_changePassword_commit.setOnClickListener(this);
 
-    private void currentUserInfo() {
-        SharedPreferences pref = getSharedPreferences("user", Context.MODE_PRIVATE);
-        String username = pref.getString("username", "");
-        if (username.equals("")) {
+        initData();
 
-        } else {
-            tv_currentUser.setText(username);
-        }
-
-    }
-
-    public boolean isLogin() {
-        SharedPreferences pref = getSharedPreferences("user", Context.MODE_PRIVATE);
-        String username = pref.getString("username", "");
-        if (username.equals("")) {
-            return true;
-        }
-        return false;
     }
 
     @Override
@@ -73,62 +67,168 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
                     startActivity(new Intent(ChangePasswordActivity.this, LoginActivity.class));
                 }
                 break;
-            case R.id.btn_commit:
+            case R.id.tv_changePassword_sendSecurityCode:
+                sendSecurityCode();
+                break;
+            case R.id.btn_changePassword_commit:
                 if (checkFrom()) {
-                    if(alterPassword()){
-                        Toast.makeText(ChangePasswordActivity.this,"修改密码成功",Toast.LENGTH_SHORT).show();
-                    }
+                    Log.e("ChangePasswordActivity","通过验证，进入修改密码");
+                    alterPassword();
                 }
             default:
                 break;
         }
     }
 
+    /**
+     * 初始化数据,读取用户信息
+     */
+    private void initData() {
+        BmobUser userInfo = BmobUser.getCurrentUser(ChangePasswordActivity.this);
+        if (userInfo != null) {
+            tv_currentUser.setText(userInfo.getUsername());
+            tv_changePassword_phoneNumber.setText(userInfo.getMobilePhoneNumber());
+        }
+    }
+
+    /**
+     * 从缓存中检测是否有用户登录
+     */
+
+    public boolean isLogin() {
+        BmobUser userInfo = BmobUser.getCurrentUser(ChangePasswordActivity.this);
+        if (userInfo == null) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 发送验证码
+     */
+
+    private void sendSecurityCode() {
+        String txt_phoneNum=tv_changePassword_phoneNumber.getText().toString().trim();
+
+        if(!TextUtils.isEmpty(txt_phoneNum)){
+            Bmob.requestSMSCode(ChangePasswordActivity.this, txt_phoneNum, "mAppSMS", new RequestSMSCodeListener() {
+
+                @Override
+                public void done(Integer smsId, BmobException ex) {
+                    if(ex==null){
+                        showToast("短信发送成功");
+                        new TimeCount(ChangePasswordActivity.this,60000,1000,tv_changePassword_sendSecurityCode).start();
+                    }
+                }
+            });
+        }
+
+    }
+    /**
+     * 验证验证码是否正确
+     */
+
+    private boolean checkSecurityCode() {
+        String txt_phoneNum = tv_changePassword_phoneNumber.getText().toString().trim();
+        String txt_securityCode = et_changePassword_securityCode.getText().toString().trim();
+
+        if(true){
+            Bmob.verifySmsCode(ChangePasswordActivity.this, txt_phoneNum, txt_securityCode, new VerifySMSCodeListener() {
+                @Override
+                public void done(BmobException e) {
+                    if(e==null){
+                        Log.e("ChangePasswordActivity","验证码验证成功");
+                        blag=true;
+                    }else{
+                        Log.e("ChangePasswordActivity","验证码错误");
+                        blag=false;
+
+                    }
+                }
+            });
+
+        }
+        return blag;
+    }
+
+
+    /**
+     * 检查信息来源
+     */
 
     private boolean checkFrom() {
-        String txt_currentUser=(tv_currentUser).getText().toString().trim();
-        String txt_oldPassword=(et_oldPassword).getText().toString().trim();
-        String txt_newPassword=(et_changePassword_newPassword).getText().toString().trim();
-        String txt_okNewPassword=(et_changePassword_okNewPassword).getText().toString().trim();
+        String txt_phoneNumber=(tv_changePassword_phoneNumber).getText().toString().trim();
+        String txt_newPassword = (et_changePassword_newPassword).getText().toString().trim();
+        String txt_securityCode=(et_changePassword_securityCode).getText().toString().trim();
 
-        if(isLogin()){
-            Toast.makeText(ChangePasswordActivity.this,"未登录，登陆后修改",Toast.LENGTH_SHORT).show();
-            return (false);
-        }
+        Log.d("blag",""+blag);
 
-        if(txt_oldPassword.equals("") || txt_newPassword.equals("") || txt_okNewPassword.equals("")){
-            Toast.makeText(ChangePasswordActivity.this,"输入不合法",Toast.LENGTH_SHORT).show();
+        /**
+         * &&和&都是表示与，区别是&&只要满足第一个条件，后面条件就不再判断。而&要对所有的条件都进行判断。
+         */
+        if (isLogin()) {
+            showToast("未登录，登陆后修改");
             return (false);
-        }
-        if(txt_newPassword.length()<4 && txt_okNewPassword.length()<4){
-            Toast.makeText(ChangePasswordActivity.this,"密码长度不足4位",Toast.LENGTH_SHORT).show();
+        }if (TextUtils.isEmpty(txt_phoneNumber)){
+            showToast("信息未完善");
             return (false);
-        }
-        if(new UserService(ChangePasswordActivity.this).getUserByUsernamePassword(txt_currentUser,txt_oldPassword)){
-
-        }else{
-            Toast.makeText(ChangePasswordActivity.this,"原密码错误",Toast.LENGTH_SHORT).show();
+        }if (TextUtils.isEmpty(txt_newPassword)){
+            showToast("信息未完善");
             return (false);
-        }
-        if(txt_newPassword.equals(txt_okNewPassword)){
-
-        }else{
-            Toast.makeText(ChangePasswordActivity.this,"两次新密码输入不一致",Toast.LENGTH_SHORT).show();
+        }if (TextUtils.isEmpty(txt_securityCode)){
+            showToast("未填写验证码");
+            return (false);
+        }if (txt_newPassword.length()<7){
+            showToast("新密码须大于7个字符");
+            return (false);
+        }if (checkSecurityCode()==false){
+            showToast("验证码错误");
             return (false);
         }
 
         return true;
     }
 
-    private boolean alterPassword() {
-        String txt_currentUser=(tv_currentUser).getText().toString().trim();  //获取到当前登录用户
+    /**
+     * 修改密码
+     */
+
+    private void alterPassword() {
+        final ProgressDialog progress=new ProgressDialog(ChangePasswordActivity.this);
+        progress.setCanceledOnTouchOutside(false);
+        progress.setMessage("修改中...");
+        progress.show();
+
         String txt_newPassword=(et_changePassword_newPassword).getText().toString().trim();
+        String txt_ObjectId=BmobUser.getCurrentUser(ChangePasswordActivity.this).getObjectId();
+        BmobUser bmobUser=new BmobUser();
+        bmobUser.setPassword(txt_newPassword);
+        bmobUser.update(ChangePasswordActivity.this,txt_ObjectId, new UpdateListener() {
+            @Override
+            public void onSuccess() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(1500);
+                            progress.setMessage("修改密码成功");
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                progress.dismiss();
+            }
 
-        if(new UserService(ChangePasswordActivity.this).getUsernameByUpdatePassword(txt_newPassword,txt_currentUser)){
-            return true;
-        }
 
-        return false;
+            @Override
+            public void onFailure(int i, String s) {
+
+                showToast("修改密码失败"+s);
+                progress.dismiss();
+            }
+        });
+
     }
 
 
