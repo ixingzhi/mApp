@@ -11,12 +11,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.xiedongdong.app02.Base.BaseFragment;
-import com.example.xiedongdong.app02.Bmob.BmobUserManager;
 import com.example.xiedongdong.app02.R;
 import com.example.xiedongdong.app02.activity.AboutSoftActivity;
 import com.example.xiedongdong.app02.activity.ChangePasswordActivity;
 import com.example.xiedongdong.app02.activity.LoginActivity;
 import com.example.xiedongdong.app02.activity.MoreFunctionActivity;
+import com.example.xiedongdong.app02.activity.UserInfo;
 import com.example.xiedongdong.app02.bean.User;
 
 import cn.bmob.v3.BmobUser;
@@ -25,6 +25,7 @@ import cn.bmob.v3.BmobUser;
  * Created by xiedongdong on 16/5/24.
  */
 public class MeFragment extends BaseFragment implements View.OnClickListener {
+    private LinearLayout ll_userInfo;
     private TextView tv_username;
     private Button btn_quitUsername;
     private LinearLayout ll_aboutSoft;
@@ -41,8 +42,10 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_me,container,false);
 
+        ll_userInfo=(LinearLayout)view.findViewById(R.id.ll_userInfo);
+        ll_userInfo.setOnClickListener(this);
+
         tv_username=(TextView)view.findViewById(R.id.tv_username);
-        tv_username.setOnClickListener(this);
 
         btn_quitUsername=(Button)view.findViewById(R.id.btn_quitUsername);
         btn_quitUsername.setOnClickListener(this);
@@ -75,11 +78,11 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.tv_username:
+            case R.id.ll_userInfo:
                 if(isLogin()){
                     startActivity(new Intent(getActivity(),LoginActivity.class));
                 }else{
-
+                    startActivity(new Intent(getActivity(), UserInfo.class));
                 }
                 break;
             case R.id.ll_myPosts:
