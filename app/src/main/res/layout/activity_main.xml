@@ -14,7 +14,7 @@
 
     </FrameLayout>
 
-    <include layout="@layout/main_pager_group"/>
+    <include layout="@layout/layout_bottom"/>
 
 
 </LinearLayout>

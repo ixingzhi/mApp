@@ -12,13 +12,11 @@ import android.widget.TextView;
 
 import com.example.xiedongdong.app02.Base.BaseActivity;
 import com.example.xiedongdong.app02.R;
-import com.example.xiedongdong.app02.po.User;
 
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.LogInListener;
-import cn.bmob.v3.listener.SaveListener;
 
 /**
  * Created by xiedongdong on 16/5/29.

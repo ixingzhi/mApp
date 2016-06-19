@@ -47,6 +47,8 @@
 
         <activity android:name=".activity.TermsActivity"/>
 
+        <activity android:name=".activity.UserInfo"/>
+
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.example.xiedongdong.app02.activity;
+package com.example.xiedongdong.app02.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +17,6 @@ public class CommunityFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.community_pager,container,false);
+        return inflater.inflate(R.layout.fragment_community,container,false);
     }
 }

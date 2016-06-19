@@ -1,6 +1,5 @@
 package com.example.xiedongdong.app02.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -11,7 +10,7 @@ import android.widget.LinearLayout;
 
 import com.example.xiedongdong.app02.Base.BaseActivity;
 import com.example.xiedongdong.app02.R;
-import com.example.xiedongdong.app02.po.User;
+import com.example.xiedongdong.app02.bean.User;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.DeleteListener;

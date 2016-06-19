@@ -3,7 +3,7 @@ package com.example.xiedongdong.app02.adapter;
 import android.os.Handler;
 import android.os.Message;
 
-import com.example.xiedongdong.app02.activity.HomeFragment;
+import com.example.xiedongdong.app02.fragment.HomeFragment;
 
 import java.lang.ref.WeakReference;
 

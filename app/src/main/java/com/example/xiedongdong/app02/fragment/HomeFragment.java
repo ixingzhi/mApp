@@ -1,11 +1,10 @@
-package com.example.xiedongdong.app02.activity;
+package com.example.xiedongdong.app02.fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.xiedongdong.app02.Base.BaseFragment;
+import com.example.xiedongdong.app02.activity.WebViewTest;
 import com.example.xiedongdong.app02.adapter.ImageAdapter;
 import com.example.xiedongdong.app02.adapter.ImageHandler;
 import com.example.xiedongdong.app02.R;
@@ -50,7 +50,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.home_pager,container,false);
+        View view = inflater.inflate(R.layout.fragment_home,container,false);
         //初始化界面
 
         viewPager=(ViewPager)view.findViewById(R.id.vp_content);
@@ -156,7 +156,3 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
 
     }
 }
-
-
-
-

@@ -2,7 +2,7 @@ package com.example.xiedongdong.app02.Bmob;
 
 import android.content.Context;
 
-import com.example.xiedongdong.app02.po.User;
+import com.example.xiedongdong.app02.bean.User;
 
 import cn.bmob.v3.BmobUser;
 

@@ -11,6 +11,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.example.xiedongdong.app02.R;
+import com.example.xiedongdong.app02.fragment.CommunityFragment;
+import com.example.xiedongdong.app02.fragment.HomeFragment;
+import com.example.xiedongdong.app02.fragment.MeFragment;
 
 
 /**

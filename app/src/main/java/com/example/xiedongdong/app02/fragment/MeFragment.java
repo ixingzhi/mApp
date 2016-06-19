@@ -1,4 +1,4 @@
-package com.example.xiedongdong.app02.activity;
+package com.example.xiedongdong.app02.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +13,11 @@ import android.widget.TextView;
 import com.example.xiedongdong.app02.Base.BaseFragment;
 import com.example.xiedongdong.app02.Bmob.BmobUserManager;
 import com.example.xiedongdong.app02.R;
-import com.example.xiedongdong.app02.po.User;
+import com.example.xiedongdong.app02.activity.AboutSoftActivity;
+import com.example.xiedongdong.app02.activity.ChangePasswordActivity;
+import com.example.xiedongdong.app02.activity.LoginActivity;
+import com.example.xiedongdong.app02.activity.MoreFunctionActivity;
+import com.example.xiedongdong.app02.bean.User;
 
 import cn.bmob.v3.BmobUser;
 
@@ -35,7 +39,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.me_pager,container,false);
+        View view=inflater.inflate(R.layout.fragment_me,container,false);
 
         tv_username=(TextView)view.findViewById(R.id.tv_username);
         tv_username.setOnClickListener(this);

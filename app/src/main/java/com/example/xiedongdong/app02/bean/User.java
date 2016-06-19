@@ -1,6 +1,5 @@
-package com.example.xiedongdong.app02.po;
+package com.example.xiedongdong.app02.bean;
 
-import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.BmobUser;
 
 /**

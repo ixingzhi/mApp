@@ -71,7 +71,7 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
                 sendSecurityCode();
                 break;
             case R.id.btn_changePassword_commit:
-                if (checkFrom()) {
+                if (checkFrom()==true) {
                     Log.e("ChangePasswordActivity","通过验证，进入修改密码");
                     alterPassword();
                 }
@@ -132,22 +132,19 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
         String txt_phoneNum = tv_changePassword_phoneNumber.getText().toString().trim();
         String txt_securityCode = et_changePassword_securityCode.getText().toString().trim();
 
-        if(true){
-            Bmob.verifySmsCode(ChangePasswordActivity.this, txt_phoneNum, txt_securityCode, new VerifySMSCodeListener() {
-                @Override
-                public void done(BmobException e) {
-                    if(e==null){
-                        Log.e("ChangePasswordActivity","验证码验证成功");
-                        blag=true;
-                    }else{
-                        Log.e("ChangePasswordActivity","验证码错误");
-                        blag=false;
+        Bmob.verifySmsCode(ChangePasswordActivity.this, txt_phoneNum, txt_securityCode, new VerifySMSCodeListener() {
+            @Override
+            public void done(BmobException e) {
+                if(e==null){
+                    Log.e("ChangePasswordActivity","验证码验证成功");
+                    blag=true;
+                }else{
+                    Log.e("ChangePasswordActivity","验证码错误");
+                    blag=false;
 
-                    }
                 }
-            });
-
-        }
+            }
+        });
         return blag;
     }
 
