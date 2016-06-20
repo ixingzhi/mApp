@@ -88,17 +88,17 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:paddingTop="5dp"
-                    android:paddingLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/iv01"/>
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:paddingLeft="5dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/iv02"/>
             </LinearLayout>
@@ -112,19 +112,19 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:paddingLeft="5dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/iv03"/>
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:paddingLeft="5dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/iv04"/>
             </LinearLayout>
@@ -142,7 +142,7 @@
                     android:paddingLeft="5dp"
                     android:layout_weight="1"
                     android:textColor="#3366FF"
-                    android:textSize="18dp"
+                    android:textSize="16dp"
                     android:text="官方出品"/>
                 <TextView
                     android:layout_width="0dp"
@@ -152,6 +152,7 @@
                     android:layout_weight="3"
                     android:gravity="right"
                     android:textSize="15dp"
+                    android:textColor="#000000"
                     android:text="更多 >"/>
 
             </LinearLayout>
@@ -164,7 +165,6 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_weight="1"
                     android:background="#CCCCCC"/>
             </LinearLayout>
 
