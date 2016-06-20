@@ -25,6 +25,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_userInfo_head"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:paddingLeft="20dp"
@@ -38,7 +39,7 @@
             android:text="头像"
             android:textSize="20dp"/>
         <ImageView
-            android:id="@+id/img_head"
+            android:id="@+id/img_userInfo_head"
             android:layout_toLeftOf="@+id/img_headright"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
@@ -73,6 +74,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_userInfo_name"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:paddingLeft="20dp"
@@ -87,6 +89,7 @@
             android:textSize="20dp"/>
 
         <TextView
+            android:id="@+id/tv_userInfo_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
@@ -123,6 +126,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_userInfo_sex"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:paddingLeft="20dp"
@@ -137,6 +141,7 @@
             android:textSize="20dp"/>
 
         <TextView
+            android:id="@+id/tv_userInfo_sex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
@@ -160,6 +165,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_userInfo_phoneNum"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:paddingLeft="20dp"
@@ -174,6 +180,7 @@
             android:textSize="20dp"/>
 
         <TextView
+            android:id="@+id/tv_userInfo_phoneNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
@@ -210,6 +217,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_userInfo_email"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:paddingLeft="20dp"
@@ -224,6 +232,7 @@
             android:textSize="20dp"/>
 
         <TextView
+            android:id="@+id/tv_userInfo_email"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
@@ -248,6 +257,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_userInfo_location"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:paddingLeft="20dp"
@@ -262,16 +272,17 @@
             android:textSize="20dp"/>
 
         <TextView
+            android:id="@+id/tv_userInfo_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/img_arearight"
+            android:layout_toLeftOf="@+id/img_locationright"
             android:text="江苏无锡"
             android:textSize="20dp"/>
 
         <ImageView
-            android:id="@+id/img_arearight"
+            android:id="@+id/img_locationright"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -298,6 +309,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_userInfo_autograph"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:paddingLeft="20dp"
@@ -312,6 +324,7 @@
             android:textSize="20dp"/>
 
         <TextView
+            android:id="@+id/tv_userInfo_autograph"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"

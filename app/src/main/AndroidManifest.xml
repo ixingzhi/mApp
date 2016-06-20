@@ -49,6 +49,10 @@
 
         <activity android:name=".activity.UserInfo"/>
 
+        <activity android:name=".activity.UserInfoNameActivity"/>
+
+        <activity android:name=".activity.UserInfoSexActivity"/>
+
     </application>
 
 </manifest>
