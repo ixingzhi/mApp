@@ -95,10 +95,18 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(),AboutSoftActivity.class));
                 break;
             case R.id.ll_changePassword:
-                startActivity(new Intent(getActivity(),ChangePasswordActivity.class));
+                if(isLogin()){
+                    showToast("未登录");
+                }else{
+                    startActivity(new Intent(getActivity(),ChangePasswordActivity.class));
+                }
                 break;
             case R.id.ll_moreFunction:
-                startActivity(new Intent(getActivity(),MoreFunctionActivity.class));
+                if(isLogin()){
+                    showToast("未登录");
+                }else{
+                    startActivity(new Intent(getActivity(),MoreFunctionActivity.class));
+                }
                 break;
             case R.id.btn_quitUsername:
                 if(isLogin()){
