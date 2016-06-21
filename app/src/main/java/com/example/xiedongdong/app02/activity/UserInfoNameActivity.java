@@ -54,7 +54,7 @@ public class UserInfoNameActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.tv_userInfoTitle_cancel:
-                startActivity(new Intent(UserInfoNameActivity.this,UserInfo.class));
+                UserInfoNameActivity.this.finish();
                 break;
             case R.id.tv_userInfoTitle_save:
                 if(checkInfoFrom()){

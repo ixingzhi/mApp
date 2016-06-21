@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.xiedongdong.app02.Base.BaseActivity;
 import com.example.xiedongdong.app02.R;
+import com.example.xiedongdong.app02.bean.User;
 import com.example.xiedongdong.app02.util.TimeCount;
 
 import cn.bmob.v3.Bmob;
@@ -125,22 +126,19 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         String txt_phoneNum = et_phoneNum.getText().toString().trim();
         String txt_securityCode = et_securityCode.getText().toString().trim();
 
-        if(true){
-            Bmob.verifySmsCode(RegisterActivity.this, txt_phoneNum, txt_securityCode, new VerifySMSCodeListener() {
-                @Override
-                public void done(BmobException e) {
-                    if(e==null){
-                        Log.e("RegisterActivity","验证码验证成功");
-                        blag=true;
-                    }else{
-                        Log.e("RegisterActivity","验证码错误");
-                        blag=false;
+        Bmob.verifySmsCode(RegisterActivity.this, txt_phoneNum, txt_securityCode, new VerifySMSCodeListener() {
+            @Override
+            public void done(BmobException e) {
+                if(e==null){
+                    Log.e("RegisterActivity","验证码验证成功");
+                    blag=true;
+                }else{
+                    Log.e("RegisterActivity","验证码错误");
+                    blag=false;
 
-                    }
                 }
-            });
-
-        }
+            }
+        });
         return blag;
     }
 
@@ -178,24 +176,33 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     public void register(){
         String txt_phoneNum = et_phoneNum.getText().toString().trim();
         String txt_username = et_usernmae.getText().toString().trim();
+        String txt_password = et_newPassword.getText().toString().trim();
 
         final ProgressDialog progress=new ProgressDialog(RegisterActivity.this);
         progress.setCanceledOnTouchOutside(false);
         progress.setMessage("正在注册中...");
         progress.show();
 
-        BmobUser bmobUser=new BmobUser();
-        bmobUser.setMobilePhoneNumber(txt_phoneNum);
-        bmobUser.setPassword(txt_username);
-        bmobUser.setUsername(txt_username);
+        User user=new User();
+        user.setMobilePhoneNumber(txt_phoneNum);
+        user.setPassword(txt_password);
+        user.setUsername(txt_username);
+        user.setSex("未知");
+        user.setLocation("");
+        user.setAutograph("");
 
-        bmobUser.signUp(RegisterActivity.this, new SaveListener() {
+        user.signUp(RegisterActivity.this, new SaveListener() {
             @Override
             public void onSuccess() {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        progress.setMessage("注册成功");
+                        try {
+                            Thread.sleep(1000);
+                            progress.setMessage("注册成功");
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
                 progress.dismiss();

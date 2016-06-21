@@ -60,15 +60,15 @@ public class UserInfoSexActivity extends BaseActivity implements View.OnClickLis
      */
     private void initData() {
         User user=BmobUser.getCurrentUser(UserInfoSexActivity.this,User.class);
-        String sex=user.getSex();
-        Log.e("sex",""+sex);
-        if(sex.equals("男")){
+        String txt_sex=user.getSex();
+        Log.e("sex",""+txt_sex);
+        if(txt_sex.equals("男")){
             tv_selectMan.setTextColor(Color.GREEN);
         }
-        if(sex.equals("女")){
+        if(txt_sex.equals("女")){
             tv_selectWoman.setTextColor(Color.GREEN);
         }
-        if(sex.equals("未知")){
+        if(txt_sex.equals("未知")){
             tv_selectUnknown.setTextColor(Color.GREEN);
         }
     }
@@ -88,7 +88,6 @@ public class UserInfoSexActivity extends BaseActivity implements View.OnClickLis
                 SaveSexUnknown();
                 break;
             case R.id.tv_back:
-                startActivity(new Intent(UserInfoSexActivity.this,UserInfo.class));
                 UserInfoSexActivity.this.finish();
                 break;
             default:

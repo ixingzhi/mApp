@@ -87,7 +87,7 @@ public class UserInfo extends BaseActivity implements View.OnClickListener{
                 startActivity(new Intent(UserInfo.this,UserInfoSexActivity.class));
                 break;
             case R.id.rl_userInfo_phoneNum:
-
+                startActivity(new Intent(UserInfo.this,UserInfoPhoneNumActivity.class));
                 break;
             case R.id.rl_userInfo_email:
 

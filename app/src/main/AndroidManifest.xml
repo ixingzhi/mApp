@@ -47,11 +47,14 @@
 
         <activity android:name=".activity.TermsActivity"/>
 
-        <activity android:name=".activity.UserInfo"/>
+        <activity android:name=".activity.UserInfo"
+            android:launchMode="singleTask"/>
 
         <activity android:name=".activity.UserInfoNameActivity"/>
 
         <activity android:name=".activity.UserInfoSexActivity"/>
+
+        <activity android:name=".activity.UserInfoPhoneNumActivity"/>
 
     </application>
 
