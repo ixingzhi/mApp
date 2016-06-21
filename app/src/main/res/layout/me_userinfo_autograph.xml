@@ -9,28 +9,33 @@
         android:layout_height="35dp"
         android:background="#000000">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_back"/>
+
         <TextView
-            android:id="@+id/tv_userInfoTitle_cancel"
+            android:id="@+id/tv_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:text="取消"
+            android:layout_marginLeft="15dp"
+            android:text="个人信息"
             android:textSize="18dp"
             android:textColor="#FFFFFF"/>
 
         <TextView
-            android:id="@+id/tv_userInfoTitle_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="名字"
+            android:text="个性签名"
             android:textSize="24dp"
             android:textColor="#FFFFFF"/>
 
         <TextView
-            android:id="@+id/tv_userInfoTitle_save"
+            android:id="@+id/tv_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -43,11 +48,12 @@
     </RelativeLayout>
 
     <EditText
-        android:id="@+id/et_userinfo_name"
+        android:id="@+id/et_autograph"
         android:layout_marginTop="20dp"
         android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="80dp"
         android:background="#FFFFFF"
         android:text=""/>
 </LinearLayout>

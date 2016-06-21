@@ -95,7 +95,7 @@
             android:layout_marginRight="15dp"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/img_nameright"
-            android:text="行知"
+            android:text=""
             android:textSize="20dp"/>
 
         <ImageView
@@ -147,7 +147,7 @@
             android:layout_marginRight="15dp"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/img_sexright"
-            android:text="男"
+            android:text=""
             android:textSize="20dp"/>
 
         <ImageView
@@ -186,7 +186,7 @@
             android:layout_marginRight="15dp"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/img_phoneNumright"
-            android:text="17010056006"
+            android:text=""
             android:textSize="20dp"/>
 
         <ImageView
@@ -228,18 +228,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
             android:text="邮箱"
             android:textSize="20dp"/>
 
         <TextView
             android:id="@+id/tv_userInfo_email"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/img_emailright"
             android:singleLine="true"
-            android:text="xiedongdong.dev@gmail.com"
+            android:text=""
             android:textSize="20dp"/>
 
         <ImageView
@@ -278,7 +279,7 @@
             android:layout_marginRight="15dp"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/img_locationright"
-            android:text="江苏无锡"
+            android:text=""
             android:textSize="20dp"/>
 
         <ImageView
@@ -320,6 +321,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
             android:text="个性签名"
             android:textSize="20dp"/>
 
@@ -331,7 +333,7 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/img_autographright"
             android:singleLine="true"
-            android:text="保持好奇，细心接纳"
+            android:text=""
             android:textSize="20dp"/>
 
         <ImageView

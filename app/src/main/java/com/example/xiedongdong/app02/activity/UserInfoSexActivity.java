@@ -61,7 +61,6 @@ public class UserInfoSexActivity extends BaseActivity implements View.OnClickLis
     private void initData() {
         User user=BmobUser.getCurrentUser(UserInfoSexActivity.this,User.class);
         String txt_sex=user.getSex();
-        Log.e("sex",""+txt_sex);
         if(txt_sex.equals("男")){
             tv_selectMan.setTextColor(Color.GREEN);
         }

@@ -178,41 +178,26 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         String txt_username = et_usernmae.getText().toString().trim();
         String txt_password = et_newPassword.getText().toString().trim();
 
-        final ProgressDialog progress=new ProgressDialog(RegisterActivity.this);
-        progress.setCanceledOnTouchOutside(false);
-        progress.setMessage("正在注册中...");
-        progress.show();
 
         User user=new User();
         user.setMobilePhoneNumber(txt_phoneNum);
         user.setPassword(txt_password);
         user.setUsername(txt_username);
         user.setSex("未知");
-        user.setLocation("");
-        user.setAutograph("");
+        user.setLocation("未知");
+        user.setAutograph("无");
 
         user.signUp(RegisterActivity.this, new SaveListener() {
             @Override
             public void onSuccess() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(1000);
-                            progress.setMessage("注册成功");
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-                progress.dismiss();
+                showToast("注册成功");
+                finish();
                 Log.d("RegisterActivity","注册成功");
             }
 
             @Override
             public void onFailure(int i, String s) {
                 showToast("注册失败:"+s);
-                progress.dismiss();
             }
         });
 

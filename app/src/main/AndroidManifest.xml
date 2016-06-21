@@ -56,6 +56,10 @@
 
         <activity android:name=".activity.UserInfoPhoneNumActivity"/>
 
+        <activity android:name=".activity.UserInfoEmailActivity"/>
+
+        <activity android:name=".activity.UserInfoAutographActivity"/>
+
     </application>
 
 </manifest>

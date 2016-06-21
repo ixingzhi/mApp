@@ -191,10 +191,6 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
      */
 
     private void alterPassword() {
-        final ProgressDialog progress=new ProgressDialog(ChangePasswordActivity.this);
-        progress.setCanceledOnTouchOutside(false);
-        progress.setMessage("修改中...");
-        progress.show();
 
         String txt_newPassword=(et_changePassword_newPassword).getText().toString().trim();
         String txt_ObjectId=BmobUser.getCurrentUser(ChangePasswordActivity.this).getObjectId();
@@ -203,26 +199,13 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
         bmobUser.update(ChangePasswordActivity.this,txt_ObjectId, new UpdateListener() {
             @Override
             public void onSuccess() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(1500);
-                            progress.setMessage("修改密码成功");
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-                progress.dismiss();
+                showToast("修改密码成功");
+                finish();
             }
-
 
             @Override
             public void onFailure(int i, String s) {
-
                 showToast("修改密码失败"+s);
-                progress.dismiss();
             }
         });
 

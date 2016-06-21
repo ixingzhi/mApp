@@ -26,7 +26,7 @@ public class UserInfo extends BaseActivity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_userinfo);
+        setContentView(R.layout.me_userinfo);
         initView();
         initEvent();
         initData();
@@ -90,13 +90,13 @@ public class UserInfo extends BaseActivity implements View.OnClickListener{
                 startActivity(new Intent(UserInfo.this,UserInfoPhoneNumActivity.class));
                 break;
             case R.id.rl_userInfo_email:
-
+                startActivity(new Intent(UserInfo.this,UserInfoEmailActivity.class));
                 break;
             case R.id.rl_userInfo_location:
 
                 break;
             case R.id.rl_userInfo_autograph:
-
+                startActivity(new Intent(UserInfo.this,UserInfoAutographActivity.class));
                 break;
             default:
                 break;
