@@ -1,6 +1,5 @@
 package com.example.xiedongdong.app02.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -89,6 +88,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.tv_existAccount:
                 startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
+                finish();
                 break;
             default:
                 break;
@@ -203,5 +203,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
 }
 

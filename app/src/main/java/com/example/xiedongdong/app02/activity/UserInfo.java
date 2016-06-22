@@ -20,7 +20,7 @@ import cn.bmob.v3.BmobUser;
 public class UserInfo extends BaseActivity implements View.OnClickListener{
     private TextView tv_userInfo_name,tv_userInfo_sex,tv_userInfo_phoneNum,
             tv_userInfo_email,tv_userInfo_location,tv_userInfo_autograph;
-    private RelativeLayout rl_userInfo_name,rl_userInfo_sex,rl_userInfo_phoneNum,
+    private RelativeLayout rl_userInfo_head,rl_userInfo_name,rl_userInfo_sex,rl_userInfo_phoneNum,
             rl_userInfo_email,rl_userInfo_location,rl_userInfo_autograph;
 
     @Override
@@ -41,6 +41,7 @@ public class UserInfo extends BaseActivity implements View.OnClickListener{
         tv_userInfo_location=(TextView)findViewById(R.id.tv_userInfo_location);
         tv_userInfo_autograph=(TextView)findViewById(R.id.tv_userInfo_autograph);
 
+        rl_userInfo_head=(RelativeLayout)findViewById(R.id.rl_userInfo_head);
         rl_userInfo_name=(RelativeLayout)findViewById(R.id.rl_userInfo_name);
         rl_userInfo_sex=(RelativeLayout)findViewById(R.id.rl_userInfo_sex);
         rl_userInfo_phoneNum=(RelativeLayout)findViewById(R.id.rl_userInfo_phoneNum);
@@ -51,6 +52,7 @@ public class UserInfo extends BaseActivity implements View.OnClickListener{
     }
 
     private void initEvent() {
+        rl_userInfo_head.setOnClickListener(this);
         rl_userInfo_name.setOnClickListener(this);
         rl_userInfo_sex.setOnClickListener(this);
         rl_userInfo_phoneNum.setOnClickListener(this);
@@ -80,6 +82,9 @@ public class UserInfo extends BaseActivity implements View.OnClickListener{
     public void onClick(View view) {
 
         switch (view.getId()){
+            case R.id.rl_userInfo_head:
+                startActivity(new Intent(UserInfo.this,UserInfoHeadImgActivity.class));
+                break;
             case R.id.rl_userInfo_name:
                 startActivity(new Intent(UserInfo.this,UserInfoNameActivity.class));
                 break;

@@ -60,6 +60,8 @@
 
         <activity android:name=".activity.UserInfoAutographActivity"/>
 
+        <activity android:name=".activity.UserInfoHeadImgActivity"/>
+
     </application>
 
 </manifest>
