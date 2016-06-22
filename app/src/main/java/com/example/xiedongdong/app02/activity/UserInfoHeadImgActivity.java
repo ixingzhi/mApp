@@ -4,9 +4,9 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.xiedongdong.app02.Base.BaseActivity;
@@ -58,18 +58,51 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
      */
     private void showDialog() {
 
-        AlertDialog dialog=new AlertDialog.Builder(this).create();  //创建一个Dialog
+        final AlertDialog dialog=new AlertDialog.Builder(this).create();  //创建一个Dialog
         View view=getLayoutInflater().inflate(R.layout.me_userinfoheadimg_source,null);  //自定义布局
         dialog.setView(view,0,0,0,0);  //把自定义布局添加到dialog中，从第二个参数开始分别表示填充内容与边缘之间的像素 左上右下。
         dialog.show();  //一定要在dialog，show之后在设置dialog的参数，不然会不会显示
 
-        int width=getWindowManager().getDefaultDisplay().getWidth();  //获取当前设备的显示宽度
+        //int width=getWindowManager().getDefaultDisplay().getWidth();  //获取当前设备的显示宽度
         WindowManager.LayoutParams params=dialog.getWindow().getAttributes();  //得到这个dialog界面的参数对象
-        params.width= width;   //设置显示宽度和屏幕宽度相同
+        params.width= WindowManager.LayoutParams.MATCH_PARENT;   //设置显示宽度和屏幕宽度相同
         params.height= WindowManager.LayoutParams.WRAP_CONTENT;//设置dialog的高度为包裹内容。
         params.gravity= Gravity.BOTTOM;  //设置重心为显示到最下面
 
         dialog.getWindow().setAttributes(params);// 将设置的内容与dialog绑定
+
+        /**
+         * 设置里面的内容监听
+         */
+        RelativeLayout rl_photograph=(RelativeLayout)view.findViewById(R.id.rl_photograph);
+        rl_photograph.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
+
+        RelativeLayout rl_getPhoto=(RelativeLayout)view.findViewById(R.id.rl_getPhoto);
+        rl_getPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(view.getId()==R.id.rl_getPhoto){
+
+                }
+            }
+        });
+
+        RelativeLayout rl_calcel=(RelativeLayout)view.findViewById(R.id.rl_cancel);
+        rl_calcel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(view.getId()==R.id.rl_cancel){
+                    dialog.dismiss();
+                }
+            }
+        });
+
+
+
 
 
     }

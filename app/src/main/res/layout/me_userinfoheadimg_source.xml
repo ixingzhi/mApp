@@ -4,10 +4,12 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
+        android:id="@+id/rl_photograph"
         android:layout_width="match_parent"
         android:layout_height="50dp">
 
         <TextView
+            android:id="@+id/tv_photograph"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -22,10 +24,12 @@
         android:background="#CCCCCC"/>
 
     <RelativeLayout
+        android:id="@+id/rl_getPhoto"
         android:layout_width="match_parent"
         android:layout_height="50dp">
 
         <TextView
+            android:id="@+id/tv_getPhoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -40,10 +44,12 @@
         android:background="#CCCCCC"/>
 
     <RelativeLayout
+        android:id="@+id/rl_cancel"
         android:layout_width="match_parent"
         android:layout_height="50dp">
 
         <TextView
+            android:id="@+id/tv_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
