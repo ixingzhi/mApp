@@ -29,6 +29,7 @@ import java.io.IOException;
 public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClickListener{
     private TextView tv_back;
     private ImageView img_headImgSource;
+    private ImageView img_headImg;
 
     /* 头像文件 */
     private static final String IMAGE_FILE_NAME = "temp_head_image.jpg";
@@ -42,7 +43,6 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
     private static int output_X = 600;
     private static int output_Y = 600;
 
-    private ImageView headImage = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,8 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
 
     private void initView() {
         tv_back=(TextView)findViewById(R.id.tv_back);
-        img_headImgSource=(ImageView)findViewById(R.id.img_headimgsource);
+        img_headImgSource=(ImageView)findViewById(R.id.img_headImgSource);
+        img_headImg=(ImageView)findViewById(R.id.img_headImg);
     }
 
     @Override
@@ -69,7 +70,7 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
             case R.id.tv_back:
                 finish();
                 break;
-            case R.id.img_headimgsource:
+            case R.id.img_headImgSource:
                 showDialog();
                 break;
             default:
@@ -250,14 +251,14 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
         Bundle extras = intent.getExtras();
         if (extras != null) {
             Bitmap photo = extras.getParcelable("data");
-            headImage.setImageBitmap(photo);
+            img_headImg.setImageBitmap(photo);
 
             //新建文件夹 先选好路径 再调用mkdir函数 现在是根目录下面的Ask文件夹
             File nf = new File(Environment.getExternalStorageDirectory()+"/Ask");
             nf.mkdir();
 
-            //在根目录下面的ASk文件夹下 创建okkk.jpg文件
-            File f = new File(Environment.getExternalStorageDirectory()+"/Ask", "okkk.jpg");
+            //在根目录下面的ASk文件夹下 创建head_image.jpg文件
+            File f = new File(Environment.getExternalStorageDirectory()+"/Ask", "head_image.jpg");
 
             FileOutputStream out = null;
             try {

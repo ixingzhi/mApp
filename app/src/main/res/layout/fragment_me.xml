@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,25 +23,27 @@
     <LinearLayout
         android:id="@+id/ll_userInfo"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="100dp"
         android:padding="5dp"
         android:layout_marginTop="10dp"
         android:background="#FFFFFF"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+        <com.example.xiedongdong.app02.util.CircleImageView
+            android:layout_width="wrap_content"
+            android:layout_height="110dp"
             android:layout_gravity="center"
-            android:src="@drawable/user"/>
+            android:src="@mipmap/img_title3"
+            app:border_width="2dp"
+            app:border_color="#330000"/>
+
         <TextView
             android:id="@+id/tv_username"
-            android:layout_width="0dp"
+            android:layout_marginTop="45dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="3"
-            android:textSize="30dp"
+            android:textSize="28dp"
             android:text="未登录"/>
 
     </LinearLayout>
@@ -250,5 +253,6 @@
         android:textSize="20dp"
         android:textColor="#CC3333"
         android:text="退出当前账号"/>
+
 
 </LinearLayout>
