@@ -1,12 +1,18 @@
 package com.example.xiedongdong.app02.fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,6 +24,10 @@ import com.example.xiedongdong.app02.activity.LoginActivity;
 import com.example.xiedongdong.app02.activity.MoreFunctionActivity;
 import com.example.xiedongdong.app02.activity.UserInfo;
 import com.example.xiedongdong.app02.bean.User;
+import com.example.xiedongdong.app02.util.BitmapFileNet;
+
+import java.io.File;
+import java.io.IOException;
 
 import cn.bmob.v3.BmobUser;
 
@@ -25,6 +35,9 @@ import cn.bmob.v3.BmobUser;
  * Created by xiedongdong on 16/5/24.
  */
 public class MeFragment extends BaseFragment implements View.OnClickListener {
+    private final String PATH= Environment.getExternalStorageDirectory()+"/Geek/head_image.jpg" ;
+
+    private ImageView img_headImg;
     private LinearLayout ll_userInfo;
     private TextView tv_username;
     private Button btn_quitUsername;
@@ -41,6 +54,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_me,container,false);
+
+        img_headImg=(ImageView)view.findViewById(R.id.img_headImg);
 
         ll_userInfo=(LinearLayout)view.findViewById(R.id.ll_userInfo);
         ll_userInfo.setOnClickListener(this);
@@ -129,9 +144,40 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
      * 初始化数据
      */
     private void initData() {
-        BmobUser userInfo=BmobUser.getCurrentUser(getContext());
+        final User userInfo=BmobUser.getCurrentUser(getContext(),User.class);
         if(userInfo!=null){
             tv_username.setText(userInfo.getUsername());
+        }
+
+        initHeadImg();
+    }
+
+    /**
+     * 初始化数据是获取头像
+     */
+    private void initHeadImg() {
+        File headImgFile=new File(new String(PATH));
+        if(headImgFile.exists()){
+            Bitmap bitmap= BitmapFactory.decodeFile(PATH);
+            img_headImg.setImageBitmap(bitmap);
+        }else{
+            final User user=BmobUser.getCurrentUser(getActivity().getApplication(),User.class);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        final Bitmap bitmap= BitmapFileNet.get(user.getHeadImgUrl());
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                img_headImg.setImageBitmap(bitmap);
+                            }
+                        });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
         }
     }
 
@@ -155,5 +201,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         return false;
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        initHeadImg();
+    }
 }

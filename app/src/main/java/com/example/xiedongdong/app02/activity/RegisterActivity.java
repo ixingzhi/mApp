@@ -15,8 +15,11 @@ import com.example.xiedongdong.app02.R;
 import com.example.xiedongdong.app02.bean.User;
 import com.example.xiedongdong.app02.util.TimeCount;
 
+import java.io.File;
+
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.RequestSMSCodeListener;
 import cn.bmob.v3.listener.SaveListener;
@@ -158,7 +161,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             showToast("请完善信息");
         } else if (!cb_agreeTerms.isChecked()) {
             showToast("未同意条款");
-        }else if(checkSecurityCode()==false){
+        }
+        else if(checkSecurityCode()==false){
             showToast("验证码错误");
         }
         else {
@@ -178,7 +182,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         String txt_username = et_usernmae.getText().toString().trim();
         String txt_password = et_newPassword.getText().toString().trim();
 
-
         User user=new User();
         user.setMobilePhoneNumber(txt_phoneNum);
         user.setPassword(txt_password);
@@ -186,6 +189,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         user.setSex("未知");
         user.setLocation("未知");
         user.setAutograph("无");
+        user.setHeadImgUrl("");
+        user.setHeadImgFileUrl("");
 
         user.signUp(RegisterActivity.this, new SaveListener() {
             @Override

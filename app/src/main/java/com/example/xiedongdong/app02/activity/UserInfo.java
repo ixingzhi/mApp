@@ -1,15 +1,23 @@
 package com.example.xiedongdong.app02.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.xiedongdong.app02.Base.BaseActivity;
 import com.example.xiedongdong.app02.R;
 import com.example.xiedongdong.app02.bean.User;
+import com.example.xiedongdong.app02.util.BitmapFileNet;
+
+import java.io.File;
+import java.io.IOException;
 
 import cn.bmob.v3.BmobUser;
 
@@ -18,10 +26,15 @@ import cn.bmob.v3.BmobUser;
  * Created by xiedongdong on 16/6/19.
  */
 public class UserInfo extends BaseActivity implements View.OnClickListener{
+    private final String PATH= Environment.getExternalStorageDirectory()+"/Geek/head_image.jpg" ;
+
+    private ImageView img_userInfo_head;
     private TextView tv_userInfo_name,tv_userInfo_sex,tv_userInfo_phoneNum,
             tv_userInfo_email,tv_userInfo_location,tv_userInfo_autograph;
     private RelativeLayout rl_userInfo_head,rl_userInfo_name,rl_userInfo_sex,rl_userInfo_phoneNum,
             rl_userInfo_email,rl_userInfo_location,rl_userInfo_autograph;
+
+    Bitmap bitmap = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +47,8 @@ public class UserInfo extends BaseActivity implements View.OnClickListener{
     }
 
     private void initView() {
+        img_userInfo_head=(ImageView)findViewById(R.id.img_userInfo_head);
+
         tv_userInfo_name=(TextView)findViewById(R.id.tv_userInfo_name);
         tv_userInfo_sex=(TextView)findViewById(R.id.tv_userInfo_sex);
         tv_userInfo_phoneNum=(TextView)findViewById(R.id.tv_userInfo_phoneNum);
@@ -66,16 +81,50 @@ public class UserInfo extends BaseActivity implements View.OnClickListener{
      * 初始化时获取用户数据
      */
     private void initData() {
-        User user=BmobUser.getCurrentUser(UserInfo.this,User.class);
-        if(user!=null){
-            tv_userInfo_name.setText(user.getUsername());
-            Log.d("name",""+user.getUsername());
-            tv_userInfo_sex.setText(user.getSex());
-            tv_userInfo_phoneNum.setText(user.getMobilePhoneNumber());
-            tv_userInfo_email.setText(user.getEmail());
-            tv_userInfo_location.setText(user.getLocation());
-            tv_userInfo_autograph.setText(user.getAutograph());
+        final User user=BmobUser.getCurrentUser(UserInfo.this,User.class);
+
+        tv_userInfo_name.setText(user.getUsername());
+        tv_userInfo_sex.setText(user.getSex());
+        tv_userInfo_phoneNum.setText(user.getMobilePhoneNumber());
+        tv_userInfo_email.setText(user.getEmail());
+        tv_userInfo_location.setText(user.getLocation());
+        tv_userInfo_autograph.setText(user.getAutograph());
+
+        initHeadImg();
+
+
+    }
+
+    /**
+     * 初始化数据时获取头像
+     */
+    private void initHeadImg() {
+        File headImgFile=new File(new String(PATH));
+        if(headImgFile.exists()){
+            Bitmap bitmap= BitmapFactory.decodeFile(PATH);
+            img_userInfo_head.setImageBitmap(bitmap);
+        }else{
+            final User user=BmobUser.getCurrentUser(UserInfo.this,User.class);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        final Bitmap bitmap=BitmapFileNet.get(user.getHeadImgUrl());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                img_userInfo_head.setImageBitmap(bitmap);
+                            }
+                        });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }).start();
+
         }
+
     }
 
     @Override
@@ -112,13 +161,16 @@ public class UserInfo extends BaseActivity implements View.OnClickListener{
     @Override
     protected void onResume() {
         super.onResume();
-        User user=BmobUser.getCurrentUser(UserInfo.this,User.class);
+        final User user=BmobUser.getCurrentUser(UserInfo.this,User.class);
         tv_userInfo_name.setText(user.getUsername());
         tv_userInfo_sex.setText(user.getSex());
         tv_userInfo_phoneNum.setText(user.getMobilePhoneNumber());
         tv_userInfo_email.setText(user.getEmail());
         tv_userInfo_location.setText(user.getLocation());
         tv_userInfo_autograph.setText(user.getAutograph());
+        //获取头像
+        initHeadImg();
 
     }
+
 }

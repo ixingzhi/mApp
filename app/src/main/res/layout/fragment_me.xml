@@ -4,11 +4,11 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CCCCCC">
+    android:background="#F0F0F0">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:gravity="center"
         android:background="#000000">
 
@@ -30,16 +30,17 @@
         android:orientation="horizontal">
 
         <com.example.xiedongdong.app02.util.CircleImageView
-            android:layout_width="wrap_content"
+            android:id="@+id/img_headImg"
+            android:layout_width="130dp"
             android:layout_height="110dp"
             android:layout_gravity="center"
             android:src="@mipmap/img_title3"
-            app:border_width="2dp"
+            app:border_width="5dp"
             app:border_color="#330000"/>
 
         <TextView
             android:id="@+id/tv_username"
-            android:layout_marginTop="45dp"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

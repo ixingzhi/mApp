@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CCCCCC">
+    android:background="#F0F0F0">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,9 +47,9 @@
             android:layout_marginRight="10dp"
             android:layout_width="90dp"
             android:layout_height="100dp"
-            android:src="@mipmap/img_title3"
             app:border_width="2dp"
-            app:border_color="#330000"/>
+            app:border_color="#330000"
+            android:src="@mipmap/img_title3"/>
 
         <ImageView
             android:id="@+id/img_headright"

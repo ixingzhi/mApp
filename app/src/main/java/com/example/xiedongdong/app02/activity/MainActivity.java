@@ -93,6 +93,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     fragmentTransaction.show(tab01);
                 }
                 tv_home.setTextColor(Color.GREEN);
+                tv_home.setTextSize(23);
                 break;
             case 1:
                 if (tab02==null){
@@ -102,6 +103,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     fragmentTransaction.show(tab02);
                 }
                 tv_community.setTextColor(Color.GREEN);
+                tv_community.setTextSize(23);
                 break;
             case 2:
                 if (tab03==null){
@@ -111,6 +113,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     fragmentTransaction.show(tab03);
                 }
                 tv_me.setTextColor(Color.GREEN);
+                tv_me.setTextSize(23);
                 break;
             default:
                 break;
@@ -139,9 +142,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
      */
 
     private void resetText() {
-        tv_home.setTextColor(Color.WHITE);
-        tv_community.setTextColor(Color.WHITE);
-        tv_me.setTextColor(Color.WHITE);
+        tv_home.setTextColor(Color.GRAY);
+        tv_home.setTextSize(20);
+        tv_community.setTextColor(Color.GRAY);
+        tv_community.setTextSize(20);
+        tv_me.setTextColor(Color.GRAY);
+        tv_me.setTextSize(20);
     }
 
 

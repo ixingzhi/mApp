@@ -3,10 +3,12 @@ package com.example.xiedongdong.app02.activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,11 +18,20 @@ import android.widget.TextView;
 
 import com.example.xiedongdong.app02.Base.BaseActivity;
 import com.example.xiedongdong.app02.R;
+import com.example.xiedongdong.app02.bean.User;
+import com.example.xiedongdong.app02.util.BitmapFileNet;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.listener.DeleteListener;
+import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.UploadFileListener;
 
 
 /**
@@ -33,6 +44,7 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
 
     /* 头像文件 */
     private static final String IMAGE_FILE_NAME = "temp_head_image.jpg";
+    private final String PATH=Environment.getExternalStorageDirectory()+"/Geek/head_image.jpg" ;
 
     /* 请求识别码 */
     private static final int CODE_GALLERY_REQUEST = 0xa0;//本地
@@ -51,6 +63,41 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
 
         initView();
         initSetListener();
+        initData();
+    }
+
+    private void initData() {
+        /**初始化头像的方法**/
+        initHeadImg();
+    }
+
+    private void initHeadImg() {
+        File headImgFile=new File(new String(PATH));
+        //先从本地获取
+        if(headImgFile.exists()){
+            Bitmap bitmap= BitmapFactory.decodeFile(PATH);
+            img_headImg.setImageBitmap(bitmap);
+        }else{
+            final User user=BmobUser.getCurrentUser(UserInfoHeadImgActivity.this,User.class);
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        final Bitmap bitmap=BitmapFileNet.get(user.getHeadImgUrl());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                img_headImg.setImageBitmap(bitmap);
+                            }
+                        });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }).start();
+        }
     }
 
     private void initSetListener() {
@@ -105,6 +152,7 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
             @Override
             public void onClick(View view) {
                 choseHeadImageFromCameraCapture();
+                dialog.dismiss();
 
             }
         });
@@ -113,10 +161,9 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
         rl_getPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(view.getId()==R.id.rl_getPhoto){
-                    //从本地相册选取图片作为头像
-                    choseHeadImageFromGallery();
-                }
+                //从本地相册选取图片作为头像
+                choseHeadImageFromGallery();
+                dialog.dismiss();
             }
         });
 
@@ -124,9 +171,8 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
         rl_calcel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(view.getId()==R.id.rl_cancel){
-                    dialog.dismiss();
-                }
+                dialog.dismiss();
+
             }
         });
 
@@ -210,13 +256,32 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
 
             case CODE_RESULT_REQUEST:
                 if (intent != null) {
-                    setImageToHeadView(intent);//设置图片框
+                    setImageToHeadView(intent);//提取保存裁剪之后的图片数据，并设置头像部分的View,并上传头像至数据库中
+                    deleteOldHeadImgFile();//上传头像后，删除原来的就头像文件。
                 }
 
                 break;
         }
 
         super.onActivityResult(requestCode, resultCode, intent);
+    }
+
+    /**上传头像后，删除原来的就头像文件**/
+    private void deleteOldHeadImgFile() {
+        User user=BmobUser.getCurrentUser(UserInfoHeadImgActivity.this,User.class);
+        BmobFile file=new BmobFile();
+        file.setUrl(user.getHeadImgFileUrl());
+        file.delete(UserInfoHeadImgActivity.this, new DeleteListener() {
+            @Override
+            public void onSuccess() {
+                Log.d("UserInfoHeadImgActivity","删除旧头像文件成功");
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                Log.d("UserInfoHeadImgActivity","删除旧头像文件失败:"+s);
+            }
+        });
     }
 
     /**
@@ -245,7 +310,7 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
     }
 
     /**
-     * 提取保存裁剪之后的图片数据，并设置头像部分的View
+     * 提取保存裁剪之后的图片数据，并设置头像部分的View,并上传头像至数据库中
      */
     private void setImageToHeadView(Intent intent) {
         Bundle extras = intent.getExtras();
@@ -253,19 +318,19 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
             Bitmap photo = extras.getParcelable("data");
             img_headImg.setImageBitmap(photo);
 
-            //新建文件夹 先选好路径 再调用mkdir函数 现在是根目录下面的Ask文件夹
-            File nf = new File(Environment.getExternalStorageDirectory()+"/Ask");
+            //新建文件夹 先选好路径 再调用mkdir函数 现在是根目录下面的mApp文件夹
+            File nf = new File(Environment.getExternalStorageDirectory()+"/Geek");
             nf.mkdir();
 
-            //在根目录下面的ASk文件夹下 创建head_image.jpg文件
-            File f = new File(Environment.getExternalStorageDirectory()+"/Ask", "head_image.jpg");
+            //在根目录下面的Geek文件夹下 创建head_image.jpg文件
+            File f = new File(PATH);
 
             FileOutputStream out = null;
             try {
 
                 //打开输出流 将图片数据填入文件中
                 out = new FileOutputStream(f);
-                photo.compress(Bitmap.CompressFormat.PNG, 90, out);
+                photo.compress(Bitmap.CompressFormat.PNG, 100, out);
 
                 try {
                     out.flush();
@@ -278,7 +343,48 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
                 e.printStackTrace();
             }
 
+            /**上传头像至数据库中**/
+            upLoad(PATH);
 
         }
+    }
+
+    /**上传头像至数据库中**/
+    private void upLoad(String path) {
+        final BmobFile headImgFile=new BmobFile(new File(path));
+        final String txt_objectId=BmobUser.getCurrentUser(UserInfoHeadImgActivity.this).getObjectId();
+        headImgFile.uploadblock(this, new UploadFileListener() {
+            @Override
+            public void onSuccess() {
+                User user=new User();
+                user.setHeadImgUrl(headImgFile.getFileUrl(UserInfoHeadImgActivity.this));  //上传头像的Url到输入库中
+                user.setHeadImgFileUrl(headImgFile.getUrl());  //上传头像文件（Bmob中）的命名到数据库中，用于上传新头像，删除旧头像。
+                user.update(UserInfoHeadImgActivity.this, txt_objectId, new UpdateListener() {
+                    @Override
+                    public void onSuccess() {
+                        Log.i("headImgUrl","上传头像Url成功");
+                    }
+
+                    @Override
+                    public void onFailure(int i, String s) {
+                        Log.e("headImgUrl","上传头像Url失败"+s);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+
+            }
+        });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        initHeadImg();
     }
 }

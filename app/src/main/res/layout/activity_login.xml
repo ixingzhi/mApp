@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:text="极客"
+            android:text="Geek"
             android:textSize="50dp"/>
     </LinearLayout>
 
