@@ -64,6 +64,8 @@
 
         <activity android:name=".activity.UserInfoHeadImgActivity"/>
 
+        <activity android:name=".adapter.ListViewSimple"/>
+
     </application>
 
 </manifest>

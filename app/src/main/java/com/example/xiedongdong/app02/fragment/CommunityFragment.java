@@ -1,5 +1,6 @@
 package com.example.xiedongdong.app02.fragment;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,41 +23,41 @@ import java.util.List;
  */
 public class CommunityFragment extends BaseFragment implements View.OnClickListener{
     private TextView tv_new;
-    private TextView tv_deskTopCulture;
     private TextView tv_disassembly;
     private TextView tv_openBox;
     private TextView tv_walker;
+    private TextView tv_deskTopCulture;
 
 
     private ViewPagerAdapter viewPagerAdapter;
     private List<View> viewList;
-    ViewPager vp_communityPager;
+    private ViewPager vp_communityPager;
+    private View view1,view2,view3,view4,view5;   //5个添加的页面
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_community,container,false);
 
-        initView();
-        initSetListener();
+        tv_new=(TextView)view.findViewById(R.id.tv_new);
+        tv_disassembly=(TextView)view.findViewById(R.id.tv_disassembly);
+        tv_openBox=(TextView)view.findViewById(R.id.tv_openBox);
+        tv_walker=(TextView)view.findViewById(R.id.tv_walker);
+        tv_deskTopCulture=(TextView)view.findViewById(R.id.tv_deskTopCulture);
 
-        return view;
-    }
+        vp_communityPager=(ViewPager)view.findViewById(R.id.vp_communityPager);
 
-    private void initView() {
-        tv_new=(TextView)getActivity().findViewById(R.id.tv_new);
-        tv_deskTopCulture=(TextView)getActivity().findViewById(R.id.tv_deskTopCulture);
-        tv_disassembly=(TextView)getActivity().findViewById(R.id.tv_disassembly);
-        tv_openBox=(TextView)getActivity().findViewById(R.id.tv_openBox);
-        tv_walker=(TextView)getActivity().findViewById(R.id.tv_walker);
 
-        vp_communityPager=(ViewPager)getActivity().findViewById(R.id.vp_communityPager);
-
-        View view1=View.inflate(getActivity(),R.layout.community_new,null);
-        View view2=View.inflate(getActivity(),R.layout.community_desktopculture,null);
-        View view3=View.inflate(getActivity(),R.layout.community_disassembly,null);
-        View view4=View.inflate(getActivity(),R.layout.community_openbox,null);
-        View view5=View.inflate(getActivity(),R.layout.community_walker,null);
+        view1=View.inflate(getActivity(),R.layout.community_new,null);
+        view2=View.inflate(getActivity(),R.layout.community_disassembly,null);
+        view3=View.inflate(getActivity(),R.layout.community_openbox,null);
+        view4=View.inflate(getActivity(),R.layout.community_walker,null);
+        view5=View.inflate(getActivity(),R.layout.community_desktopculture,null);
 
         viewList=new ArrayList<>();
         viewList.add(view1);
@@ -66,36 +67,36 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
         viewList.add(view5);
 
         viewPagerAdapter=new ViewPagerAdapter(viewList);
-
         vp_communityPager.setAdapter(viewPagerAdapter);
-    }
 
-    private void initSetListener() {
+        //initSetListener();
+
         tv_new.setOnClickListener(this);
-        tv_deskTopCulture.setOnClickListener(this);
         tv_disassembly.setOnClickListener(this);
         tv_openBox.setOnClickListener(this);
         tv_walker.setOnClickListener(this);
+        tv_deskTopCulture.setOnClickListener(this);
 
         //Viewpager滑动事件
         vp_communityPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
+                setDefaultTextColor();
                 switch (position){
                     case 0:
                         tv_new.setTextColor(Color.RED);
                         break;
                     case 1:
-                        tv_deskTopCulture.setTextColor(Color.RED);
-                        break;
-                    case 2:
                         tv_disassembly.setTextColor(Color.RED);
                         break;
-                    case 3:
+                    case 2:
                         tv_openBox.setTextColor(Color.RED);
                         break;
-                    case 4:
+                    case 3:
                         tv_walker.setTextColor(Color.RED);
+                        break;
+                    case 4:
+                        tv_deskTopCulture.setTextColor(Color.RED);
                         break;
                     default:
                         break;
@@ -114,6 +115,8 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
 
             }
         });
+
+        return view;
     }
 
     @Override
@@ -124,21 +127,21 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
                 vp_communityPager.setCurrentItem(0);
                 tv_new.setTextColor(Color.RED);
                 break;
-            case R.id.tv_deskTopCulture:
-                vp_communityPager.setCurrentItem(1);
-                tv_deskTopCulture.setTextColor(Color.RED);
-                break;
             case R.id.tv_disassembly:
-                vp_communityPager.setCurrentItem(2);
+                vp_communityPager.setCurrentItem(1);
                 tv_disassembly.setTextColor(Color.RED);
                 break;
             case R.id.tv_openBox:
-                vp_communityPager.setCurrentItem(3);
+                vp_communityPager.setCurrentItem(2);
                 tv_openBox.setTextColor(Color.RED);
                 break;
             case R.id.tv_walker:
-                vp_communityPager.setCurrentItem(4);
+                vp_communityPager.setCurrentItem(3);
                 tv_walker.setTextColor(Color.RED);
+                break;
+            case R.id.tv_deskTopCulture:
+                vp_communityPager.setCurrentItem(4);
+                tv_deskTopCulture.setTextColor(Color.RED);
                 break;
 
             default:
@@ -149,9 +152,9 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
     /**每次点击时恢复默认字体颜色**/
     private void setDefaultTextColor() {
         tv_new.setTextColor(Color.GRAY);
-        tv_deskTopCulture.setTextColor(Color.GRAY);
         tv_disassembly.setTextColor(Color.GRAY);
         tv_openBox.setTextColor(Color.GRAY);
         tv_walker.setTextColor(Color.GRAY);
+        tv_deskTopCulture.setTextColor(Color.GRAY);
     }
 }
