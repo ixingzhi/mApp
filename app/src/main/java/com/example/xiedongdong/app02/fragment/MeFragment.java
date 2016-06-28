@@ -3,6 +3,7 @@ package com.example.xiedongdong.app02.fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -146,10 +147,12 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     private void initData() {
         final User userInfo=BmobUser.getCurrentUser(getContext(),User.class);
         if(userInfo!=null){
+            initHeadImg();
             tv_username.setText(userInfo.getUsername());
+            tv_username.setTextColor(Color.BLACK);
         }
 
-        initHeadImg();
+
     }
 
     /**

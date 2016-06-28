@@ -29,7 +29,6 @@ import java.io.IOException;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.DeleteListener;
-import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
@@ -132,7 +131,7 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
     private void showDialog() {
 
         final AlertDialog dialog=new AlertDialog.Builder(this).create();  //创建一个Dialog
-        View view=getLayoutInflater().inflate(R.layout.me_userinfoheadimg_source,null);  //自定义布局
+        View view=getLayoutInflater().inflate(R.layout.layout_me_userinfoheadimgsource,null);  //自定义布局
         dialog.setView(view,0,0,0,0);  //把自定义布局添加到dialog中，从第二个参数开始分别表示填充内容与边缘之间的像素 左上右下。
         dialog.show();  //一定要在dialog，show之后在设置dialog的参数，不然会不会显示
 

@@ -17,8 +17,10 @@
             android:textSize="20dp"
             android:text="社区"/>
         <ImageView
+            android:id="@+id/img_btn_add"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:paddingRight="10dp"
             android:layout_alignParentRight="true"
             android:src="@mipmap/icon_add"/>
     </RelativeLayout>

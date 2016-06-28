@@ -1,16 +1,21 @@
 package com.example.xiedongdong.app02.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.example.xiedongdong.app02.R;
+import com.example.xiedongdong.app02.bean.News;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.FindListener;
 
 /**
  * Created by xiedongdong on 16/6/27.
@@ -18,23 +23,48 @@ import java.util.Map;
 public class ListViewSimple {
     private ListView lv_new;
 
-    public void function(View view,Context context){
+    public void function(View view, final Context context){
 
         lv_new=(ListView) view.findViewById(R.id.lv_new);
 
 
-        /**定义一个动态数组**/
-        List<Map<String,Object>> listItem=new ArrayList<Map<String,Object>>();
+        /**先从数据库中获取数据，在数组中存放数据**/
+        final News news=new News();
+        BmobQuery<News> query=new BmobQuery<News>();
+        query.setLimit(50);
+        query.order("-createdAt");
+        query.findObjects(context, new FindListener<News>() {
+            @Override
+            public void onSuccess(List<News> list) {
+                Log.e("ListViewSimple","查询数据成功");
+                List<Map<String,Object>> listItem=new ArrayList<Map<String,Object>>();
 
-        /**在数组中存放数据**/
+                for(News newsList:list){
+                    /**定义一个动态数组**/
 
-        for(int i=0;i<5;i++){
-            Map<String,Object> map=new HashMap<String,Object>();
-            map.put("tv_title","iphone7最新开箱视频");
-            map.put("tv_time","2016-09-09 00:00");
-            map.put("img_title",R.mipmap.img_title3);
-            listItem.add(map);
-        }
+                    Map<String,Object> map=new HashMap<String,Object>();
+                    map.put("tv_title",newsList.getTitle());
+                    map.put("tv_time",newsList.getCreatedAt());
+                    map.put("tv_fromUrl",newsList.getFrom());
+                    map.put("img_title",R.mipmap.img_title3);
+                    listItem.add(map);
+
+                    SimpleAdapter simpleAdapter=new SimpleAdapter
+                            (context,listItem,R.layout.layout_community_item,new String[]{"tv_title","tv_time","img_title","tv_fromUrl"},
+                                    new int[]{R.id.tv_title,R.id.tv_time,R.id.img_title,R.id.tv_fromUrl});
+
+                    lv_new.setAdapter(simpleAdapter);
+
+                }
+
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                Log.e("ListViewSimple","查询数据失败"+s);
+            }
+        });
+
         /**
          * *SimpleAdapter的参数说明
          * 第一个参数 表示访问整个android应用程序接口，基本上所有的组件都需要
@@ -45,11 +75,11 @@ public class ListViewSimple {
          * 注意的是map对象可以key可以找不到 但组件的必须要有资源填充  因为 找不到key也会返回null 其实就相当于给了一个null资源
          */
 
-        SimpleAdapter simpleAdapter=new SimpleAdapter
-                (context,listItem,R.layout.layout_community_item,new String[]{"tv_title","tv_time","img_title"},
-                        new int[]{R.id.tv_title,R.id.tv_time,R.id.img_title});
-
-        lv_new.setAdapter(simpleAdapter);
+//        SimpleAdapter simpleAdapter=new SimpleAdapter
+//                (context,listItem,R.layout.layout_community_item,new String[]{"tv_title","tv_time","img_title"},
+//                        new int[]{R.id.tv_title,R.id.tv_time,R.id.img_title});
+//
+//        lv_new.setAdapter(simpleAdapter);
 
     }
 }

@@ -1,26 +1,38 @@
 package com.example.xiedongdong.app02.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.xiedongdong.app02.Base.BaseFragment;
 import com.example.xiedongdong.app02.R;
+import com.example.xiedongdong.app02.activity.PublishNewsActivity;
 import com.example.xiedongdong.app02.adapter.ViewPagerAdapter;
+import com.example.xiedongdong.app02.bean.User;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.bmob.v3.BmobUser;
 
 /**
  * Created by xiedongdong on 16/5/24.
  */
 public class CommunityFragment extends BaseFragment implements View.OnClickListener{
+    private ImageView img_btn_add;
     private TextView tv_new;
     private TextView tv_disassembly;
     private TextView tv_openBox;
@@ -43,6 +55,7 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_community,container,false);
 
+        img_btn_add=(ImageView)view.findViewById(R.id.img_btn_add);
         tv_new=(TextView)view.findViewById(R.id.tv_new);
         tv_disassembly=(TextView)view.findViewById(R.id.tv_disassembly);
         tv_openBox=(TextView)view.findViewById(R.id.tv_openBox);
@@ -50,6 +63,13 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
         tv_deskTopCulture=(TextView)view.findViewById(R.id.tv_deskTopCulture);
 
         vp_communityPager=(ViewPager)view.findViewById(R.id.vp_communityPager);
+
+        img_btn_add.setOnClickListener(this);
+        tv_new.setOnClickListener(this);
+        tv_disassembly.setOnClickListener(this);
+        tv_openBox.setOnClickListener(this);
+        tv_walker.setOnClickListener(this);
+        tv_deskTopCulture.setOnClickListener(this);
 
 
         view1=View.inflate(getActivity(),R.layout.community_new,null);
@@ -68,13 +88,7 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
         viewPagerAdapter=new ViewPagerAdapter(getActivity(),viewList);
         vp_communityPager.setAdapter(viewPagerAdapter);
 
-        //initSetListener();
 
-        tv_new.setOnClickListener(this);
-        tv_disassembly.setOnClickListener(this);
-        tv_openBox.setOnClickListener(this);
-        tv_walker.setOnClickListener(this);
-        tv_deskTopCulture.setOnClickListener(this);
 
         //Viewpager滑动事件
         vp_communityPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -122,6 +136,11 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
     public void onClick(View view) {
         setDefaultTextColor();
         switch (view.getId()){
+            case R.id.img_btn_add:
+                if(isLogin()){
+                startActivity(new Intent(getActivity(), PublishNewsActivity.class));
+                }
+                break;
             case R.id.tv_new:
                 vp_communityPager.setCurrentItem(0);
                 tv_new.setTextColor(Color.RED);
@@ -148,6 +167,7 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
         }
 
     }
+
     /**每次点击时恢复默认字体颜色**/
     private void setDefaultTextColor() {
         tv_new.setTextColor(Color.GRAY);
@@ -155,5 +175,15 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
         tv_openBox.setTextColor(Color.GRAY);
         tv_walker.setTextColor(Color.GRAY);
         tv_deskTopCulture.setTextColor(Color.GRAY);
+    }
+
+
+    public boolean isLogin() {
+        User user= BmobUser.getCurrentUser(getActivity(),User.class);
+        if (user==null){
+            showToast("未登录");
+            return false;
+        }
+        return true;
     }
 }
