@@ -6,42 +6,38 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="100dp"
         android:paddingLeft="10dp"
-        android:paddingTop="10dp"
+        android:paddingTop="5dp"
         android:paddingRight="10dp"
         android:paddingBottom="5dp">
 
         <TextView
             android:id="@+id/tv_title"
-            android:layout_width="260dp"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
-            android:text="开箱视频，一加3开箱视频,哈哈哈哈"
-            android:textSize="20dp"/>
+            android:text="开箱视频，一加3开箱视频，内涵段子"
+            android:textColor="#000000"
+            android:textSize="18dp"/>
 
-        <RelativeLayout
-            android:layout_above="@id/img_headImg"
-            android:layout_width="260dp"
-            android:layout_height="20dp">
+        <TextView
+            android:id="@+id/tv_from"
+            android:layout_below="@id/tv_title"
+            android:layout_marginTop="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="来自:"
+            android:textSize="12dp"/>
 
-            <TextView
-                android:id="@+id/tv_from"
-                android:paddingBottom="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="来自:"
-                android:textSize="12dp"/>
-            <TextView
-                android:id="@+id/tv_fromUrl"
-                android:layout_toRightOf="@id/tv_from"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:singleLine="true"
-                android:text="oneplus.cn"/>
-
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_fromUrl"
+            android:layout_marginTop="3dp"
+            android:layout_below="@id/tv_title"
+            android:layout_toRightOf="@id/tv_from"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="www.zealer.com"
+            android:textSize="12dp"/>
 
 
         <com.example.xiedongdong.app02.util.CircleImageView
@@ -59,7 +55,7 @@
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@id/img_headImg"
             android:text="分享于"
-            android:textSize="12dp"/>
+            android:textSize="12dp" />
         <TextView
             android:id="@+id/tv_time"
             android:paddingBottom="5dp"
@@ -75,13 +71,21 @@
         <ImageView
             android:id="@+id/img_title"
             android:layout_alignParentRight="true"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
             android:src="@mipmap/img_title3"/>
 
-
-
+        <TextView
+            android:paddingBottom="5dp"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="收藏"/>
+        
 
     </RelativeLayout>
+
 
 </LinearLayout>

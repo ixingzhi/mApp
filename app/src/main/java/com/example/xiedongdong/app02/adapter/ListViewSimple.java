@@ -1,10 +1,10 @@
 package com.example.xiedongdong.app02.adapter;
 
-import android.os.Bundle;
+import android.content.Context;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.example.xiedongdong.app02.Base.BaseActivity;
 import com.example.xiedongdong.app02.R;
 
 import java.util.ArrayList;
@@ -15,13 +15,13 @@ import java.util.Map;
 /**
  * Created by xiedongdong on 16/6/27.
  */
-public class ListViewSimple extends BaseActivity {
+public class ListViewSimple {
     private ListView lv_new;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.community_new);
-        lv_new=(ListView)findViewById(R.id.lv_new);
+
+    public void function(View view,Context context){
+
+        lv_new=(ListView) view.findViewById(R.id.lv_new);
+
 
         /**定义一个动态数组**/
         List<Map<String,Object>> listItem=new ArrayList<Map<String,Object>>();
@@ -31,11 +31,10 @@ public class ListViewSimple extends BaseActivity {
         for(int i=0;i<5;i++){
             Map<String,Object> map=new HashMap<String,Object>();
             map.put("tv_title","iphone7最新开箱视频");
-            map.put("tv_fromUrl","www.huyou.com");
             map.put("tv_time","2016-09-09 00:00");
             map.put("img_title",R.mipmap.img_title3);
+            listItem.add(map);
         }
-
         /**
          * *SimpleAdapter的参数说明
          * 第一个参数 表示访问整个android应用程序接口，基本上所有的组件都需要
@@ -47,9 +46,10 @@ public class ListViewSimple extends BaseActivity {
          */
 
         SimpleAdapter simpleAdapter=new SimpleAdapter
-                (this,listItem,R.layout.layout_community_item,new String[]{"tv_title","tv_fromUrl","tv_time","img_title"},
-                        new int[]{R.id.tv_title,R.id.tv_fromUrl,R.id.tv_time,R.id.img_title});
+                (context,listItem,R.layout.layout_community_item,new String[]{"tv_title","tv_time","img_title"},
+                        new int[]{R.id.tv_title,R.id.tv_time,R.id.img_title});
 
         lv_new.setAdapter(simpleAdapter);
+
     }
 }

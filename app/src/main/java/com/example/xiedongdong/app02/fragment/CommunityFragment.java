@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,7 +65,7 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
         viewList.add(view4);
         viewList.add(view5);
 
-        viewPagerAdapter=new ViewPagerAdapter(viewList);
+        viewPagerAdapter=new ViewPagerAdapter(getActivity(),viewList);
         vp_communityPager.setAdapter(viewPagerAdapter);
 
         //initSetListener();
