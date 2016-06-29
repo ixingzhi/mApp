@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.example.xiedongdong.app02.Base.BaseFragment;
 import com.example.xiedongdong.app02.activity.WebViewTest;
-import com.example.xiedongdong.app02.adapter.ImageAdapter;
+import com.example.xiedongdong.app02.adapter.ImagePagerAdapter;
 import com.example.xiedongdong.app02.adapter.ImageHandler;
 import com.example.xiedongdong.app02.R;
 
@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class HomeFragment extends BaseFragment implements View.OnClickListener{
     //图片适配器
-    private ImageAdapter imageAdapter;
+    private ImagePagerAdapter imageAdapter;
     //存放图片的数组
     private List<View> imageList;
     //ViewPager
@@ -78,7 +78,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
 
         }
 
-        imageAdapter=new ImageAdapter(imageList);
+        imageAdapter=new ImagePagerAdapter(imageList);
         //绑定适配器
         viewPager.setAdapter(imageAdapter);
         //给viewpager页面设置页面改变监听

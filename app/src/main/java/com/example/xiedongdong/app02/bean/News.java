@@ -1,6 +1,7 @@
 package com.example.xiedongdong.app02.bean;
 
 import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.datatype.BmobFile;
 
 /**
  * Created by xiedongdong on 16/6/28.
@@ -11,6 +12,8 @@ public class News extends BmobObject {
     private String url;
     private String from;
     private String messageType;
+    private String imgTitleUrl;
+
 
     public String getId() {
         return id;
@@ -50,5 +53,13 @@ public class News extends BmobObject {
 
     public void setMessageType(String messageType) {
         this.messageType = messageType;
+    }
+
+    public String getImgTitleUrl() {
+        return imgTitleUrl;
+    }
+
+    public void setImgTitleUrl(String imgTitleUrl) {
+        this.imgTitleUrl = imgTitleUrl;
     }
 }

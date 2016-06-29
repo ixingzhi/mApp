@@ -65,6 +65,8 @@
         <activity android:name=".activity.UserInfoHeadImgActivity"/>
 
         <activity android:name=".activity.PublishNewsActivity"/>
+
+        <activity android:name=".communityListView.NewsListView"/>
     </application>
 
 </manifest>

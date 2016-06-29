@@ -1,26 +1,21 @@
 package com.example.xiedongdong.app02.fragment;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.xiedongdong.app02.Base.BaseFragment;
 import com.example.xiedongdong.app02.R;
 import com.example.xiedongdong.app02.activity.PublishNewsActivity;
-import com.example.xiedongdong.app02.adapter.ViewPagerAdapter;
+import com.example.xiedongdong.app02.adapter.NewsPagerAdapter;
 import com.example.xiedongdong.app02.bean.User;
 
 import java.util.ArrayList;
@@ -40,7 +35,7 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
     private TextView tv_deskTopCulture;
 
 
-    private ViewPagerAdapter viewPagerAdapter;
+    private NewsPagerAdapter newsPagerAdapter;
     private List<View> viewList;
     private ViewPager vp_communityPager;
     private View view1,view2,view3,view4,view5;   //5个添加的页面
@@ -85,8 +80,8 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
         viewList.add(view4);
         viewList.add(view5);
 
-        viewPagerAdapter=new ViewPagerAdapter(getActivity(),viewList);
-        vp_communityPager.setAdapter(viewPagerAdapter);
+        newsPagerAdapter =new NewsPagerAdapter(getActivity(),viewList);
+        vp_communityPager.setAdapter(newsPagerAdapter);
 
 
 

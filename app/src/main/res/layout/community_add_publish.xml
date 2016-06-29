@@ -170,31 +170,58 @@
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="5dp"
-        android:orientation="vertical">
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/rbtn_disassembly"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="拆解"/>
         <RadioButton
             android:id="@+id/rbtn_openBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="开箱"/>
         <RadioButton
             android:id="@+id/rbtn_walker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="玩客"/>
         <RadioButton
             android:id="@+id/rbtn_deskTopCulture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="桌面文化"/>
 
     </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_selectPicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="选择图片"/>
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+
+        <ImageView
+            android:id="@+id/img_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
+    
+
 
 
 </LinearLayout>

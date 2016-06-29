@@ -235,7 +235,6 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
             showToast("取消");
             return;
         }
-
         switch (requestCode) {
             case CODE_GALLERY_REQUEST://如果是来自本地的
                 cropRawPhoto(intent.getData());//直接裁剪图片

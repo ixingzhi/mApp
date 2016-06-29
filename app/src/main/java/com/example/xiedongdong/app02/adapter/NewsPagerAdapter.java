@@ -18,12 +18,12 @@ import java.util.Map;
 /**
  * Created by xiedongdong on 16/6/27.
  */
-public class ViewPagerAdapter extends PagerAdapter {
+public class NewsPagerAdapter extends PagerAdapter {
     public static final int NEW = 0;
     private Context context;
     private List<View> viewList;
 
-    public ViewPagerAdapter(Context context,List<View> viewList){
+    public NewsPagerAdapter(Context context, List<View> viewList){
         this.context = context;
         this.viewList=viewList;
     }

@@ -1,9 +1,16 @@
 package com.example.xiedongdong.app02.activity;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -12,8 +19,15 @@ import com.example.xiedongdong.app02.R;
 import com.example.xiedongdong.app02.bean.News;
 import com.example.xiedongdong.app02.bean.User;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UploadFileListener;
 
 /**
  * Created by xiedongdong on 16/6/28.
@@ -25,6 +39,22 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
     private EditText et_url;
     private EditText et_from;
     private RadioButton rbtn_disassembly,rbtn_openBox,rbtn_walker,rbtn_deskTopCulture;
+    private Button btn_selectPicture;
+    private ImageView img_title;
+
+    private Bitmap photo=null;
+
+    /* 请求识别码 */
+    private static final int CODE_GALLERY_REQUEST = 0xa0;//本地
+    private static final int CODE_RESULT_REQUEST = 0xa2;//最终裁剪后的结果
+
+    // 裁剪后图片的宽(X)和高(Y),480 X 480的正方形。
+    private static int output_X = 480;
+    private static int output_Y = 480;
+
+    private final String PATH=Environment.getExternalStorageDirectory()+"/Geek/imageTitle.jpg";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,12 +74,15 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
         rbtn_openBox=(RadioButton) findViewById(R.id.rbtn_openBox);
         rbtn_walker=(RadioButton) findViewById(R.id.rbtn_walker);
         rbtn_deskTopCulture=(RadioButton) findViewById(R.id.rbtn_deskTopCulture);
+        btn_selectPicture=(Button)findViewById(R.id.btn_selectPicture);
+        img_title=(ImageView)findViewById(R.id.img_title);
 
     }
 
     private void initSetListener() {
         tv_back.setOnClickListener(this);
         tv_publish.setOnClickListener(this);
+        btn_selectPicture.setOnClickListener(this);
 
     }
 
@@ -59,15 +92,132 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
             case R.id.tv_back:
                 finish();
                 break;
+            case R.id.btn_selectPicture:
+                selectPicture();
+                break;
             case R.id.tv_publish:
                 if(checkFrom()){
-                    publishNews();;
+                    publishNews();
                 }
                 break;
             default:
                 break;
         }
 
+    }
+
+    /**选择图片**/
+    private void selectPicture() {
+        //从本地选择照片
+        choseHeadImageFromGallery();
+    }
+
+    /**
+     * 从本地相册获取照片
+     */
+    private void choseHeadImageFromGallery() {
+
+        Intent intentFromGallery=new Intent();
+        //设置文件类型
+        intentFromGallery.setType("image/*");
+        //选择图片
+        intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
+        //获取到图片，将当前的数据返回到上一个Activity中
+        startActivityForResult(intentFromGallery,CODE_GALLERY_REQUEST);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent intent) {
+
+        Log.e("resultCode",""+resultCode);
+        Log.e("requestCode",""+requestCode);
+
+
+        // 用户没有进行有效的设置操作，返回
+        if (resultCode == RESULT_CANCELED) {//取消
+            showToast("取消");
+            return;
+        }
+
+        switch (requestCode) {
+            case CODE_GALLERY_REQUEST://如果是来自本地的
+                cropRawPhoto(intent.getData());//直接裁剪图片
+                break;
+            case CODE_RESULT_REQUEST:
+                if (intent != null) {
+                    setImageToHeadView(intent);//提取保存裁剪之后的图片数据，并设置头像部分的View,并上传头像至数据库中
+                }
+                break;
+            default:
+                break;
+        }
+
+        super.onActivityResult(requestCode, resultCode, intent);
+    }
+
+    /**
+     * 裁剪原始的图片
+     */
+    public void cropRawPhoto(Uri uri) {
+
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+
+        //把裁剪的数据填入里面
+
+        // 设置裁剪
+        intent.putExtra("crop", "true");
+
+        // aspectX , aspectY :宽高的比例
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+
+        // outputX , outputY : 裁剪图片宽高
+        intent.putExtra("outputX", output_X);
+        intent.putExtra("outputY", output_Y);
+        intent.putExtra("return-data", true);
+
+        startActivityForResult(intent, CODE_RESULT_REQUEST);
+    }
+
+    /**
+     * 提取保存裁剪之后的图片数据，并设置头像部分的View,并上传头像至数据库中
+     */
+    private void setImageToHeadView(Intent intent) {
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            photo = extras.getParcelable("data");
+            img_title.setImageBitmap(photo);
+
+            //新建文件夹 先选好路径 再调用mkdir函数 现在是根目录下面的Geek文件夹
+            File nf = new File(Environment.getExternalStorageDirectory()+"/Geek");
+            nf.mkdir();
+
+            //在根目录下面的Geek文件夹下 创建imageTitle.jpg文件
+            File f = new File(PATH);
+
+            FileOutputStream out = null;
+            try {
+
+                //打开输出流 将图片数据填入文件中
+                out = new FileOutputStream(f);
+                photo.compress(Bitmap.CompressFormat.PNG, 100, out);
+
+                try {
+                    out.flush();
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+
+        }
     }
 
     //检查输入信息来源
@@ -108,11 +258,11 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
     /**发布消息**/
     private void publishNews() {
         User user= BmobUser.getCurrentUser(PublishNewsActivity.this,User.class);
-        String txt_objectId=user.getObjectId();
+        final String txt_objectId=user.getObjectId();
 
-        String txt_title=et_title.getText().toString().trim();
-        String txt_url=et_url.getText().toString().trim();
-        String txt_from=et_from.getText().toString().trim();
+        final String txt_title=et_title.getText().toString().trim();
+        final String txt_url=et_url.getText().toString().trim();
+        final String txt_from=et_from.getText().toString().trim();
 
         String txt_messageType=null;
         if(rbtn_disassembly.isChecked()){
@@ -128,25 +278,45 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
             txt_messageType=rbtn_deskTopCulture.getText().toString().trim();
         }
 
-        News news=new News();
-        news.setId(txt_objectId);
-        news.setTitle(txt_title);
-        news.setUrl(txt_url);
-        news.setFrom(txt_from);
-        news.setMessageType(txt_messageType);
 
-        news.save(this, new SaveListener() {
+
+        final BmobFile imgTitleFile=new BmobFile(new File(PATH));
+        final String finalTxt_messageType = txt_messageType;
+        imgTitleFile.upload(this, new UploadFileListener() {
             @Override
             public void onSuccess() {
-                showToast("发送消息成功");
-                finish();
+
+
+                News news=new News();
+                news.setId(txt_objectId);
+                news.setTitle(txt_title);
+                news.setUrl(txt_url);
+                news.setFrom(txt_from);
+                news.setMessageType(finalTxt_messageType);
+                news.setImgTitleUrl(imgTitleFile.getFileUrl(PublishNewsActivity.this));
+                news.save(PublishNewsActivity.this, new SaveListener() {
+                    @Override
+                    public void onSuccess() {
+                        showToast("发送消息成功");
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(int i, String s) {
+                        showToast("发送消息失败:"+s);
+                    }
+                });
+
             }
 
             @Override
             public void onFailure(int i, String s) {
-                showToast("发送消息失败:"+s);
+
             }
         });
+
+
+
 
 
 

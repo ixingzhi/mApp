@@ -13,14 +13,14 @@ import java.util.List;
  * Created by xiedongdong on 16/5/25.
  * 图片适配器
  */
-public class ImageAdapter extends PagerAdapter{
+public class ImagePagerAdapter extends PagerAdapter{
     /**
      * Return the number of views available.
      */
     private List<View> imageList;
 
 
-    public ImageAdapter(List imageList){
+    public ImagePagerAdapter(List imageList){
 
        this.imageList=imageList;
     }
