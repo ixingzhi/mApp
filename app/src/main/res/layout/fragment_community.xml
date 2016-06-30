@@ -83,12 +83,12 @@
         android:background="#CCCCCC">
     </LinearLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_communityPager"
+    <FrameLayout
+        android:id="@+id/fl_content_news"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v4.view.ViewPager>
+    </FrameLayout>
 
 
 

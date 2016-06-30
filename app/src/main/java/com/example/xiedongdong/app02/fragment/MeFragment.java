@@ -148,7 +148,6 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         final User userInfo=BmobUser.getCurrentUser(getContext(),User.class);
         if(userInfo!=null){
             initHeadImg();
-            Log.e("MeFragment","tongguo");
             tv_username.setText(userInfo.getUsername());
             tv_username.setTextColor(Color.BLACK);
         }
@@ -166,7 +165,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
             img_headImg.setImageBitmap(bitmap);
         }else {
 
-            final User user = BmobUser.getCurrentUser(getActivity().getApplication(), User.class);
+            final User user = BmobUser.getCurrentUser(getActivity(), User.class);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -210,6 +209,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        initHeadImg();
+        if(!isLogin()){
+            initHeadImg();
+        }
+
     }
 }
