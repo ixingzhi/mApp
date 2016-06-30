@@ -1,6 +1,5 @@
 package com.example.xiedongdong.app02.fragmentCommunity;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -13,9 +12,7 @@ import com.example.xiedongdong.app02.Base.BaseFragment;
 import com.example.xiedongdong.app02.R;
 import com.example.xiedongdong.app02.adapter.NewsListViewAdapter;
 import com.example.xiedongdong.app02.bean.News;
-import com.example.xiedongdong.app02.util.BitmapFileNet;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +23,7 @@ import cn.bmob.v3.listener.FindListener;
 /**
  * Created by xiedongdong on 16/6/30.
  */
-public class NewFragment extends BaseFragment {
+public class OpenBoxFragment extends BaseFragment {
 
     public static final String KEY_TITLE="title";
     public static final String KEY_FROM="fromUrl";
@@ -34,21 +31,19 @@ public class NewFragment extends BaseFragment {
     public static final String KEY_TIME="time";
     public static final String KEY_TITLEIMG="titleImg";
 
-    private ListView listView;
     private NewsListViewAdapter adapter;
-
+    private ListView lv_openBox;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_community_new,container,false);
+        View view=inflater.inflate(R.layout.fragment_community_openbox,container,false);
 
-        listView= (ListView) view.findViewById(R.id.lv_new);
-
-        /**先从数据库中获取数据，在数组中存放数据**/
+        lv_openBox= (ListView) view.findViewById(R.id.lv_openBox);
 
         BmobQuery<News> query=new BmobQuery<News>();
         query.setLimit(50);
         query.order("-createdAt");
+        query.addWhereEqualTo("messageType","开箱");
         query.findObjects(getActivity(), new FindListener<News>() {
             @Override
             public void onSuccess(List<News> list) {
@@ -66,18 +61,16 @@ public class NewFragment extends BaseFragment {
                 }
 
                 adapter=new NewsListViewAdapter(getActivity(),listItem);
-                listView.setAdapter(adapter);
+                lv_openBox.setAdapter(adapter);
             }
 
             @Override
             public void onError(int i, String s) {
-                Log.e("NewFragment", "查询数据失败:"+s);
+                Log.e("OpenBoxFragment", "查询数据失败:"+s);
             }
         });
 
+
         return view;
-
     }
-
-
 }
