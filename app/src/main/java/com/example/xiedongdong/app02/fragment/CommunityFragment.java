@@ -8,8 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +20,6 @@ import com.example.xiedongdong.app02.bean.User;
 import com.example.xiedongdong.app02.fragmentCommunity.DisassemblyFragment;
 import com.example.xiedongdong.app02.fragmentCommunity.NewFragment;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import cn.bmob.v3.BmobUser;
 
@@ -41,10 +37,6 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
     private Fragment tab01;
     private Fragment tab02;
 
-
-   // private List<View> viewList;
-    //private ViewPager vp_communityPager;
-    //private View view1,view2,view3,view4,view5;   //5个添加的页面
 
     @Nullable
     @Override

@@ -60,7 +60,7 @@ public class NewsListViewAdapter extends BaseAdapter {
         }
 
         TextView tv_title= (TextView) ll.findViewById(R.id.tv_title); //标题
-        TextView tv_from= (TextView) ll.findViewById(R.id.tv_from);//来自
+        TextView tv_fromUrl= (TextView) ll.findViewById(R.id.tv_fromUrl);//来自
         ImageView img_headImg= (ImageView) ll.findViewById(R.id.img_headImg);//用户头像
         TextView tv_time= (TextView) ll.findViewById(R.id.tv_time);//时间
         ImageView img_title= (ImageView) ll.findViewById(R.id.img_title);//标题头像
@@ -71,7 +71,7 @@ public class NewsListViewAdapter extends BaseAdapter {
         //设置Listview相关的值
 
         tv_title.setText(news.get(NewFragment.KEY_TITLE));
-        tv_from.setText(news.get(NewFragment.KEY_FROM));
+        tv_fromUrl.setText(news.get(NewFragment.KEY_FROM));
 
         tv_time.setText(news.get(NewFragment.KEY_TIME));
 

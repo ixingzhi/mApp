@@ -1,5 +1,6 @@
 package com.example.xiedongdong.app02.fragmentCommunity;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -12,7 +13,9 @@ import com.example.xiedongdong.app02.Base.BaseFragment;
 import com.example.xiedongdong.app02.R;
 import com.example.xiedongdong.app02.adapter.NewsListViewAdapter;
 import com.example.xiedongdong.app02.bean.News;
+import com.example.xiedongdong.app02.util.BitmapFileNet;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +29,7 @@ import cn.bmob.v3.listener.FindListener;
 public class NewFragment extends BaseFragment {
 
     public static final String KEY_TITLE="title";
-    public static final String KEY_FROM="from";
+    public static final String KEY_FROM="fromUrl";
     public static final String KEY_HEADIMG="headImg";
     public static final String KEY_TIME="time";
     public static final String KEY_TITLEIMG="titleImg";
@@ -55,7 +58,7 @@ public class NewFragment extends BaseFragment {
                     Log.e("Url", "" + newsList.getImgTitleUrl());
                     /**定义一个动态数组**/
 
-                    final HashMap<String, String> map = new HashMap<String, String>();
+                    HashMap<String, String> map = new HashMap<String, String>();
                     map.put(KEY_TITLE, newsList.getTitle());
                     map.put(KEY_FROM, newsList.getFrom());
                     map.put(KEY_TIME,newsList.getCreatedAt());
@@ -76,4 +79,6 @@ public class NewFragment extends BaseFragment {
         return view;
 
     }
+
+
 }
