@@ -66,6 +66,8 @@
 
         <activity android:name=".activity.PublishNewsActivity"/>
 
+        <activity android:name=".activity.MyPostsActivity"/>
+
     </application>
 
 </manifest>

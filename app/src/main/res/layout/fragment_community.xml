@@ -27,55 +27,98 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/tv_new"
-            android:layout_marginLeft="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:gravity="center_vertical"
-            android:layout_weight="1"
-            android:textSize="20dp"
-            android:textColor="#FF0033"
-            android:text="最新" />
+        android:layout_height="40dp">
 
-        <TextView
-            android:id="@+id/tv_disassembly"
+        <HorizontalScrollView
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:gravity="center_vertical"
             android:layout_weight="1"
-            android:textSize="20dp"
-            android:text="拆解" />
-        <TextView
-            android:id="@+id/tv_openBox"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_new"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:textSize="20dp"
+                    android:text="最新" />
+
+                <TextView
+                    android:id="@+id/tv_info"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:textSize="20dp"
+                    android:text="资讯" />
+
+                <TextView
+                    android:id="@+id/tv_disassembly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:gravity="center_vertical"
+                    android:textSize="20dp"
+                    android:text="拆解" />
+                <TextView
+                    android:id="@+id/tv_openBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:gravity="center_vertical"
+                    android:textSize="20dp"
+                    android:text="开箱" />
+                <TextView
+                    android:id="@+id/tv_walker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:gravity="center_vertical"
+                    android:textSize="20dp"
+                    android:text="玩客" />
+                <TextView
+                    android:id="@+id/tv_media"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:gravity="center_vertical"
+                    android:textSize="20dp"
+                    android:text="媒体" />
+                <TextView
+                    android:id="@+id/tv_deskTopCulture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:gravity="center_vertical"
+                    android:textSize="20dp"
+                    android:text="桌面文化" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:gravity="center_vertical"
-            android:layout_weight="1"
-            android:textSize="20dp"
-            android:text="开箱" />
-        <TextView
-            android:id="@+id/tv_walker"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:gravity="center_vertical"
-            android:layout_weight="1"
-            android:textSize="20dp"
-            android:text="玩客" />
-        <TextView
-            android:id="@+id/tv_deskTopCulture"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:gravity="center_vertical"
-            android:layout_weight="1"
-            android:textSize="20dp"
-            android:text="桌面文化" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="8dp"
+            android:paddingRight="5dp"
+            android:src="@mipmap/right"/>
+
 
     </LinearLayout>
-
+    
 
     <LinearLayout
         android:layout_width="match_parent"

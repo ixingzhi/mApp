@@ -2,7 +2,6 @@ package com.example.xiedongdong.app02.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +11,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.xiedongdong.app02.R;
-import com.example.xiedongdong.app02.bean.News;
-import com.example.xiedongdong.app02.fragmentCommunity.NewFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import cn.bmob.v3.listener.FindListener;
 
 /**
  * Created by xiedongdong on 16/6/29.
  */
 public class NewsListViewAdapter extends BaseAdapter {
+
+    public static final String KEY_TITLE="title";
+    public static final String KEY_FROM="fromUrl";
+    public static final String KEY_HEADIMG="headImg";
+    public static final String KEY_TIME="time";
+    public static final String KEY_TITLEIMG="titleImg";
+
     private Activity activity;
     private static LayoutInflater inflater=null;
     private ArrayList<HashMap<String,String>> data;
@@ -70,10 +72,10 @@ public class NewsListViewAdapter extends BaseAdapter {
 
         //设置Listview相关的值
 
-        tv_title.setText(news.get(NewFragment.KEY_TITLE));
-        tv_fromUrl.setText(news.get(NewFragment.KEY_FROM));
+        tv_title.setText(news.get(KEY_TITLE));
+        tv_fromUrl.setText(news.get(KEY_FROM));
 
-        tv_time.setText(news.get(NewFragment.KEY_TIME));
+        tv_time.setText(news.get(KEY_TIME));
 
         return ll;
     }

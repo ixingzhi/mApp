@@ -25,12 +25,6 @@ import cn.bmob.v3.listener.FindListener;
  */
 public class WalkerFragment extends BaseFragment {
 
-    public static final String KEY_TITLE="title";
-    public static final String KEY_FROM="fromUrl";
-    public static final String KEY_HEADIMG="headImg";
-    public static final String KEY_TIME="time";
-    public static final String KEY_TITLEIMG="titleImg";
-
     private ListView lv_walker;
     private NewsListViewAdapter adapter;
     @Nullable
@@ -45,6 +39,7 @@ public class WalkerFragment extends BaseFragment {
         BmobQuery<News> query=new BmobQuery<News>();
         query.setLimit(50);
         query.order("-createdAt");
+        query.addWhereEqualTo("messageType","玩客");
         query.findObjects(getActivity(), new FindListener<News>() {
             @Override
             public void onSuccess(List<News> list) {
@@ -54,9 +49,9 @@ public class WalkerFragment extends BaseFragment {
                     /**定义一个动态数组**/
 
                     HashMap<String, String> map = new HashMap<String, String>();
-                    map.put(KEY_TITLE, newsList.getTitle());
-                    map.put(KEY_FROM, newsList.getFrom());
-                    map.put(KEY_TIME,newsList.getCreatedAt());
+                    map.put(NewsListViewAdapter.KEY_TITLE, newsList.getTitle());
+                    map.put(NewsListViewAdapter.KEY_FROM, newsList.getFrom());
+                    map.put(NewsListViewAdapter.KEY_TIME,newsList.getCreatedAt());
 
                     listItem.add(map);
                 }

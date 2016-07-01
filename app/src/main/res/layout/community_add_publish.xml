@@ -171,35 +171,67 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:paddingLeft="10dp"
-        android:orientation="horizontal">
+        android:paddingLeft="10dp">
 
-        <RadioButton
-            android:id="@+id/rbtn_disassembly"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="拆解"/>
-        <RadioButton
-            android:id="@+id/rbtn_openBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="开箱"/>
-        <RadioButton
-            android:id="@+id/rbtn_walker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="玩客"/>
-        <RadioButton
-            android:id="@+id/rbtn_deskTopCulture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="桌面文化"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/rbtn_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="25dp"
+                android:text="资讯"/>
+            <RadioButton
+                android:id="@+id/rbtn_disassembly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/rbtn_info"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:text="拆解"/>
+            <RadioButton
+                android:id="@+id/rbtn_openBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_toRightOf="@id/rbtn_disassembly"
+                android:layout_weight="1"
+                android:text="开箱"/>
+
+            <RadioButton
+                android:id="@+id/rbtn_walker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="25dp"
+                android:layout_below="@id/rbtn_info"
+                android:text="玩客"/>
+
+            <RadioButton
+                android:id="@+id/rbtn_media"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_toRightOf="@id/rbtn_walker"
+                android:layout_below="@id/rbtn_disassembly"
+                android:text="媒体"/>
+
+            <RadioButton
+                android:id="@+id/rbtn_deskTopCulture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_below="@id/rbtn_openBox"
+                android:layout_toRightOf="@id/rbtn_media"
+                android:text="桌面文化"/>
+
+
+        </RelativeLayout>
 
     </RadioGroup>
+
 
     <Button
         android:id="@+id/btn_selectPicture"

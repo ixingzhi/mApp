@@ -25,19 +25,13 @@ import cn.bmob.v3.listener.FindListener;
  */
 public class DisassemblyFragment extends BaseFragment {
 
-    public static final String KEY_TITLE="title";
-    public static final String KEY_FROM="fromUrl";
-    public static final String KEY_HEADIMG="headImg";
-    public static final String KEY_TIME="time";
-    public static final String KEY_TITLEIMG="titleImg";
-
     private ListView lv_disassembly;
     private NewsListViewAdapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_comminity_disassembly,null);
+        View view=inflater.inflate(R.layout.fragment_comminity_disassembly,container,false);
 
         lv_disassembly= (ListView) view.findViewById(R.id.lv_disassembly);
 
@@ -54,9 +48,9 @@ public class DisassemblyFragment extends BaseFragment {
                     /**定义一个动态数组**/
 
                     HashMap<String, String> map = new HashMap<String, String>();
-                    map.put(KEY_TITLE, newsList.getTitle());
-                    map.put(KEY_FROM, newsList.getFrom());
-                    map.put(KEY_TIME,newsList.getCreatedAt());
+                    map.put(NewsListViewAdapter.KEY_TITLE, newsList.getTitle());
+                    map.put(NewsListViewAdapter.KEY_FROM, newsList.getFrom());
+                    map.put(NewsListViewAdapter.KEY_TIME,newsList.getCreatedAt());
 
                     listItem.add(map);
                 }

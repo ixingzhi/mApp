@@ -21,25 +21,22 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 
 /**
- * Created by xiedongdong on 16/6/30.
+ * Created by xiedongdong on 16/7/1.
  */
-public class DeskTopCultrueFragment extends BaseFragment {
-
-
-    private ListView lv_deskTopCultrue;
+public class InfoFragment extends BaseFragment {
+    private ListView lv_info;
     private NewsListViewAdapter adapter;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_community_desktopculture,container,false);
-        lv_deskTopCultrue= (ListView) view.findViewById(R.id.lv_deskTopCulture);
+        View view=inflater.inflate(R.layout.fragment_community_info,container,false);
 
-        /**先从数据库中获取数据，在数组中存放数据**/
+        lv_info= (ListView) view.findViewById(R.id.lv_info);
 
         BmobQuery<News> query=new BmobQuery<News>();
         query.setLimit(50);
         query.order("-createdAt");
-        query.addWhereEqualTo("messageType","桌面文化");
+        query.addWhereEqualTo("messageType","资讯");
         query.findObjects(getActivity(), new FindListener<News>() {
             @Override
             public void onSuccess(List<News> list) {
@@ -57,16 +54,14 @@ public class DeskTopCultrueFragment extends BaseFragment {
                 }
 
                 adapter=new NewsListViewAdapter(getActivity(),listItem);
-                lv_deskTopCultrue.setAdapter(adapter);
+                lv_info.setAdapter(adapter);
             }
 
             @Override
             public void onError(int i, String s) {
-                Log.e("DeskTopCultrueFragment", "查询数据失败:"+s);
+                Log.e("InfoFragment", "查询数据失败:"+s);
             }
         });
-
-
         return view;
 
     }

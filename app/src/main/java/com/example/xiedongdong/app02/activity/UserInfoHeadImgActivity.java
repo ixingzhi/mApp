@@ -316,7 +316,7 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
             Bitmap photo = extras.getParcelable("data");
             img_headImg.setImageBitmap(photo);
 
-            //新建文件夹 先选好路径 再调用mkdir函数 现在是根目录下面的mApp文件夹
+            //新建文件夹 先选好路径 再调用mkdir函数 现在是根目录下面的Geek文件夹
             File nf = new File(Environment.getExternalStorageDirectory()+"/Geek");
             nf.mkdir();
 

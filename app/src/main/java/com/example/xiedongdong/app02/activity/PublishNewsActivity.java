@@ -38,7 +38,7 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
     private EditText et_title;
     private EditText et_url;
     private EditText et_from;
-    private RadioButton rbtn_disassembly,rbtn_openBox,rbtn_walker,rbtn_deskTopCulture;
+    private RadioButton rbtn_info,rbtn_disassembly,rbtn_openBox,rbtn_walker,rbtn_media,rbtn_deskTopCulture;
     private Button btn_selectPicture;
     private ImageView img_title;
 
@@ -67,13 +67,18 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
     private void initView() {
         tv_back=(TextView)findViewById(R.id.tv_back);
         tv_publish=(TextView)findViewById(R.id.tv_publish);
+
         et_title=(EditText)findViewById(R.id.et_title);
         et_url=(EditText)findViewById(R.id.et_url);
         et_from=(EditText)findViewById(R.id.et_from);
+
+        rbtn_info= (RadioButton) findViewById(R.id.rbtn_info);
         rbtn_disassembly=(RadioButton) findViewById(R.id.rbtn_disassembly);
         rbtn_openBox=(RadioButton) findViewById(R.id.rbtn_openBox);
         rbtn_walker=(RadioButton) findViewById(R.id.rbtn_walker);
+        rbtn_media=(RadioButton)findViewById(R.id.rbtn_media);
         rbtn_deskTopCulture=(RadioButton) findViewById(R.id.rbtn_deskTopCulture);
+
         btn_selectPicture=(Button)findViewById(R.id.btn_selectPicture);
         img_title=(ImageView)findViewById(R.id.img_title);
 
@@ -246,8 +251,8 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
             showToast("来自不能大于14个字符");
             return false;
         }
-        if(!rbtn_disassembly.isChecked() && !rbtn_openBox.isChecked() && !rbtn_walker.isChecked() &&
-                !rbtn_deskTopCulture.isChecked()){
+        if(!rbtn_info.isChecked() && !rbtn_disassembly.isChecked() && !rbtn_openBox.isChecked() && !rbtn_walker.isChecked() &&
+               !rbtn_media.isChecked() && !rbtn_deskTopCulture.isChecked()){
             showToast("没有选择分类");
             return false;
         }
@@ -265,6 +270,9 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
         final String txt_from=et_from.getText().toString().trim();
 
         String txt_messageType=null;
+        if(rbtn_info.isChecked()){
+            txt_messageType=rbtn_info.getText().toString().trim();
+        }
         if(rbtn_disassembly.isChecked()){
             txt_messageType=rbtn_disassembly.getText().toString().trim();
         }
@@ -273,6 +281,9 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
         }
         if(rbtn_walker.isChecked()){
             txt_messageType=rbtn_walker.getText().toString().trim();
+        }
+        if(rbtn_media.isChecked()){
+            txt_messageType=rbtn_media.getText().toString().trim();
         }
         if(rbtn_deskTopCulture.isChecked()){
             txt_messageType=rbtn_deskTopCulture.getText().toString().trim();
@@ -311,7 +322,7 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
 
             @Override
             public void onFailure(int i, String s) {
-
+                showToast("没有选择图片"+s);
             }
         });
 

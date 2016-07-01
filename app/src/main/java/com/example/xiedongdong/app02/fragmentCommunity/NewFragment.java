@@ -13,9 +13,7 @@ import com.example.xiedongdong.app02.Base.BaseFragment;
 import com.example.xiedongdong.app02.R;
 import com.example.xiedongdong.app02.adapter.NewsListViewAdapter;
 import com.example.xiedongdong.app02.bean.News;
-import com.example.xiedongdong.app02.util.BitmapFileNet;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,13 +26,8 @@ import cn.bmob.v3.listener.FindListener;
  */
 public class NewFragment extends BaseFragment {
 
-    public static final String KEY_TITLE="title";
-    public static final String KEY_FROM="fromUrl";
-    public static final String KEY_HEADIMG="headImg";
-    public static final String KEY_TIME="time";
-    public static final String KEY_TITLEIMG="titleImg";
 
-    private ListView listView;
+    private ListView lv_new;
     private NewsListViewAdapter adapter;
 
     @Nullable
@@ -42,7 +35,7 @@ public class NewFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_community_new,container,false);
 
-        listView= (ListView) view.findViewById(R.id.lv_new);
+        lv_new= (ListView) view.findViewById(R.id.lv_new);
 
         /**先从数据库中获取数据，在数组中存放数据**/
 
@@ -58,15 +51,15 @@ public class NewFragment extends BaseFragment {
                     /**定义一个动态数组**/
 
                     HashMap<String, String> map = new HashMap<String, String>();
-                    map.put(KEY_TITLE, newsList.getTitle());
-                    map.put(KEY_FROM, newsList.getFrom());
-                    map.put(KEY_TIME,newsList.getCreatedAt());
+                    map.put(NewsListViewAdapter.KEY_TITLE, newsList.getTitle());
+                    map.put(NewsListViewAdapter.KEY_FROM, newsList.getFrom());
+                    map.put(NewsListViewAdapter.KEY_TIME,newsList.getCreatedAt());
 
                     listItem.add(map);
                 }
 
                 adapter=new NewsListViewAdapter(getActivity(),listItem);
-                listView.setAdapter(adapter);
+                lv_new.setAdapter(adapter);
             }
 
             @Override

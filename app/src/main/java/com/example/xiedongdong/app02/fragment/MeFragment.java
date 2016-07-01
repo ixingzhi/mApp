@@ -23,11 +23,14 @@ import com.example.xiedongdong.app02.activity.AboutSoftActivity;
 import com.example.xiedongdong.app02.activity.ChangePasswordActivity;
 import com.example.xiedongdong.app02.activity.LoginActivity;
 import com.example.xiedongdong.app02.activity.MoreFunctionActivity;
+import com.example.xiedongdong.app02.activity.MyPostsActivity;
 import com.example.xiedongdong.app02.activity.UserInfo;
 import com.example.xiedongdong.app02.bean.User;
 import com.example.xiedongdong.app02.util.BitmapFileNet;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import cn.bmob.v3.BmobUser;
@@ -102,7 +105,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 }
                 break;
             case R.id.ll_myPosts:
-                showToast("正在开发中");
+                startActivity(new Intent(getActivity(), MyPostsActivity.class));
                 break;
             case R.id.ll_myCollect:
                 showToast("正在开发中");
@@ -175,6 +178,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                             @Override
                             public void run() {
                                 img_headImg.setImageBitmap(bitmap);
+                                //获取到头像后保存到本地
+                                saveHeadImgToCache(bitmap);
                             }
                         });
                     } catch (IOException e) {
@@ -184,6 +189,35 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
             }).start();
         }
 
+    }
+
+    //从网络获取到的图片保存到本地，方便下次获取头像
+    private void saveHeadImgToCache(Bitmap  bitmap) {
+
+        //新建文件夹 先选好路径 再调用mkdir函数 现在是根目录下面的Geek文件夹
+        File nf = new File(Environment.getExternalStorageDirectory()+"/Geek");
+        nf.mkdir();
+
+        //在根目录下面的Geek文件夹下 创建head_image.jpg文件
+        File f = new File(PATH);
+
+        FileOutputStream out = null;
+        try {
+
+            //打开输出流 将图片数据填入文件中
+            out = new FileOutputStream(f);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+
+            try {
+                out.flush();
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -1,46 +1,45 @@
-package com.example.xiedongdong.app02.fragmentCommunity;
+package com.example.xiedongdong.app02.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.example.xiedongdong.app02.Base.BaseFragment;
+import com.example.xiedongdong.app02.Base.BaseActivity;
 import com.example.xiedongdong.app02.R;
 import com.example.xiedongdong.app02.adapter.NewsListViewAdapter;
 import com.example.xiedongdong.app02.bean.News;
+import com.example.xiedongdong.app02.bean.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
 
 /**
- * Created by xiedongdong on 16/6/30.
+ * Created by xiedongdong on 16/7/1.
  */
-public class DeskTopCultrueFragment extends BaseFragment {
-
-
-    private ListView lv_deskTopCultrue;
+public class MyPostsActivity extends BaseActivity {
+    private ListView lv_myPosts;
     private NewsListViewAdapter adapter;
-    @Nullable
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_community_desktopculture,container,false);
-        lv_deskTopCultrue= (ListView) view.findViewById(R.id.lv_deskTopCulture);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.me_myposts);
+
+        lv_myPosts= (ListView) findViewById(R.id.lv_myPosts);
 
         /**先从数据库中获取数据，在数组中存放数据**/
+        User user= BmobUser.getCurrentUser(MyPostsActivity.this,User.class);
 
         BmobQuery<News> query=new BmobQuery<News>();
         query.setLimit(50);
         query.order("-createdAt");
-        query.addWhereEqualTo("messageType","桌面文化");
-        query.findObjects(getActivity(), new FindListener<News>() {
+        query.addWhereEqualTo("id",user.getObjectId());  //获得当前用户id与News数据库中的Id相同
+        query.findObjects(MyPostsActivity.this, new FindListener<News>() {
             @Override
             public void onSuccess(List<News> list) {
                 ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
@@ -56,18 +55,15 @@ public class DeskTopCultrueFragment extends BaseFragment {
                     listItem.add(map);
                 }
 
-                adapter=new NewsListViewAdapter(getActivity(),listItem);
-                lv_deskTopCultrue.setAdapter(adapter);
+                adapter=new NewsListViewAdapter(MyPostsActivity.this,listItem);
+                lv_myPosts.setAdapter(adapter);
             }
 
             @Override
             public void onError(int i, String s) {
-                Log.e("DeskTopCultrueFragment", "查询数据失败:"+s);
+                Log.e("NewFragment", "查询数据失败:"+s);
             }
         });
-
-
-        return view;
 
     }
 }
