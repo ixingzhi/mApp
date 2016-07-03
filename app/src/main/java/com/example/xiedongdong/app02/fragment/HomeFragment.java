@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.xiedongdong.app02.Base.BaseFragment;
-import com.example.xiedongdong.app02.activity.WebViewTest;
+import com.example.xiedongdong.app02.activity.NewsWebView;
 import com.example.xiedongdong.app02.adapter.ImagePagerAdapter;
 import com.example.xiedongdong.app02.adapter.ImageHandler;
 import com.example.xiedongdong.app02.R;
@@ -160,7 +160,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
     public void throwUrlOpenWeb(String url){
         Intent intent=new Intent();
         intent.putExtra("Url",url);
-        intent.setClass(getActivity(),WebViewTest.class);
+        intent.setClass(getActivity(),NewsWebView.class);
         startActivity(intent);
 
     }

@@ -169,7 +169,7 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
                 }else{
                     fragmentTransaction.show(tab03);
                 }
-                tv_info.setTextColor(Color.RED);
+                tv_evaluation.setTextColor(Color.RED);
                 pagerNum=3;
                 break;
             case 4:

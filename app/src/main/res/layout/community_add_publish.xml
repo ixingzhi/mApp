@@ -10,7 +10,7 @@
 
         <ImageView
             android:layout_width="20dp"
-            android:layout_height="18dp"
+            android:layout_height="16dp"
             android:layout_centerVertical="true"
             android:src="@mipmap/icon_back"/>
 
@@ -174,37 +174,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:paddingLeft="10dp">
+        android:paddingLeft="10dp"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <RadioButton
+            android:id="@+id/rbtn_info"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/rbtn_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="23dp"
-                android:text="资讯"/>
-            <RadioButton
-                android:id="@+id/rbtn_evaluation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="23dp"
-                android:text="评测"/>
-            <RadioButton
-                android:id="@+id/rbtn_disassembly"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="23dp"
-                android:text="拆解"/>
-            <RadioButton
-                android:id="@+id/rbtn_openBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="开箱"/>
-        </LinearLayout>
+            android:layout_marginRight="23dp"
+            android:text="资讯"/>
+        <RadioButton
+            android:id="@+id/rbtn_evaluation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="23dp"
+            android:text="评测"/>
+        <RadioButton
+            android:id="@+id/rbtn_disassembly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="23dp"
+            android:text="拆解"/>
+        <RadioButton
+            android:id="@+id/rbtn_openBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开箱"/>
 
     </RadioGroup>
 

@@ -44,6 +44,9 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
     private Button btn_selectPicture;
     private ImageView img_title;
 
+    //上传图片到数据库
+    BmobFile imgTitleFile=null;
+
     private Bitmap photo=null;
 
     /* 请求识别码 */
@@ -130,7 +133,7 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
             case R.id.rbtn_disassembly:
                 grp02.clearCheck();
                 break;
-            case R.id.lv_openBox:
+            case R.id.rbtn_openBox:
                 grp02.clearCheck();
                 break;
             case R.id.rbtn_walker:
@@ -195,6 +198,23 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
             default:
                 break;
         }
+
+        //选择上传配图
+
+        imgTitleFile=new BmobFile(new File(PATH));
+
+        imgTitleFile.upload(PublishNewsActivity.this, new UploadFileListener() {
+            @Override
+            public void onSuccess() {
+                showToast("上传图片成功");
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                showToast("上传图片失败："+s);
+            }
+        });
+
 
         super.onActivityResult(requestCode, resultCode, intent);
     }
@@ -262,6 +282,7 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
+
     //检查输入信息来源
     private boolean checkFrom() {
         String txt_title=et_title.getText().toString().trim();
@@ -288,7 +309,7 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
             showToast("来自不能大于14个字符");
             return false;
         }
-        if(!rbtn_info.isChecked() && !rbtn_disassembly.isChecked() && !rbtn_openBox.isChecked() && !rbtn_walker.isChecked() &&
+        if(!rbtn_info.isChecked() && !rbtn_evaluation.isChecked() && !rbtn_disassembly.isChecked() && !rbtn_openBox.isChecked() && !rbtn_walker.isChecked() &&
                !rbtn_media.isChecked() && !rbtn_deskTopCulture.isChecked()){
             showToast("没有选择分类");
             return false;
@@ -310,6 +331,9 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
         if(rbtn_info.isChecked()){
             txt_messageType=rbtn_info.getText().toString().trim();
         }
+        if(rbtn_evaluation.isChecked()){
+            txt_messageType=rbtn_evaluation.getText().toString().trim();
+        }
         if(rbtn_disassembly.isChecked()){
             txt_messageType=rbtn_disassembly.getText().toString().trim();
         }
@@ -326,47 +350,33 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
             txt_messageType=rbtn_deskTopCulture.getText().toString().trim();
         }
 
-
-
-        final BmobFile imgTitleFile=new BmobFile(new File(PATH));
+        //上传信息至数据库
         final String finalTxt_messageType = txt_messageType;
-        imgTitleFile.upload(this, new UploadFileListener() {
+        News news=new News();
+        news.setId(txt_objectId);
+        news.setTitle(txt_title);
+        news.setUrl(txt_url);
+        news.setFrom(txt_from);
+        news.setMessageType(finalTxt_messageType);
+
+        if(imgTitleFile==null){
+
+        }else{
+            news.setImgTitleUrl(imgTitleFile.getFileUrl(PublishNewsActivity.this));
+        }
+
+        news.save(PublishNewsActivity.this, new SaveListener() {
             @Override
             public void onSuccess() {
-
-
-                News news=new News();
-                news.setId(txt_objectId);
-                news.setTitle(txt_title);
-                news.setUrl(txt_url);
-                news.setFrom(txt_from);
-                news.setMessageType(finalTxt_messageType);
-                news.setImgTitleUrl(imgTitleFile.getFileUrl(PublishNewsActivity.this));
-                news.save(PublishNewsActivity.this, new SaveListener() {
-                    @Override
-                    public void onSuccess() {
-                        showToast("发送消息成功");
-                        finish();
-                    }
-
-                    @Override
-                    public void onFailure(int i, String s) {
-                        showToast("发送消息失败:"+s);
-                    }
-                });
-
+                showToast("发送消息成功");
+                finish();
             }
 
             @Override
             public void onFailure(int i, String s) {
-                showToast("没有选择图片"+s);
+                showToast("发送消息失败:"+s);
             }
         });
-
-
-
-
-
 
     }
 }

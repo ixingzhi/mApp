@@ -76,7 +76,7 @@ public class MyPostsActivity extends BaseActivity implements View.OnClickListene
                         Log.e("MyPostsActivity",url);
                         Intent intent=new Intent();
                         intent.putExtra("Url",url);
-                        intent.setClass(MyPostsActivity.this,WebViewTest.class);
+                        intent.setClass(MyPostsActivity.this,NewsWebView.class);
                         startActivity(intent);
                     }
                 });

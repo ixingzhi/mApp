@@ -1,7 +1,6 @@
 package com.example.xiedongdong.app02.fragmentCommunity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -13,14 +12,13 @@ import android.widget.ListView;
 
 import com.example.xiedongdong.app02.Base.BaseFragment;
 import com.example.xiedongdong.app02.R;
-import com.example.xiedongdong.app02.activity.WebViewTest;
+import com.example.xiedongdong.app02.activity.NewsWebView;
 import com.example.xiedongdong.app02.adapter.NewsListViewAdapter;
 import com.example.xiedongdong.app02.bean.News;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
@@ -73,7 +71,7 @@ public class NewFragment extends BaseFragment {
 
                         Intent intent=new Intent();
                         intent.putExtra("Url",url);
-                        intent.setClass(getActivity(),WebViewTest.class);
+                        intent.setClass(getActivity(),NewsWebView.class);
                         startActivity(intent);
                     }
                 });

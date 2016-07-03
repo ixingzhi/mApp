@@ -12,7 +12,7 @@ import android.widget.ListView;
 
 import com.example.xiedongdong.app02.Base.BaseFragment;
 import com.example.xiedongdong.app02.R;
-import com.example.xiedongdong.app02.activity.WebViewTest;
+import com.example.xiedongdong.app02.activity.NewsWebView;
 import com.example.xiedongdong.app02.adapter.NewsListViewAdapter;
 import com.example.xiedongdong.app02.bean.News;
 
@@ -71,7 +71,7 @@ public class DeskTopCultrueFragment extends BaseFragment {
 
                         Intent intent=new Intent();
                         intent.putExtra("Url",url);
-                        intent.setClass(getActivity(),WebViewTest.class);
+                        intent.setClass(getActivity(),NewsWebView.class);
                         startActivity(intent);
                     }
                 });

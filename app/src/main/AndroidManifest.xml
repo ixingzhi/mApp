@@ -45,7 +45,7 @@
 
         <activity android:name=".activity.MoreFunctionActivity"/>
 
-        <activity android:name=".activity.WebViewTest"/>
+        <activity android:name=".activity.NewsWebView"/>
 
         <activity android:name=".activity.TermsActivity"/>
 
