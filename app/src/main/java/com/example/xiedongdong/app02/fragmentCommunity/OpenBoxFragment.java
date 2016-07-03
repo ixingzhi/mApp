@@ -1,15 +1,18 @@
 package com.example.xiedongdong.app02.fragmentCommunity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.xiedongdong.app02.Base.BaseFragment;
 import com.example.xiedongdong.app02.R;
+import com.example.xiedongdong.app02.activity.WebViewTest;
 import com.example.xiedongdong.app02.adapter.NewsListViewAdapter;
 import com.example.xiedongdong.app02.bean.News;
 
@@ -42,7 +45,7 @@ public class OpenBoxFragment extends BaseFragment {
         query.findObjects(getActivity(), new FindListener<News>() {
             @Override
             public void onSuccess(List<News> list) {
-                ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
+                final ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
 
                 for (final News newsList : list) {
                     /**定义一个动态数组**/
@@ -51,12 +54,26 @@ public class OpenBoxFragment extends BaseFragment {
                     map.put(NewsListViewAdapter.KEY_TITLE, newsList.getTitle());
                     map.put(NewsListViewAdapter.KEY_FROM, newsList.getFrom());
                     map.put(NewsListViewAdapter.KEY_TIME,newsList.getCreatedAt());
+                    map.put(NewsListViewAdapter.KEY_URL,newsList.getUrl());
 
                     listItem.add(map);
                 }
 
                 adapter=new NewsListViewAdapter(getActivity(),listItem);
                 lv_openBox.setAdapter(adapter);
+
+                lv_openBox.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int postion, long l) {
+
+                        String url=listItem.get(postion).get(NewsListViewAdapter.KEY_URL);
+
+                        Intent intent=new Intent();
+                        intent.putExtra("Url",url);
+                        intent.setClass(getActivity(),WebViewTest.class);
+                        startActivity(intent);
+                    }
+                });
             }
 
             @Override

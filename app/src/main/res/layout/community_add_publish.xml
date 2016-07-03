@@ -19,7 +19,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="18dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
             android:text="社区"
             android:textSize="18dp"
             android:textColor="#FFFFFF"/>
@@ -41,6 +42,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:paddingRight="10dp"
+            android:paddingLeft="10dp"
             android:text="发布"
             android:textSize="18dp"
             android:textColor="#FFFFFF"/>
@@ -168,67 +170,71 @@
     </LinearLayout>
 
     <RadioGroup
+        android:id="@+id/grp01"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:paddingLeft="10dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/rbtn_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="25dp"
+                android:layout_marginRight="23dp"
                 android:text="资讯"/>
+            <RadioButton
+                android:id="@+id/rbtn_evaluation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="23dp"
+                android:text="评测"/>
             <RadioButton
                 android:id="@+id/rbtn_disassembly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/rbtn_info"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
+                android:layout_marginRight="23dp"
                 android:text="拆解"/>
             <RadioButton
                 android:id="@+id/rbtn_openBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_toRightOf="@id/rbtn_disassembly"
-                android:layout_weight="1"
                 android:text="开箱"/>
+        </LinearLayout>
 
-            <RadioButton
-                android:id="@+id/rbtn_walker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="25dp"
-                android:layout_below="@id/rbtn_info"
-                android:text="玩客"/>
+    </RadioGroup>
 
-            <RadioButton
-                android:id="@+id/rbtn_media"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
-                android:layout_toRightOf="@id/rbtn_walker"
-                android:layout_below="@id/rbtn_disassembly"
-                android:text="媒体"/>
+    <RadioGroup
+        android:id="@+id/grp02"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp">
 
-            <RadioButton
-                android:id="@+id/rbtn_deskTopCulture"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_below="@id/rbtn_openBox"
-                android:layout_toRightOf="@id/rbtn_media"
-                android:text="桌面文化"/>
+        <RadioButton
+            android:id="@+id/rbtn_walker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="23dp"
+            android:text="玩客"/>
 
+        <RadioButton
+            android:id="@+id/rbtn_media"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="23dp"
+            android:text="媒体"/>
 
-        </RelativeLayout>
+        <RadioButton
+            android:id="@+id/rbtn_deskTopCulture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="桌面文化"/>
 
     </RadioGroup>
 

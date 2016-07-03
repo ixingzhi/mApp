@@ -105,7 +105,11 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 }
                 break;
             case R.id.ll_myPosts:
-                startActivity(new Intent(getActivity(), MyPostsActivity.class));
+                if(isLogin()){
+                    showToast("未登录");
+                }else{
+                    startActivity(new Intent(getActivity(), MyPostsActivity.class));
+                }
                 break;
             case R.id.ll_myCollect:
                 showToast("正在开发中");

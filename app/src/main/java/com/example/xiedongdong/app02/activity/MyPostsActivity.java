@@ -1,8 +1,12 @@
 package com.example.xiedongdong.app02.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.xiedongdong.app02.Base.BaseActivity;
 import com.example.xiedongdong.app02.R;
@@ -21,9 +25,11 @@ import cn.bmob.v3.listener.FindListener;
 /**
  * Created by xiedongdong on 16/7/1.
  */
-public class MyPostsActivity extends BaseActivity {
+public class MyPostsActivity extends BaseActivity implements View.OnClickListener{
     private ListView lv_myPosts;
     private NewsListViewAdapter adapter;
+
+    private TextView tv_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +37,8 @@ public class MyPostsActivity extends BaseActivity {
         setContentView(R.layout.me_myposts);
 
         lv_myPosts= (ListView) findViewById(R.id.lv_myPosts);
+        tv_back= (TextView) findViewById(R.id.tv_back);
+        tv_back.setOnClickListener(this);
 
         /**先从数据库中获取数据，在数组中存放数据**/
         User user= BmobUser.getCurrentUser(MyPostsActivity.this,User.class);
@@ -42,7 +50,7 @@ public class MyPostsActivity extends BaseActivity {
         query.findObjects(MyPostsActivity.this, new FindListener<News>() {
             @Override
             public void onSuccess(List<News> list) {
-                ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
+                final ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
 
                 for (final News newsList : list) {
                     /**定义一个动态数组**/
@@ -51,12 +59,27 @@ public class MyPostsActivity extends BaseActivity {
                     map.put(NewsListViewAdapter.KEY_TITLE, newsList.getTitle());
                     map.put(NewsListViewAdapter.KEY_FROM, newsList.getFrom());
                     map.put(NewsListViewAdapter.KEY_TIME,newsList.getCreatedAt());
+                    map.put(NewsListViewAdapter.KEY_URL,newsList.getUrl());
 
                     listItem.add(map);
                 }
 
                 adapter=new NewsListViewAdapter(MyPostsActivity.this,listItem);
                 lv_myPosts.setAdapter(adapter);
+
+                //listview点击事件
+                lv_myPosts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int postion, long l) {
+
+                        String url=listItem.get(postion).get(NewsListViewAdapter.KEY_URL);
+                        Log.e("MyPostsActivity",url);
+                        Intent intent=new Intent();
+                        intent.putExtra("Url",url);
+                        intent.setClass(MyPostsActivity.this,WebViewTest.class);
+                        startActivity(intent);
+                    }
+                });
             }
 
             @Override
@@ -64,6 +87,18 @@ public class MyPostsActivity extends BaseActivity {
                 Log.e("NewFragment", "查询数据失败:"+s);
             }
         });
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.tv_back:
+                finish();
+                break;
+            default:
+                break;
+        }
 
     }
 }

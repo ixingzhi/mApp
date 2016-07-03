@@ -1,5 +1,6 @@
 package com.example.xiedongdong.app02.fragmentCommunity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,16 +8,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.xiedongdong.app02.Base.BaseFragment;
 import com.example.xiedongdong.app02.R;
+import com.example.xiedongdong.app02.activity.WebViewTest;
 import com.example.xiedongdong.app02.adapter.NewsListViewAdapter;
 import com.example.xiedongdong.app02.bean.News;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
@@ -45,21 +49,35 @@ public class NewFragment extends BaseFragment {
         query.findObjects(getActivity(), new FindListener<News>() {
             @Override
             public void onSuccess(List<News> list) {
-                ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
-
+                Log.e("NewFragment","查询数据成功");
+                final ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
                 for (final News newsList : list) {
                     /**定义一个动态数组**/
 
-                    HashMap<String, String> map = new HashMap<String, String>();
+                    final HashMap<String, String> map = new HashMap<String, String>();
                     map.put(NewsListViewAdapter.KEY_TITLE, newsList.getTitle());
                     map.put(NewsListViewAdapter.KEY_FROM, newsList.getFrom());
                     map.put(NewsListViewAdapter.KEY_TIME,newsList.getCreatedAt());
-
+                    map.put(NewsListViewAdapter.KEY_URL,newsList.getUrl());
                     listItem.add(map);
                 }
 
                 adapter=new NewsListViewAdapter(getActivity(),listItem);
                 lv_new.setAdapter(adapter);
+
+                lv_new.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int postion, long l) {
+
+                        String url=listItem.get(postion).get(NewsListViewAdapter.KEY_URL);
+
+                        Intent intent=new Intent();
+                        intent.putExtra("Url",url);
+                        intent.setClass(getActivity(),WebViewTest.class);
+                        startActivity(intent);
+                    }
+                });
+
             }
 
             @Override
@@ -67,6 +85,7 @@ public class NewFragment extends BaseFragment {
                 Log.e("NewFragment", "查询数据失败:"+s);
             }
         });
+
 
         return view;
 

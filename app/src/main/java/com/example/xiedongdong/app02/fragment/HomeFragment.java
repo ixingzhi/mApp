@@ -147,12 +147,23 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.iv_chuizi:
-                startActivity(new Intent(getActivity(),WebViewTest.class));
+                String url="http://www.zealer.com";
+                throwUrlOpenWeb(url);
                 break;
             default:
                 break;
         }
 
+    }
+
+    //通过网页链接打开相应的网页
+    public void throwUrlOpenWeb(String url){
+        Intent intent=new Intent();
+        intent.putExtra("Url",url);
+        intent.setClass(getActivity(),WebViewTest.class);
+        startActivity(intent);
 
     }
+
+
 }

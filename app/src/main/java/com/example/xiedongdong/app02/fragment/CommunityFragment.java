@@ -19,6 +19,7 @@ import com.example.xiedongdong.app02.activity.PublishNewsActivity;
 import com.example.xiedongdong.app02.bean.User;
 import com.example.xiedongdong.app02.fragmentCommunity.DeskTopCultrueFragment;
 import com.example.xiedongdong.app02.fragmentCommunity.DisassemblyFragment;
+import com.example.xiedongdong.app02.fragmentCommunity.EvaluationFragment;
 import com.example.xiedongdong.app02.fragmentCommunity.InfoFragment;
 import com.example.xiedongdong.app02.fragmentCommunity.MediaFragment;
 import com.example.xiedongdong.app02.fragmentCommunity.NewFragment;
@@ -34,6 +35,7 @@ import cn.bmob.v3.BmobUser;
 public class CommunityFragment extends BaseFragment implements View.OnClickListener{
     private ImageView img_btn_add;
     private TextView tv_new;
+    private TextView tv_evaluation;
     private TextView tv_info;
     private TextView tv_disassembly;
     private TextView tv_openBox;
@@ -48,6 +50,7 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
     private Fragment tab05;
     private Fragment tab06;
     private Fragment tab07;
+    private Fragment tab08;
 
     private int pagerNum=1;  //设置默认页码，恢复进入activity时用
 
@@ -60,6 +63,7 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
         img_btn_add = (ImageView) view.findViewById(R.id.img_btn_add);
         tv_new = (TextView) view.findViewById(R.id.tv_new);
         tv_info= (TextView) view.findViewById(R.id.tv_info);
+        tv_evaluation= (TextView) view.findViewById(R.id.tv_evaluation);
         tv_disassembly = (TextView) view.findViewById(R.id.tv_disassembly);
         tv_openBox = (TextView) view.findViewById(R.id.tv_openBox);
         tv_walker = (TextView) view.findViewById(R.id.tv_walker);
@@ -70,6 +74,7 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
         img_btn_add.setOnClickListener(this);
         tv_new.setOnClickListener(this);
         tv_info.setOnClickListener(this);
+        tv_evaluation.setOnClickListener(this);
         tv_disassembly.setOnClickListener(this);
         tv_openBox.setOnClickListener(this);
         tv_media.setOnClickListener(this);
@@ -99,25 +104,29 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
                 setDefaultTextColor();
                 onSelect(2);
                 break;
-            case R.id.tv_disassembly:
+            case R.id.tv_evaluation:
                 setDefaultTextColor();
                 onSelect(3);
                 break;
-            case R.id.tv_openBox:
+            case R.id.tv_disassembly:
                 setDefaultTextColor();
                 onSelect(4);
                 break;
-            case R.id.tv_walker:
+            case R.id.tv_openBox:
                 setDefaultTextColor();
                 onSelect(5);
                 break;
-            case R.id.tv_media:
+            case R.id.tv_walker:
                 setDefaultTextColor();
                 onSelect(6);
                 break;
-            case R.id.tv_deskTopCulture:
+            case R.id.tv_media:
                 setDefaultTextColor();
                 onSelect(7);
+                break;
+            case R.id.tv_deskTopCulture:
+                setDefaultTextColor();
+                onSelect(8);
                 break;
             default:
                 break;
@@ -155,53 +164,63 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
                 break;
             case 3:
                 if(tab03==null){
-                    tab03=new DisassemblyFragment();
+                    tab03=new EvaluationFragment();
                     fragmentTransaction.add(R.id.fl_content_news,tab03);
                 }else{
                     fragmentTransaction.show(tab03);
                 }
-                tv_disassembly.setTextColor(Color.RED);
-                pagerNum=2;
+                tv_info.setTextColor(Color.RED);
+                pagerNum=3;
                 break;
             case 4:
                 if(tab04==null){
-                    tab04=new OpenBoxFragment();
+                    tab04=new DisassemblyFragment();
                     fragmentTransaction.add(R.id.fl_content_news,tab04);
                 }else{
                     fragmentTransaction.show(tab04);
                 }
-                tv_openBox.setTextColor(Color.RED);
+                tv_disassembly.setTextColor(Color.RED);
                 pagerNum=4;
                 break;
             case 5:
                 if(tab05==null){
-                    tab05=new WalkerFragment();
+                    tab05=new OpenBoxFragment();
                     fragmentTransaction.add(R.id.fl_content_news,tab05);
                 }else{
                     fragmentTransaction.show(tab05);
                 }
-                tv_walker.setTextColor(Color.RED);
+                tv_openBox.setTextColor(Color.RED);
                 pagerNum=5;
                 break;
             case 6:
                 if(tab06==null){
-                    tab06=new MediaFragment();
+                    tab06=new WalkerFragment();
                     fragmentTransaction.add(R.id.fl_content_news,tab06);
                 }else{
                     fragmentTransaction.show(tab06);
                 }
-                tv_media.setTextColor(Color.RED);
+                tv_walker.setTextColor(Color.RED);
                 pagerNum=6;
                 break;
             case 7:
                 if(tab07==null){
-                    tab07=new DeskTopCultrueFragment();
+                    tab07=new MediaFragment();
                     fragmentTransaction.add(R.id.fl_content_news,tab07);
                 }else{
                     fragmentTransaction.show(tab07);
                 }
-                tv_deskTopCulture.setTextColor(Color.RED);
+                tv_media.setTextColor(Color.RED);
                 pagerNum=7;
+                break;
+            case 8:
+                if(tab08==null){
+                    tab08=new DeskTopCultrueFragment();
+                    fragmentTransaction.add(R.id.fl_content_news,tab08);
+                }else{
+                    fragmentTransaction.show(tab08);
+                }
+                tv_deskTopCulture.setTextColor(Color.RED);
+                pagerNum=8;
                 break;
 
             default:
@@ -233,6 +252,15 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
         if(tab05!=null){
             fragmentTransaction.hide(tab05);
         }
+        if(tab06!=null){
+            fragmentTransaction.hide(tab06);
+        }
+        if(tab07!=null){
+            fragmentTransaction.hide(tab07);
+        }
+        if(tab08!=null){
+            fragmentTransaction.hide(tab08);
+        }
 
     }
 
@@ -240,6 +268,7 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
     private void setDefaultTextColor() {
         tv_new.setTextColor(Color.GRAY);
         tv_info.setTextColor(Color.GRAY);
+        tv_evaluation.setTextColor(Color.GRAY);
         tv_disassembly.setTextColor(Color.GRAY);
         tv_openBox.setTextColor(Color.GRAY);
         tv_walker.setTextColor(Color.GRAY);

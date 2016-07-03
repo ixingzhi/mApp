@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.xiedongdong.app02.Base.BaseActivity;
@@ -38,7 +39,8 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
     private EditText et_title;
     private EditText et_url;
     private EditText et_from;
-    private RadioButton rbtn_info,rbtn_disassembly,rbtn_openBox,rbtn_walker,rbtn_media,rbtn_deskTopCulture;
+    private RadioGroup grp01,grp02;
+    private RadioButton rbtn_info,rbtn_evaluation,rbtn_disassembly,rbtn_openBox,rbtn_walker,rbtn_media,rbtn_deskTopCulture;
     private Button btn_selectPicture;
     private ImageView img_title;
 
@@ -72,7 +74,12 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
         et_url=(EditText)findViewById(R.id.et_url);
         et_from=(EditText)findViewById(R.id.et_from);
 
+        grp01=(RadioGroup)findViewById(R.id.grp01);
+        grp02=(RadioGroup)findViewById(R.id.grp02);
+
+
         rbtn_info= (RadioButton) findViewById(R.id.rbtn_info);
+        rbtn_evaluation=(RadioButton)findViewById(R.id.rbtn_evaluation);
         rbtn_disassembly=(RadioButton) findViewById(R.id.rbtn_disassembly);
         rbtn_openBox=(RadioButton) findViewById(R.id.rbtn_openBox);
         rbtn_walker=(RadioButton) findViewById(R.id.rbtn_walker);
@@ -89,6 +96,14 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
         tv_publish.setOnClickListener(this);
         btn_selectPicture.setOnClickListener(this);
 
+        rbtn_info.setOnClickListener(this);
+        rbtn_evaluation.setOnClickListener(this);
+        rbtn_disassembly.setOnClickListener(this);
+        rbtn_openBox.setOnClickListener(this);
+        rbtn_walker.setOnClickListener(this);
+        rbtn_media.setOnClickListener(this);
+        rbtn_deskTopCulture.setOnClickListener(this);
+
     }
 
     @Override
@@ -104,6 +119,28 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
                 if(checkFrom()){
                     publishNews();
                 }
+                break;
+            /**一下选择为RadioButton避免多选解决方案**/
+            case R.id.rbtn_info:
+                grp02.clearCheck();
+                break;
+            case R.id.rbtn_evaluation:
+                grp02.clearCheck();
+                break;
+            case R.id.rbtn_disassembly:
+                grp02.clearCheck();
+                break;
+            case R.id.lv_openBox:
+                grp02.clearCheck();
+                break;
+            case R.id.rbtn_walker:
+                grp01.clearCheck();
+                break;
+            case R.id.rbtn_media:
+                grp01.clearCheck();
+                break;
+            case R.id.rbtn_deskTopCulture:
+                grp01.clearCheck();
                 break;
             default:
                 break;
@@ -188,7 +225,7 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
     }
 
     /**
-     * 提取保存裁剪之后的图片数据，并设置头像部分的View,并上传头像至数据库中
+     * 提取保存裁剪之后的图片数据
      */
     private void setImageToHeadView(Intent intent) {
         Bundle extras = intent.getExtras();

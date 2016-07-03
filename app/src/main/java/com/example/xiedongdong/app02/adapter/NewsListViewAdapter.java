@@ -2,6 +2,7 @@ package com.example.xiedongdong.app02.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.xiedongdong.app02.R;
 
@@ -20,11 +22,12 @@ import java.util.HashMap;
  */
 public class NewsListViewAdapter extends BaseAdapter {
 
-    public static final String KEY_TITLE="title";
-    public static final String KEY_FROM="fromUrl";
-    public static final String KEY_HEADIMG="headImg";
-    public static final String KEY_TIME="time";
-    public static final String KEY_TITLEIMG="titleImg";
+    public static final String KEY_TITLE="title";   //标题
+    public static final String KEY_FROM="fromUrl";   //文章来自哪里
+    public static final String KEY_HEADIMG="headImg"; //用户头像
+    public static final String KEY_TIME="time";   //时间
+    public static final String KEY_TITLEIMG="titleImg";  //文章配图
+    public static final String KEY_URL="url";  //文章链接
 
     private Activity activity;
     private static LayoutInflater inflater=null;
