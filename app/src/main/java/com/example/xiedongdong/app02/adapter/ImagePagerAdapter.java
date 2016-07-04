@@ -2,9 +2,11 @@ package com.example.xiedongdong.app02.adapter;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,8 +73,34 @@ public class ImagePagerAdapter extends PagerAdapter{
             parent.removeView(view);
         }
 
+        final int finalPosition = position;
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch(finalPosition){
+                    case 0:
+                        Log.e("ImagePagerAdapter",""+finalPosition);
+                        break;
+                    case 1:
+                        Log.e("ImagePagerAdapter",""+finalPosition);
+                        break;
+                    case 2:
+                        Log.e("ImagePagerAdapter",""+finalPosition);
+                        break;
+                    case 3:
+                        Log.e("ImagePagerAdapter",""+finalPosition);
+                        break;
+                    default:
+                        break;
+
+                }
+            }
+        });
+
         container.addView(view);
         return view;
     }
+
+
 
 }

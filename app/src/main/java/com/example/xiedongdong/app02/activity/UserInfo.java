@@ -28,6 +28,7 @@ import cn.bmob.v3.BmobUser;
 public class UserInfo extends BaseActivity implements View.OnClickListener{
     private final String PATH= Environment.getExternalStorageDirectory()+"/Geek/head_image.jpg" ;
 
+    private TextView tv_back;
     private ImageView img_userInfo_head;
     private TextView tv_userInfo_name,tv_userInfo_sex,tv_userInfo_phoneNum,
             tv_userInfo_email,tv_userInfo_location,tv_userInfo_autograph;
@@ -47,6 +48,8 @@ public class UserInfo extends BaseActivity implements View.OnClickListener{
     }
 
     private void initView() {
+        tv_back=(TextView)findViewById(R.id.tv_back);
+
         img_userInfo_head=(ImageView)findViewById(R.id.img_userInfo_head);
 
         tv_userInfo_name=(TextView)findViewById(R.id.tv_userInfo_name);
@@ -67,6 +70,7 @@ public class UserInfo extends BaseActivity implements View.OnClickListener{
     }
 
     private void initEvent() {
+        tv_back.setOnClickListener(this);
         rl_userInfo_head.setOnClickListener(this);
         rl_userInfo_name.setOnClickListener(this);
         rl_userInfo_sex.setOnClickListener(this);
@@ -131,6 +135,9 @@ public class UserInfo extends BaseActivity implements View.OnClickListener{
     public void onClick(View view) {
 
         switch (view.getId()){
+            case R.id.tv_back:
+                finish();
+                break;
             case R.id.rl_userInfo_head:
                 startActivity(new Intent(UserInfo.this,UserInfoHeadImgActivity.class));
                 break;

@@ -26,12 +26,13 @@ import cn.bmob.v3.listener.VerifySMSCodeListener;
  * Created by xiedongdong on 16/6/2.
  */
 public class ChangePasswordActivity extends BaseActivity implements View.OnClickListener {
+    private TextView tv_back;
+    private TextView tv_commit;
     private TextView tv_currentUser;
-    private TextView tv_changePassword_phoneNumber;
-    private EditText et_changePassword_newPassword;
-    private EditText et_changePassword_securityCode;
-    private TextView tv_changePassword_sendSecurityCode;
-    private Button btn_changePassword_commit;
+    private TextView tv_phoneNumber;
+    private EditText et_newPassword;
+    private EditText et_securityCode;
+    private TextView tv_sendSecurityCode;
 
     boolean blag=true;
 
@@ -40,20 +41,24 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.me_changepassword);
 
+        tv_back=(TextView)findViewById(R.id.tv_back);
+        tv_back.setOnClickListener(this);
+
+        tv_commit = (TextView) findViewById(R.id.tv_commit);
+        tv_commit.setOnClickListener(this);
+
         tv_currentUser = (TextView) findViewById(R.id.tv_currentUser);
         tv_currentUser.setOnClickListener(this);
 
-        tv_changePassword_phoneNumber=(TextView) findViewById(R.id.tv_changePassword_phoneNumber);
+        tv_phoneNumber=(TextView) findViewById(R.id.tv_phoneNumber);
 
-        et_changePassword_newPassword=(EditText)findViewById(R.id.et_changePassword_newPassword);
+        et_newPassword=(EditText)findViewById(R.id.et_newPassword);
 
-        et_changePassword_securityCode=(EditText)findViewById(R.id.et_changePassword_securityCode);
+        et_securityCode=(EditText)findViewById(R.id.et_securityCode);
 
-        tv_changePassword_sendSecurityCode=(TextView)findViewById(R.id.tv_changePassword_sendSecurityCode);
-        tv_changePassword_sendSecurityCode.setOnClickListener(this);
+        tv_sendSecurityCode=(TextView)findViewById(R.id.tv_sendSecurityCode);
+        tv_sendSecurityCode.setOnClickListener(this);
 
-        btn_changePassword_commit = (Button) findViewById(R.id.btn_changePassword_commit);
-        btn_changePassword_commit.setOnClickListener(this);
 
         initData();
 
@@ -62,15 +67,18 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_back:
+                finish();
+                break;
             case R.id.tv_currentUser:
                 if (isLogin()) {
                     startActivity(new Intent(ChangePasswordActivity.this, LoginActivity.class));
                 }
                 break;
-            case R.id.tv_changePassword_sendSecurityCode:
+            case R.id.tv_sendSecurityCode:
                 sendSecurityCode();
                 break;
-            case R.id.btn_changePassword_commit:
+            case R.id.tv_commit:
                 if (checkFrom()==true) {
                     Log.e("ChangePasswordActivity","通过验证，进入修改密码");
                     alterPassword();
@@ -87,7 +95,7 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
         BmobUser userInfo = BmobUser.getCurrentUser(ChangePasswordActivity.this);
         if (userInfo != null) {
             tv_currentUser.setText(userInfo.getUsername());
-            tv_changePassword_phoneNumber.setText(userInfo.getMobilePhoneNumber());
+            tv_phoneNumber.setText(userInfo.getMobilePhoneNumber());
         }
     }
 
@@ -108,7 +116,7 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
      */
 
     private void sendSecurityCode() {
-        String txt_phoneNum=tv_changePassword_phoneNumber.getText().toString().trim();
+        String txt_phoneNum=tv_phoneNumber.getText().toString().trim();
 
         if(!TextUtils.isEmpty(txt_phoneNum)){
             Bmob.requestSMSCode(ChangePasswordActivity.this, txt_phoneNum, "mAppSMS", new RequestSMSCodeListener() {
@@ -117,7 +125,7 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
                 public void done(Integer smsId, BmobException ex) {
                     if(ex==null){
                         showToast("短信发送成功");
-                        new TimeCount(ChangePasswordActivity.this,60000,1000,tv_changePassword_sendSecurityCode).start();
+                        new TimeCount(ChangePasswordActivity.this,60000,1000,tv_sendSecurityCode).start();
                     }
                 }
             });
@@ -129,8 +137,8 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
      */
 
     private boolean checkSecurityCode() {
-        String txt_phoneNum = tv_changePassword_phoneNumber.getText().toString().trim();
-        String txt_securityCode = et_changePassword_securityCode.getText().toString().trim();
+        String txt_phoneNum = tv_phoneNumber.getText().toString().trim();
+        String txt_securityCode = et_securityCode.getText().toString().trim();
 
         Bmob.verifySmsCode(ChangePasswordActivity.this, txt_phoneNum, txt_securityCode, new VerifySMSCodeListener() {
             @Override
@@ -154,9 +162,9 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
      */
 
     private boolean checkFrom() {
-        String txt_phoneNumber=(tv_changePassword_phoneNumber).getText().toString().trim();
-        String txt_newPassword = (et_changePassword_newPassword).getText().toString().trim();
-        String txt_securityCode=(et_changePassword_securityCode).getText().toString().trim();
+        String txt_phoneNumber=(tv_phoneNumber).getText().toString().trim();
+        String txt_newPassword = (et_newPassword).getText().toString().trim();
+        String txt_securityCode=(et_securityCode).getText().toString().trim();
 
         Log.d("blag",""+blag);
 
@@ -192,7 +200,7 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
 
     private void alterPassword() {
 
-        String txt_newPassword=(et_changePassword_newPassword).getText().toString().trim();
+        String txt_newPassword=(et_newPassword).getText().toString().trim();
         String txt_ObjectId=BmobUser.getCurrentUser(ChangePasswordActivity.this).getObjectId();
         BmobUser bmobUser=new BmobUser();
         bmobUser.setPassword(txt_newPassword);

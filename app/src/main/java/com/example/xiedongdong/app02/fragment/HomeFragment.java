@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,13 +36,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
     public ImageHandler handler = new ImageHandler(new WeakReference<HomeFragment>(this));
     public android.support.v4.view.ViewPager viewPager;
 
-    //存放点Id的集合
-    private int[] dotsId={R.id.tv_dot1,R.id.tv_dot2,R.id.tv_dot3,R.id.tv_dot4};
-    //点
-    private TextView tv_dot1,tv_dot2,tv_dot3,tv_dot4;
-    //存放点（.）的集合
-    private TextView[] dots;
-
     private ImageView iv_chuizi;
 
     @Nullable
@@ -65,19 +59,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         imageList.add(iv03);
         imageList.add(iv04);
 
-        //点的索引
-        tv_dot1=(TextView)view.findViewById(R.id.tv_dot1);
-        tv_dot2=(TextView)view.findViewById(R.id.tv_dot2);
-        tv_dot3=(TextView)view.findViewById(R.id.tv_dot3);
-        tv_dot4=(TextView)view.findViewById(R.id.tv_dot4);
-
-
-        dots=new TextView[imageList.size()];
-        for (int i=0;i<imageList.size();i++){
-            dots[i]=(TextView) view.findViewById(dotsId[i]);
-
-        }
-
         imageAdapter=new ImagePagerAdapter(imageList);
         //绑定适配器
         viewPager.setAdapter(imageAdapter);
@@ -94,13 +75,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
             public void onPageSelected(int arg0) {
                 handler.sendMessage(Message.obtain(handler, ImageHandler.MSG_PAGE_CHANGED, arg0, 0));
 
-                for (int i=0;i<dots.length;i++){
-                    if((arg0)==i){
-                        dots[i].setTextColor(Color.WHITE);
-                    }else{
-                        dots[i].setTextColor(Color.GRAY);
-                    }
-                }
             }
 
             @Override
@@ -135,7 +109,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         handler.sendEmptyMessageDelayed(ImageHandler.MSG_UPDATE_IMAGE, ImageHandler.MSG_DELAY);
 
 
-        iv_chuizi=(ImageView)view.findViewById(R.id.iv_chuizi);
+        iv_chuizi=(ImageView)view.findViewById(R.id.img_smartHome);
         iv_chuizi.setOnClickListener(this);
 
 
@@ -146,7 +120,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.iv_chuizi:
+            case R.id.img_smartHome:
                 String url="http://www.zealer.com";
                 throwUrlOpenWeb(url);
                 break;
