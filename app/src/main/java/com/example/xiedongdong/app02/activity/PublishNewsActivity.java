@@ -2,6 +2,7 @@ package com.example.xiedongdong.app02.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,6 +25,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
@@ -50,8 +52,8 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
     private Bitmap photo=null;
 
     /* 请求识别码 */
-    private static final int CODE_GALLERY_REQUEST = 0xa0;//本地
-    private static final int CODE_RESULT_REQUEST = 0xa2;//最终裁剪后的结果
+    private static final int CODE_GALLERY_REQUEST = 0;//本地
+    private static final int CODE_RESULT_REQUEST = 1;//最终裁剪后的结果
 
     // 裁剪后图片的宽(X)和高(Y),480 X 480的正方形。
     private static int output_X = 480;
@@ -116,7 +118,8 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.btn_selectPicture:
-                selectPicture();
+                //从本地选择图片
+                choseHeadImageFromGallery();
                 break;
             case R.id.tv_publish:
                 if(checkFrom()){
@@ -151,12 +154,6 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
 
     }
 
-    /**选择图片**/
-    private void selectPicture() {
-        //从本地选择照片
-        choseHeadImageFromGallery();
-    }
-
     /**
      * 从本地相册获取照片
      */
@@ -173,11 +170,7 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode,
-                                    Intent intent) {
-
-        Log.e("resultCode",""+resultCode);
-        Log.e("requestCode",""+requestCode);
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
 
         // 用户没有进行有效的设置操作，返回

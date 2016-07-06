@@ -2,6 +2,7 @@ package com.example.xiedongdong.app02.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.xiedongdong.app02.R;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +25,8 @@ import java.util.HashMap;
  * Created by xiedongdong on 16/6/29.
  */
 public class NewsListViewAdapter extends BaseAdapter {
+
+    private ImageLoader imageLoader;
 
     public static final String KEY_TITLE="title";   //标题
     public static final String KEY_FROM="fromUrl";   //文章来自哪里
@@ -38,7 +44,9 @@ public class NewsListViewAdapter extends BaseAdapter {
         this.data=data;
 
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        imageLoader=ImageLoader.getInstance();
     }
+
 
     @Override
     public int getCount() {
@@ -79,6 +87,28 @@ public class NewsListViewAdapter extends BaseAdapter {
         tv_fromUrl.setText(news.get(KEY_FROM));
 
         tv_time.setText(news.get(KEY_TIME));
+        //设置标题图片 img_title
+        imageLoader.displayImage(news.get(KEY_TITLEIMG), img_title, new ImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String s, View view) {
+                Log.i("imageLoader","加载开始");
+            }
+
+            @Override
+            public void onLoadingFailed(String s, View view, FailReason failReason) {
+                Log.i("imageLoader","加载失败");
+            }
+
+            @Override
+            public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                Log.i("imageLoader","加载完成");
+            }
+
+            @Override
+            public void onLoadingCancelled(String s, View view) {
+                Log.i("imageLoader","加载取消");
+            }
+        });
 
         return ll;
     }

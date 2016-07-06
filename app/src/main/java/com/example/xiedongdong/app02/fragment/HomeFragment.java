@@ -59,7 +59,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         imageList.add(iv03);
         imageList.add(iv04);
 
-        imageAdapter=new ImagePagerAdapter(imageList);
+        imageAdapter=new ImagePagerAdapter(getActivity(),imageList);
         //绑定适配器
         viewPager.setAdapter(imageAdapter);
         //给viewpager页面设置页面改变监听

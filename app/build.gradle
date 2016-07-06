@@ -28,4 +28,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile files('libs/BmobSDK_V3.3.9_0612.jar')
+    compile files('libs/universal-image-loader-1.9.3.jar')
 }

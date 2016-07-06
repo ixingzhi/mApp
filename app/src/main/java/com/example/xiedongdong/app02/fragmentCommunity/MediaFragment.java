@@ -52,6 +52,7 @@ public class MediaFragment extends BaseFragment {
                     map.put(NewsListViewAdapter.KEY_FROM, newsList.getFrom());
                     map.put(NewsListViewAdapter.KEY_TIME,newsList.getCreatedAt());
                     map.put(NewsListViewAdapter.KEY_URL,newsList.getUrl());
+                    map.put(NewsListViewAdapter.KEY_TITLEIMG,newsList.getImgTitleUrl());
 
                     listItem.add(map);
                 }
