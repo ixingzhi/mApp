@@ -53,6 +53,8 @@ public class DisassemblyFragment extends BaseFragment {
                     HashMap<String, String> map = new HashMap<String, String>();
                     map.put(NewsListViewAdapter.KEY_TITLE, newsList.getTitle());
                     map.put(NewsListViewAdapter.KEY_FROM, newsList.getFrom());
+                    map.put(NewsListViewAdapter.KEY_HEADIMG,newsList.getHeadImgUrl());
+                    map.put(NewsListViewAdapter.KEY_USERNAME,newsList.getUsername());
                     map.put(NewsListViewAdapter.KEY_TIME,newsList.getCreatedAt());
                     map.put(NewsListViewAdapter.KEY_URL,newsList.getUrl());
                     map.put(NewsListViewAdapter.KEY_TITLEIMG,newsList.getImgTitleUrl());

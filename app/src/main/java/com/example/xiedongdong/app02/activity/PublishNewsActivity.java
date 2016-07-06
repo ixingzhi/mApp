@@ -59,7 +59,7 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
     private static int output_X = 480;
     private static int output_Y = 480;
 
-    private final String PATH=Environment.getExternalStorageDirectory()+"/Geek/imageTitle.jpg";
+    private final String PATH=Environment.getExternalStorageDirectory()+"/Geek/imageTitle/imageTitle.jpg";
 
 
     @Override
@@ -314,7 +314,13 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
     /**发布消息**/
     private void publishNews() {
         User user= BmobUser.getCurrentUser(PublishNewsActivity.this,User.class);
+        //获取到当前用户的id
         final String txt_objectId=user.getObjectId();
+        //获取当前用户的头像url
+        String txt_headImgUrl=user.getHeadImgUrl();
+        //获取用户名
+        String txt_username=user.getUsername();
+
 
         final String txt_title=et_title.getText().toString().trim();
         final String txt_url=et_url.getText().toString().trim();
@@ -350,6 +356,8 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
         news.setTitle(txt_title);
         news.setUrl(txt_url);
         news.setFrom(txt_from);
+        news.setHeadImgUrl(txt_headImgUrl);
+        news.setUsername(txt_username);
         news.setMessageType(finalTxt_messageType);
 
         if(imgTitleFile==null){

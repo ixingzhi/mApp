@@ -11,8 +11,36 @@ public class News extends BmobObject {
     private String title;
     private String url;
     private String from;
+    private String headImgUrl;
+    private String readCount;
+    private String username;
     private String messageType;
     private String imgTitleUrl;
+
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getHeadImgUrl() {
+        return headImgUrl;
+    }
+
+    public void setHeadImgUrl(String headImgUrl) {
+        this.headImgUrl = headImgUrl;
+    }
+
+    public String getReadCount() {
+        return readCount;
+    }
+
+    public void setReadCount(String readCount) {
+        this.readCount = readCount;
+    }
 
 
     public String getId() {

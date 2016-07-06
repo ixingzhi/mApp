@@ -43,7 +43,7 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
 
     /* 头像文件 */
     private static final String IMAGE_FILE_NAME = "temp_head_image.jpg";
-    private final String PATH=Environment.getExternalStorageDirectory()+"/Geek/head_image.jpg" ;
+    private final String PATH=Environment.getExternalStorageDirectory()+"/Geek/imageHead/head_image.jpg" ;
 
     /* 请求识别码 */
     private static final int CODE_GALLERY_REQUEST = 0xa0;//本地

@@ -31,6 +31,7 @@ public class NewsListViewAdapter extends BaseAdapter {
     public static final String KEY_TITLE="title";   //标题
     public static final String KEY_FROM="fromUrl";   //文章来自哪里
     public static final String KEY_HEADIMG="headImg"; //用户头像
+    public static final String KEY_USERNAME="username"; //用户名
     public static final String KEY_TIME="time";   //时间
     public static final String KEY_TITLEIMG="titleImg";  //文章配图
     public static final String KEY_URL="url";  //文章链接
@@ -75,6 +76,7 @@ public class NewsListViewAdapter extends BaseAdapter {
         TextView tv_title= (TextView) ll.findViewById(R.id.tv_title); //标题
         TextView tv_fromUrl= (TextView) ll.findViewById(R.id.tv_fromUrl);//来自
         ImageView img_headImg= (ImageView) ll.findViewById(R.id.img_headImg);//用户头像
+        TextView tv_username=(TextView)ll.findViewById(R.id.tv_username);//用户名
         TextView tv_time= (TextView) ll.findViewById(R.id.tv_time);//时间
         ImageView img_title= (ImageView) ll.findViewById(R.id.img_title);//标题头像
 
@@ -85,28 +87,30 @@ public class NewsListViewAdapter extends BaseAdapter {
 
         tv_title.setText(news.get(KEY_TITLE));
         tv_fromUrl.setText(news.get(KEY_FROM));
-
+        //设置用户头像
+        imageLoader.displayImage(news.get(KEY_HEADIMG),img_headImg);
+        tv_username.setText(news.get(KEY_USERNAME));
         tv_time.setText(news.get(KEY_TIME));
         //设置标题图片 img_title
         imageLoader.displayImage(news.get(KEY_TITLEIMG), img_title, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {
-                Log.i("imageLoader","加载开始");
+                //Log.i("imageLoader","加载开始");
             }
 
             @Override
             public void onLoadingFailed(String s, View view, FailReason failReason) {
-                Log.i("imageLoader","加载失败");
+                //Log.i("imageLoader","加载失败");
             }
 
             @Override
             public void onLoadingComplete(String s, View view, Bitmap bitmap) {
-                Log.i("imageLoader","加载完成");
+                //Log.i("imageLoader","加载完成");
             }
 
             @Override
             public void onLoadingCancelled(String s, View view) {
-                Log.i("imageLoader","加载取消");
+                //Log.i("imageLoader","加载取消");
             }
         });
 
