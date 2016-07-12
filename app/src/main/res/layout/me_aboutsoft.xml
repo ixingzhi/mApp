@@ -54,9 +54,22 @@
             android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1.0.8版"
+            android:text="1.0.8"
             android:textColor="#FF0000"
             android:textSize="15dp"/>
+
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_marginTop="120dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_checkUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="检测更新"/>
+    </LinearLayout>
 
 </LinearLayout>

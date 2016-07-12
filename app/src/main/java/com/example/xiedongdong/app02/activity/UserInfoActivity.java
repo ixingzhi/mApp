@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -25,7 +24,7 @@ import cn.bmob.v3.BmobUser;
 /**
  * Created by xiedongdong on 16/6/19.
  */
-public class UserInfo extends BaseActivity implements View.OnClickListener{
+public class UserInfoActivity extends BaseActivity implements View.OnClickListener{
     private final String PATH= Environment.getExternalStorageDirectory()+"/Geek/head_image.jpg" ;
 
     private TextView tv_back;
@@ -85,7 +84,7 @@ public class UserInfo extends BaseActivity implements View.OnClickListener{
      * 初始化时获取用户数据
      */
     private void initData() {
-        final User user=BmobUser.getCurrentUser(UserInfo.this,User.class);
+        final User user=BmobUser.getCurrentUser(UserInfoActivity.this,User.class);
 
         tv_userInfo_name.setText(user.getUsername());
         tv_userInfo_sex.setText(user.getSex());
@@ -108,7 +107,7 @@ public class UserInfo extends BaseActivity implements View.OnClickListener{
             Bitmap bitmap= BitmapFactory.decodeFile(PATH);
             img_userInfo_head.setImageBitmap(bitmap);
         }else{
-            final User user=BmobUser.getCurrentUser(UserInfo.this,User.class);
+            final User user=BmobUser.getCurrentUser(UserInfoActivity.this,User.class);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -139,25 +138,25 @@ public class UserInfo extends BaseActivity implements View.OnClickListener{
                 finish();
                 break;
             case R.id.rl_userInfo_head:
-                startActivity(new Intent(UserInfo.this,UserInfoHeadImgActivity.class));
+                startActivity(new Intent(UserInfoActivity.this,UserInfoHeadImgActivity.class));
                 break;
             case R.id.rl_userInfo_name:
-                startActivity(new Intent(UserInfo.this,UserInfoNameActivity.class));
+                startActivity(new Intent(UserInfoActivity.this,UserInfoNameActivity.class));
                 break;
             case R.id.rl_userInfo_sex:
-                startActivity(new Intent(UserInfo.this,UserInfoSexActivity.class));
+                startActivity(new Intent(UserInfoActivity.this,UserInfoSexActivity.class));
                 break;
             case R.id.rl_userInfo_phoneNum:
-                startActivity(new Intent(UserInfo.this,UserInfoPhoneNumActivity.class));
+                startActivity(new Intent(UserInfoActivity.this,UserInfoPhoneNumActivity.class));
                 break;
             case R.id.rl_userInfo_email:
-                startActivity(new Intent(UserInfo.this,UserInfoEmailActivity.class));
+                startActivity(new Intent(UserInfoActivity.this,UserInfoEmailActivity.class));
                 break;
             case R.id.rl_userInfo_location:
 
                 break;
             case R.id.rl_userInfo_autograph:
-                startActivity(new Intent(UserInfo.this,UserInfoAutographActivity.class));
+                startActivity(new Intent(UserInfoActivity.this,UserInfoAutographActivity.class));
                 break;
             default:
                 break;
@@ -168,7 +167,7 @@ public class UserInfo extends BaseActivity implements View.OnClickListener{
     @Override
     protected void onResume() {
         super.onResume();
-        final User user=BmobUser.getCurrentUser(UserInfo.this,User.class);
+        final User user=BmobUser.getCurrentUser(UserInfoActivity.this,User.class);
         tv_userInfo_name.setText(user.getUsername());
         tv_userInfo_sex.setText(user.getSex());
         tv_userInfo_phoneNum.setText(user.getMobilePhoneNumber());

@@ -74,16 +74,21 @@ public class UserInfoSexActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
-        //每次选择开始初始化选择的颜色为灰色
-        initSelect();
+
         switch(view.getId()){
             case R.id.rl_selectman:
+                //每次选择开始初始化选择的颜色为灰色
+                initSelect();
                 saveSexMan();
                 break;
             case R.id.rl_selectwoman:
+                //每次选择开始初始化选择的颜色为灰色
+                initSelect();
                 saveSexWoman();
                 break;
             case R.id.rl_selectunknown:
+                //每次选择开始初始化选择的颜色为灰色
+                initSelect();
                 SaveSexUnknown();
                 break;
             case R.id.tv_back:

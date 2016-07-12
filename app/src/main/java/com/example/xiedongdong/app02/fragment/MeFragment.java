@@ -7,12 +7,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,7 +22,7 @@ import com.example.xiedongdong.app02.activity.ChangePasswordActivity;
 import com.example.xiedongdong.app02.activity.LoginActivity;
 import com.example.xiedongdong.app02.activity.MoreFunctionActivity;
 import com.example.xiedongdong.app02.activity.MyPostsActivity;
-import com.example.xiedongdong.app02.activity.UserInfo;
+import com.example.xiedongdong.app02.activity.UserInfoActivity;
 import com.example.xiedongdong.app02.bean.User;
 import com.example.xiedongdong.app02.util.BitmapFileNet;
 
@@ -101,7 +99,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 if(isLogin()){
                     startActivity(new Intent(getActivity(),LoginActivity.class));
                 }else{
-                    startActivity(new Intent(getActivity(), UserInfo.class));
+                    startActivity(new Intent(getActivity(), UserInfoActivity.class));
                 }
                 break;
             case R.id.ll_myPosts:

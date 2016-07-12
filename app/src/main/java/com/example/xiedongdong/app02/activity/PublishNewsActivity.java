@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -46,10 +47,12 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
     private Button btn_selectPicture;
     private ImageView img_title;
 
+    //调用拍照应用隐式意图   ---"android.media.action.IMAGE_CAPTURE"
+    //调用相册应用隐式意图   ---"android.intent.action.PICK"
+    //调用裁剪应用隐式意图   ---"com.android.camera.action.CROP"
+
     //上传图片到数据库
     BmobFile imgTitleFile=null;
-
-    private Bitmap photo=null;
 
     /* 请求识别码 */
     private static final int CODE_GALLERY_REQUEST = 0;//本地
@@ -59,7 +62,18 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
     private static int output_X = 480;
     private static int output_Y = 480;
 
-    private final String PATH=Environment.getExternalStorageDirectory()+"/Geek/imageTitle/imageTitle.jpg";
+    //标题图片路径
+    //private final String PATH=Environment.getExternalStorageDirectory()+"/Geek/imageTitle/imageTitle.jpg";
+   // private final String PATH=Environment.getExternalStorageDirectory()+"/Geek/cropImage/faceImage_temp.jpg";
+    private final String PATH="file:///sdcard/imageTitle.jpg";
+
+    Uri imageCropUri=Uri.parse(PATH);
+    // 裁剪后的文件名称
+//    public static final String IMAGE_FILE_NAME_TEMP = "faceImage_temp.jpg";
+//
+//    private File cropFile = new File(Environment.getExternalStorageDirectory()+"/Geek/cropImage", IMAGE_FILE_NAME_TEMP);
+//    // 保存裁剪文件的Uri（资源位置）
+//    private Uri imageCropUri = Uri.fromFile(cropFile);
 
 
     @Override
@@ -159,18 +173,14 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
      */
     private void choseHeadImageFromGallery() {
 
-        Intent intentFromGallery=new Intent();
-        //设置文件类型
-        intentFromGallery.setType("image/*");
-        //选择图片
-        intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
-        //获取到图片，将当前的数据返回到上一个Activity中
-        startActivityForResult(intentFromGallery,CODE_GALLERY_REQUEST);
+        Intent intent = new Intent(Intent.ACTION_PICK, null);
+        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        startActivityForResult(intent, CODE_GALLERY_REQUEST);
 
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 
         // 用户没有进行有效的设置操作，返回
@@ -180,36 +190,21 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
         }
 
         switch (requestCode) {
-            case CODE_GALLERY_REQUEST://如果是来自本地的
-                cropRawPhoto(intent.getData());//直接裁剪图片
+            case CODE_GALLERY_REQUEST:    //如果是来自本地的
+                Log.e("开始裁剪","通过");
+                cropRawPhoto(data.getData());//直接裁剪图片
                 break;
-            case CODE_RESULT_REQUEST:
-                if (intent != null) {
-                    setImageToHeadView(intent);//提取保存裁剪之后的图片数据，并设置头像部分的View,并上传头像至数据库中
+            case CODE_RESULT_REQUEST:     //返回的裁剪结果
+                if (data != null) {
+                    Log.e("裁剪结果","通过");
+                    setImageToHeadView(data);//提取保存裁剪之后的图片数据，并设置头像部分的View,并上传头像至数据库中
                 }
                 break;
             default:
                 break;
         }
 
-        //选择上传配图
 
-        imgTitleFile=new BmobFile(new File(PATH));
-
-        imgTitleFile.upload(PublishNewsActivity.this, new UploadFileListener() {
-            @Override
-            public void onSuccess() {
-                showToast("上传图片成功");
-            }
-
-            @Override
-            public void onFailure(int i, String s) {
-                showToast("上传图片失败："+s);
-            }
-        });
-
-
-        super.onActivityResult(requestCode, resultCode, intent);
     }
 
     /**
@@ -217,63 +212,98 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
      */
     public void cropRawPhoto(Uri uri) {
 
+        if (uri == null) {
+            Log.i("tag", "The uri is not exist.");
+        }
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
-
-        //把裁剪的数据填入里面
-
         // 设置裁剪
         intent.putExtra("crop", "true");
-
-        // aspectX , aspectY :宽高的比例
+        // aspectX aspectY 是宽高的比例
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
-
-        // outputX , outputY : 裁剪图片宽高
+        intent.putExtra("scale", true);
+        // outputX outputY 是裁剪图片宽高
         intent.putExtra("outputX", output_X);
         intent.putExtra("outputY", output_Y);
-        intent.putExtra("return-data", true);
-
-        startActivityForResult(intent, CODE_RESULT_REQUEST);
+        //裁剪之后，保存在裁剪文件中，关键
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageCropUri);
+        Log.e("","保存裁剪图片");
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", true);
+        intent.putExtra("return-data", false);
+            startActivityForResult(intent, CODE_RESULT_REQUEST);
     }
 
     /**
      * 提取保存裁剪之后的图片数据
      */
-    private void setImageToHeadView(Intent intent) {
-        Bundle extras = intent.getExtras();
-        if (extras != null) {
-            photo = extras.getParcelable("data");
-            img_title.setImageBitmap(photo);
+    private void setImageToHeadView(Intent data) {
+//        Bundle extras = intent.getExtras();
+//        if (extras != null) {
+//            photo = extras.getParcelable("data");
+//            img_title.setImageBitmap(photo);
+//
+//            //新建文件夹 先选好路径 再调用mkdir函数 现在是根目录下面的Geek文件夹
+//            File nf = new File(Environment.getExternalStorageDirectory()+"/Geek");
+//            nf.mkdir();
+//
+//            //在根目录下面的Geek文件夹下 创建imageTitle.jpg文件
+//            File f = new File(PATH);
+//
+//            FileOutputStream out = null;
+//            try {
+//
+//                //打开输出流 将图片数据填入文件中
+//                out = new FileOutputStream(f);
+//                photo.compress(Bitmap.CompressFormat.PNG, 100, out);
+//
+//                try {
+//                    out.flush();
+//                    out.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
 
-            //新建文件夹 先选好路径 再调用mkdir函数 现在是根目录下面的Geek文件夹
-            File nf = new File(Environment.getExternalStorageDirectory()+"/Geek");
-            nf.mkdir();
+        Bundle extras = data.getExtras();
+        Bitmap bitmap = null;
 
-            //在根目录下面的Geek文件夹下 创建imageTitle.jpg文件
-            File f = new File(PATH);
-
-            FileOutputStream out = null;
+        if(extras!=null){
             try {
-
-                //打开输出流 将图片数据填入文件中
-                out = new FileOutputStream(f);
-                photo.compress(Bitmap.CompressFormat.PNG, 100, out);
-
-                try {
-                    out.flush();
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            } catch (FileNotFoundException e) {
+                bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageCropUri));
+                img_title.setImageBitmap(bitmap);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
+            //选择上传标题图片
+
+            imgTitleFile=new BmobFile(new File(PATH));
+
+            imgTitleFile.upload(PublishNewsActivity.this, new UploadFileListener() {
+                @Override
+                public void onSuccess() {
+                    showToast("上传图片成功");
+                }
+
+                @Override
+                public void onFailure(int i, String s) {
+                    showToast("上传图片失败："+s);
+                }
+            });
+
 
         }
+
+
+
+
     }
+
 
 
     //检查输入信息来源
