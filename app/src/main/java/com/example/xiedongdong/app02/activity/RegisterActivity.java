@@ -90,7 +90,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 startActivity(new Intent(RegisterActivity.this,TermsActivity.class));
                 break;
             case R.id.tv_existAccount:
-                startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
                 finish();
                 break;
             default:

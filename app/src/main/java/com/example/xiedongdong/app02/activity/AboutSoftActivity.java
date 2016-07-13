@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.example.xiedongdong.app02.Base.BaseActivity;
 import com.example.xiedongdong.app02.R;
 import com.example.xiedongdong.app02.bean.Version;
+import com.example.xiedongdong.app02.util.CheckNetwork;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -50,6 +51,7 @@ public class AboutSoftActivity extends BaseActivity implements View.OnClickListe
     private ProgressDialog mDownloadDialog;
     //下载取消,默认取消
     private boolean cancelUpdate=false;
+
     //保存从数据库中获得的版本信息。
     private HashMap<String,String> map;
     //数据库中应用程序版本
@@ -58,6 +60,8 @@ public class AboutSoftActivity extends BaseActivity implements View.OnClickListe
     private String downloadLink=null;
     //数据库中获取更新内容
     private String updateContent=null;
+    //数据库中获得网页下载链接
+    private String url=null;
 
     Handler mHandler=new Handler(){
 
@@ -110,7 +114,11 @@ public class AboutSoftActivity extends BaseActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.btn_checkUpdate:
-                checkUpadte();
+                //判断有没有网络
+                boolean isNetwork=new CheckNetwork(this).isOpenNetwork();
+                if(isNetwork){
+                    checkUpadte();
+                }
                 break;
             default:
                 break;
@@ -156,12 +164,12 @@ public class AboutSoftActivity extends BaseActivity implements View.OnClickListe
                 serverCode=version.getVersionNumber();
                 downloadLink=version.getDownloadLink();
                 updateContent=version.getUpdateContent();
+                url=version.getUrl();
 
             }
 
             @Override
             public void onFailure(int i, String s) {
-
             }
         });
     }
@@ -193,8 +201,9 @@ public class AboutSoftActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onClick(DialogInterface dialog, int i) {
                 dialog.dismiss();
-                //显示下载对话窗
-                showDownLoadDialog();
+                //显示下载资源
+                showDownloadResourcesDialog();
+
 
             }
         });
@@ -209,10 +218,47 @@ public class AboutSoftActivity extends BaseActivity implements View.OnClickListe
     }
 
     /**
+     * 选择下载资源
+     */
+    private void showDownloadResourcesDialog(){
+
+        //构建对话窗
+        final AlertDialog.Builder dialog=new AlertDialog.Builder(AboutSoftActivity.this);
+        dialog.setTitle("下载资源");
+        dialog.setCancelable(true);
+
+        dialog.setPositiveButton("网页下载", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.dismiss();
+                //向跳转的网页传递网址
+                Intent intent=new Intent();
+                intent.putExtra("Url",url);
+                intent.setClass(AboutSoftActivity.this,WebViewActivity.class);
+                startActivity(intent);
+
+            }
+        });
+        dialog.setNegativeButton("直接下载", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.dismiss();
+                //显示下载对话窗
+                showDownloadDialog();
+
+            }
+        });
+
+        dialog.show();
+
+    }
+
+
+    /**
      * 显示下载对话窗
      */
 
-    private void showDownLoadDialog() {
+    private void showDownloadDialog() {
         mDownloadDialog=new ProgressDialog(AboutSoftActivity.this);
         mDownloadDialog.setTitle("正在下载更新中");
         mDownloadDialog.setMessage(updateContent);

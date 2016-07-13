@@ -1,5 +1,6 @@
 package com.example.xiedongdong.app02.activity;
 
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -37,6 +38,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //关闭横屏显示
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         initView();   //初始化页面
         initEvents();  //初始化事件
         onSelect(0);  //默认启动页面（首页）

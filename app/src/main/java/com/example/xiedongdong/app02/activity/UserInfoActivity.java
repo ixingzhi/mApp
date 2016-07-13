@@ -25,7 +25,7 @@ import cn.bmob.v3.BmobUser;
  * Created by xiedongdong on 16/6/19.
  */
 public class UserInfoActivity extends BaseActivity implements View.OnClickListener{
-    private final String PATH= Environment.getExternalStorageDirectory()+"/Geek/head_image.jpg" ;
+    private final String PATH=Environment.getExternalStorageDirectory()+"/Geek/imageHead/crop_head_image.jpg" ;
 
     private TextView tv_back;
     private ImageView img_userInfo_head;
@@ -106,26 +106,6 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         if(headImgFile.exists()){
             Bitmap bitmap= BitmapFactory.decodeFile(PATH);
             img_userInfo_head.setImageBitmap(bitmap);
-        }else{
-            final User user=BmobUser.getCurrentUser(UserInfoActivity.this,User.class);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        final Bitmap bitmap=BitmapFileNet.get(user.getHeadImgUrl());
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                img_userInfo_head.setImageBitmap(bitmap);
-                            }
-                        });
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }).start();
-
         }
 
     }

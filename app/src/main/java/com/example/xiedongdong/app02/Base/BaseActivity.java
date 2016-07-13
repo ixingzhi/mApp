@@ -1,6 +1,7 @@
 package com.example.xiedongdong.app02.Base;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -22,7 +23,10 @@ public class BaseActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bmob.initialize(getApplicationContext(),ApplicationID);
+        //关闭横屏显示
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         userManager=BmobUserManager.getInstance(this);
+
     }
 
     /**

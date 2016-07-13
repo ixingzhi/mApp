@@ -16,6 +16,7 @@ import android.util.Log;
 import com.example.xiedongdong.app02.Base.BaseActivity;
 import com.example.xiedongdong.app02.R;
 import com.example.xiedongdong.app02.bean.Version;
+import com.example.xiedongdong.app02.util.CheckNetwork;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -42,6 +43,8 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        //检查是否有网络连接
+        new CheckNetwork(this).isOpenNetwork();
 
         new Handler().postDelayed(new Runnable() {
             @Override

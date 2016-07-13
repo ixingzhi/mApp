@@ -9,6 +9,15 @@ public class Version extends BmobObject{
     private String versionNumber;
     private String downloadLink;
     private String updateContent;
+    private String url;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public String getUpdateContent() {
         return updateContent;

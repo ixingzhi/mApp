@@ -20,28 +20,26 @@
             android:text="我"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_userInfo"
+    <RelativeLayout
+        android:id="@+id/rl_userInfo"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:padding="5dp"
         android:layout_marginTop="10dp"
-        android:background="#FFFFFF"
-        android:orientation="horizontal">
+        android:background="#FFFFFF">
 
         <com.example.xiedongdong.app02.util.CircleImageView
             android:id="@+id/img_headImg"
             android:layout_width="130dp"
             android:layout_height="110dp"
-            android:layout_gravity="center"
+            android:layout_centerVertical="true"
             android:src="@mipmap/img_title3"
             app:border_width="5dp"
             app:border_color="#330000"/>
 
         <TextView
             android:id="@+id/tv_username"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="28dp"
@@ -50,11 +48,12 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="100dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:paddingRight="10dp"
             android:src="@mipmap/right"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/ll_myPosts"

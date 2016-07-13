@@ -7,12 +7,13 @@ import android.view.View;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 
+import com.example.xiedongdong.app02.Base.BaseActivity;
 import com.example.xiedongdong.app02.R;
 
 /**
  * Created by xiedongdong on 16/6/12.
  */
-public class NewsWebView extends Activity implements View.OnClickListener{
+public class NewsWebView extends BaseActivity implements View.OnClickListener{
     android.webkit.WebView web_news;
 
     private ImageView img_back;

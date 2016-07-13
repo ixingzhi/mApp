@@ -35,7 +35,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.LoginActivity"/>
+        <activity android:name=".activity.LoginActivity" />
 
         <activity android:name=".activity.RegisterActivity"/>
 
@@ -69,6 +69,8 @@
         <activity android:name=".activity.PublishNewsActivity"/>
 
         <activity android:name=".activity.MyPostsActivity"/>
+
+        <activity android:name=".activity.WebViewActivity"/>
 
     </application>
 
