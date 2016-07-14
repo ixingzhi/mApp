@@ -36,7 +36,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
     public ImageHandler handler = new ImageHandler(new WeakReference<HomeFragment>(this));
     public android.support.v4.view.ViewPager viewPager;
 
-    private ImageView iv_chuizi;
+    private ImageView img_smartHome;
 
     @Nullable
     @Override
@@ -109,8 +109,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         handler.sendEmptyMessageDelayed(ImageHandler.MSG_UPDATE_IMAGE, ImageHandler.MSG_DELAY);
 
 
-        iv_chuizi=(ImageView)view.findViewById(R.id.img_smartHome);
-        iv_chuizi.setOnClickListener(this);
+        img_smartHome=(ImageView)view.findViewById(R.id.img_smartHome);
+        img_smartHome.setOnClickListener(this);
 
 
         return view;

@@ -69,7 +69,7 @@
             android:layout_height="100dp"
             app:border_width="2dp"
             app:border_color="#330000"
-            android:src="@mipmap/img_title3"/>
+            android:src="@mipmap/default_headimg"/>
 
         <ImageView
             android:id="@+id/img_headright"

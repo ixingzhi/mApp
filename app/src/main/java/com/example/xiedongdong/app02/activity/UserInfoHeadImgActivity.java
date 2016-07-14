@@ -22,8 +22,7 @@ import com.example.xiedongdong.app02.bean.User;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
@@ -41,7 +40,7 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
     private ImageView img_headImg;
 
     //启动相机拍照后的存储原图路径
-    private static String CAMERA_PHOTO_PATH=Environment.getExternalStorageDirectory()+"Geek/cameraPhoto";
+    private static final String CAMERA_PHOTO_PATH=Environment.getExternalStorageDirectory()+"/Geek/cameraPhoto";
     //启动相机拍完照后的名字
     private static final String CAMERA_PHOTO_NAME = "head_image.jpg";
 
@@ -50,7 +49,8 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
     /* 裁剪后的头像文件名 */
     private static final String CROP_IMAGE_NAME = "crop_head_image.jpg";
     //裁剪完后文件
-    private static String PATH=Environment.getExternalStorageDirectory()+"/Geek/imageHead/crop_head_image.jpg";
+    private static String FILE_URL_PATH=Environment.getExternalStorageDirectory()+"/Geek/imageHead/crop_head_image.jpg";
+    private static String FILE_URI_PATH="file://"+Environment.getExternalStorageDirectory()+"/Geek/imageHead/crop_head_image.jpg";
 
     /* 请求识别码 */
     private static final int CODE_GALLERY_REQUEST = 0xa0;//本地
@@ -60,6 +60,8 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
     // 裁剪后图片的宽(X)和高(Y),480 X 480的正方形。
     private static int output_X = 600;
     private static int output_Y = 600;
+
+    private Uri imageCropUri;
 
 
     @Override
@@ -78,10 +80,10 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
     }
 
     private void initHeadImg() {
-        File headImgFile=new File(new String(PATH));
+        File headImgFile=new File(new String(FILE_URL_PATH));
         //先从本地获取
         if(headImgFile.exists()){
-            Bitmap bitmap= BitmapFactory.decodeFile(PATH);
+            Bitmap bitmap= BitmapFactory.decodeFile(FILE_URL_PATH);
             img_headImg.setImageBitmap(bitmap);
         }
     }
@@ -195,11 +197,11 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
             File file=new File(CAMERA_PHOTO_PATH);
             if(! file.exists()){
                 file.mkdir();
-                Log.e(">>","创建文件夹成功");
             }
 
             intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT,
                     Uri.fromFile(new File(CAMERA_PHOTO_PATH, CAMERA_PHOTO_NAME)));
+            //存储拍照照片成功
         }
         startActivityForResult(intentFromCapture,CODE_CAMERA_REQUEST);
     }
@@ -210,13 +212,9 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
      */
     private void choseHeadImageFromGallery() {
 
-        Intent intentFromGallery=new Intent();
-        //设置文件类型
-        intentFromGallery.setType("image/*");
-        //选择图片
-        intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
-        //获取到图片，将当前的数据返回到上一个Activity中
-        startActivityForResult(intentFromGallery,CODE_GALLERY_REQUEST);
+        Intent intent = new Intent(Intent.ACTION_PICK, null);
+        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        startActivityForResult(intent, CODE_GALLERY_REQUEST);
 
     }
 
@@ -236,14 +234,12 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
 
             case CODE_CAMERA_REQUEST: //图片来自相机
                 if (hasSdcard()) {
-                    File tempFile = new File(
-                            CAMERA_PHOTO_PATH,
-                            CAMERA_PHOTO_NAME);
+                    //路径和文件名分开写
+                    File tempFile = new File(CAMERA_PHOTO_PATH,CAMERA_PHOTO_NAME);
                     cropRawPhoto(Uri.fromFile(tempFile));
                 } else {
                     showToast("没有SDCard!");
                 }
-
                 break;
 
             case CODE_RESULT_REQUEST:
@@ -281,80 +277,60 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
      */
     public void cropRawPhoto(Uri uri) {
 
+        if (uri == null) {
+            Log.i("tag", "The uri is not exist.");
+        }
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
-
-        //把裁剪的数据填入里面
-
         // 设置裁剪
         intent.putExtra("crop", "true");
-
-        // aspectX , aspectY :宽高的比例
+        // aspectX aspectY 是宽高的比例
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
-
-        // outputX , outputY : 裁剪图片宽高
+        intent.putExtra("scale", true);
+        // outputX outputY 是裁剪图片宽高
         intent.putExtra("outputX", output_X);
         intent.putExtra("outputY", output_Y);
-        intent.putExtra("return-data", true);
+        //裁剪之后，保存在裁剪文件中，关键
+        File file=new File(CROP_IMAGE_PATH);
+        if(! file.exists()){
+            file.mkdir();
+        }
+        //裁剪图片文件
+        imageCropUri=Uri.parse(FILE_URI_PATH);
 
+        //裁剪图片存储到本地中
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageCropUri);
+        Log.e("newsImageTitle","保存裁剪图片成功");
+
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", true);
+        intent.putExtra("return-data", false);
         startActivityForResult(intent, CODE_RESULT_REQUEST);
     }
 
     /**
      * 提取保存裁剪之后的图片数据，并设置头像部分的View,并上传头像至数据库中
      */
-    private void setImageToHeadView(Intent intent) {
-        Bundle extras = intent.getExtras();
+    private void setImageToHeadView(Intent data) {
+        Bundle extras = data.getExtras();
         if (extras != null) {
-            Bitmap photo = extras.getParcelable("data");
-            img_headImg.setImageBitmap(photo);
-
-            /**保存Bitmap图片到本地**/
-
-            savePhotoToLocal(photo);
+            Bitmap bitmap = null;
+            try {
+                // 从裁剪的文件中获取uri imageCropUri
+                bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageCropUri));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            img_headImg.setImageBitmap(bitmap);
 
             /**上传头像至数据库中**/
 
-            upLoad(PATH);
+            upLoad(FILE_URL_PATH);
 
         }
     }
 
-    /**
-     * 保存裁剪头像图片到本地
-     */
-    private void savePhotoToLocal(Bitmap photo){
-
-        //在根目录下面的Geek文件夹下 创建head_image.jpg文件
-        File f = new File(CROP_IMAGE_PATH,CROP_IMAGE_NAME);
-        if(! f.exists()){
-            try {
-                f.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        FileOutputStream out = null;
-        try {
-
-            //打开输出流 将图片数据填入文件中
-            out = new FileOutputStream(f);
-            photo.compress(Bitmap.CompressFormat.PNG, 100, out);
-
-            try {
-                out.flush();
-                out.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     /**上传头像至数据库中**/
     private void upLoad(String path) {

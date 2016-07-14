@@ -37,7 +37,7 @@ public class TimeCount extends CountDownTimer {
     public void onTick(long millisUntilFinished) {
         tv_btn.setClickable(false); // 倒计时过程中不能点击
         tv_btn.setText(millisUntilFinished/1000+" 秒后重新发送");// 设置倒计时时间
-        tv_btn.setBackground(mActivity.getResources().getDrawable(R.drawable.background_gray));
+        tv_btn.setBackground(mActivity.getResources().getDrawable(R.mipmap.background_gray));
 
         SpannableString spannableString = new SpannableString(tv_btn.getText().toString());  //获取按钮上的文字
         ForegroundColorSpan span = new ForegroundColorSpan(Color.RED);
@@ -60,7 +60,7 @@ public class TimeCount extends CountDownTimer {
     public void onFinish() {
         tv_btn.setText("重新获取");
         tv_btn.setClickable(true);  //重新获得点击
-        tv_btn.setBackground(mActivity.getResources().getDrawable(R.drawable.background_blue));
+        tv_btn.setBackground(mActivity.getResources().getDrawable(R.mipmap.background_blue));
 
     }
 }

@@ -23,10 +23,6 @@ import com.example.xiedongdong.app02.bean.News;
 import com.example.xiedongdong.app02.bean.User;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
@@ -62,18 +58,17 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
     private static int output_X = 480;
     private static int output_Y = 480;
 
-    //标题图片路径
-    //private final String PATH=Environment.getExternalStorageDirectory()+"/Geek/imageTitle/imageTitle.jpg";
-   // private final String PATH=Environment.getExternalStorageDirectory()+"/Geek/cropImage/faceImage_temp.jpg";
-    private final String PATH="file:///sdcard/imageTitle.jpg";
+    //创建存储裁剪文件的文件夹路径
+    private final String CROP_IMAGE_PATH=Environment.getExternalStorageDirectory()+"/Geek/newsImageTitle";
+    //存储裁剪图片名字
+    private final String CROP_IMAGE_NAME="crop_image_title.jpg";
+    //裁剪后文件
+    private final String FILE_URI_PATH="file://"+Environment.getExternalStorageDirectory()+"/Geek/newsImageTitle/crop_image_title.jpg";
 
-    Uri imageCropUri=Uri.parse(PATH);
-    // 裁剪后的文件名称
-//    public static final String IMAGE_FILE_NAME_TEMP = "faceImage_temp.jpg";
-//
-//    private File cropFile = new File(Environment.getExternalStorageDirectory()+"/Geek/cropImage", IMAGE_FILE_NAME_TEMP);
-//    // 保存裁剪文件的Uri（资源位置）
-//    private Uri imageCropUri = Uri.fromFile(cropFile);
+    private final String FILE_URL_PATH=Environment.getExternalStorageDirectory()+"/Geek/newsImageTitle/crop_image_title.jpg";
+
+    private Uri imageCropUri;
+
 
 
     @Override
@@ -227,47 +222,25 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
         intent.putExtra("outputX", output_X);
         intent.putExtra("outputY", output_Y);
         //裁剪之后，保存在裁剪文件中，关键
+        File file=new File(CROP_IMAGE_PATH);
+        if(! file.exists()){
+            file.mkdir();
+        }
+        //裁剪图片文件
+        imageCropUri=Uri.parse(FILE_URI_PATH);
+
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageCropUri);
-        Log.e("","保存裁剪图片");
+        Log.e("newsImageTitle","保存裁剪图片成功");
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("noFaceDetection", true);
         intent.putExtra("return-data", false);
-            startActivityForResult(intent, CODE_RESULT_REQUEST);
+        startActivityForResult(intent, CODE_RESULT_REQUEST);
     }
 
     /**
      * 提取保存裁剪之后的图片数据
      */
     private void setImageToHeadView(Intent data) {
-//        Bundle extras = intent.getExtras();
-//        if (extras != null) {
-//            photo = extras.getParcelable("data");
-//            img_title.setImageBitmap(photo);
-//
-//            //新建文件夹 先选好路径 再调用mkdir函数 现在是根目录下面的Geek文件夹
-//            File nf = new File(Environment.getExternalStorageDirectory()+"/Geek");
-//            nf.mkdir();
-//
-//            //在根目录下面的Geek文件夹下 创建imageTitle.jpg文件
-//            File f = new File(PATH);
-//
-//            FileOutputStream out = null;
-//            try {
-//
-//                //打开输出流 将图片数据填入文件中
-//                out = new FileOutputStream(f);
-//                photo.compress(Bitmap.CompressFormat.PNG, 100, out);
-//
-//                try {
-//                    out.flush();
-//                    out.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            }
 
         Bundle extras = data.getExtras();
         Bitmap bitmap = null;
@@ -282,7 +255,7 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
 
             //选择上传标题图片
 
-            imgTitleFile=new BmobFile(new File(PATH));
+            imgTitleFile=new BmobFile(new File(FILE_URL_PATH));
 
             imgTitleFile.upload(PublishNewsActivity.this, new UploadFileListener() {
                 @Override
@@ -292,7 +265,7 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
 
                 @Override
                 public void onFailure(int i, String s) {
-                    showToast("上传图片失败："+s);
+                    showToast("上传图片失败"+s);
                 }
             });
 

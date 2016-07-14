@@ -53,6 +53,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     private LinearLayout ll_moreFunction;
     private TextView tv_currentUser;
 
+    //头像文件
+    private File headImgFile;
+
 
 
     @Nullable
@@ -167,7 +170,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
      * 初始化数据是获取头像
      */
     private void initHeadImg() {
-        File headImgFile=new File(new String(PATH));
+        headImgFile=new File(new String(PATH));
         if(headImgFile.exists()){
             Bitmap bitmap= BitmapFactory.decodeFile(PATH);
             img_headImg.setImageBitmap(bitmap);
@@ -212,7 +215,6 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         File f1=new File(Environment.getExternalStorageDirectory()+"/Geek/imageHead");
         if(! f1.exists()){
             f1.mkdir();
-            Log.e("imageHead","创建文件夹成功");
         }
 
         //在根目录下面的Geek文件夹下 创建head_image.jpg文件
@@ -252,6 +254,11 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     private void logOut() {
 
         BmobUser.logOut(getActivity());   //清除缓存用户
+        //删除用户本地存储的头像
+        if(headImgFile.isFile()){
+            headImgFile.delete();
+        }
+
     }
 
     /**
@@ -260,9 +267,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     public boolean isLogin() {
         User userInfo= BmobUser.getCurrentUser(getActivity(),User.class);
         //检查网络连接
-        boolean isNetwork=new CheckNetwork(getActivity()).isOpenNetwork();
+        //boolean isNetwork=new CheckNetwork(getActivity()).isOpenNetwork();
 
-        if(userInfo==null && isNetwork){
+        if(userInfo==null){
             return true;
         }
 
