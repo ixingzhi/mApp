@@ -23,6 +23,7 @@ import com.example.xiedongdong.app02.activity.AboutSoftActivity;
 import com.example.xiedongdong.app02.activity.ChangePasswordActivity;
 import com.example.xiedongdong.app02.activity.LoginActivity;
 import com.example.xiedongdong.app02.activity.MoreFunctionActivity;
+import com.example.xiedongdong.app02.activity.MyCollectActivity;
 import com.example.xiedongdong.app02.activity.MyPostsActivity;
 import com.example.xiedongdong.app02.activity.UserInfoActivity;
 import com.example.xiedongdong.app02.bean.User;
@@ -116,7 +117,11 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 }
                 break;
             case R.id.ll_myCollect:
-                showToast("正在开发中");
+                if(isLogin()){
+                    showToast("未登录");
+                }else{
+                    startActivity(new Intent(getActivity(), MyCollectActivity.class));
+                }
                 break;
             case R.id.ll_aboutSoft:
                 startActivity(new Intent(getActivity(),AboutSoftActivity.class));
@@ -281,6 +286,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         super.onResume();
         if(!isLogin()){
             initHeadImg();
+            //获取用户名
+            User user=BmobUser.getCurrentUser(getActivity(),User.class);
+            tv_username.setText(user.getUsername());
         }
 
     }

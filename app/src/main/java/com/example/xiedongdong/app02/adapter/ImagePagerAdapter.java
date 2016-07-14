@@ -3,15 +3,12 @@ package com.example.xiedongdong.app02.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.widget.Toast;
 
-import com.example.xiedongdong.app02.activity.NewsWebView;
+import com.example.xiedongdong.app02.activity.NewsWebViewActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -114,7 +111,7 @@ public class ImagePagerAdapter extends PagerAdapter{
     public void throwUrlOpenWeb(String url) {
         Intent intent = new Intent();
         intent.putExtra("Url", url);
-        intent.setClass(context, NewsWebView.class);
+        intent.setClass(context, NewsWebViewActivity.class);
         context.startActivity(intent);
     }
 

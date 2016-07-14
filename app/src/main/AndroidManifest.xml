@@ -47,7 +47,7 @@
 
         <activity android:name=".activity.MoreFunctionActivity"/>
 
-        <activity android:name=".activity.NewsWebView"/>
+        <activity android:name=".activity.NewsWebViewActivity"/>
 
         <activity android:name=".activity.TermsActivity"/>
 
@@ -71,6 +71,12 @@
         <activity android:name=".activity.MyPostsActivity"/>
 
         <activity android:name=".activity.WebViewActivity"/>
+
+        <activity android:name=".activity.FeedbackInfoActivity"/>
+
+        <activity android:name=".activity.ContactUsActivity"/>
+
+        <activity android:name=".activity.MyCollectActivity"/>
 
     </application>
 

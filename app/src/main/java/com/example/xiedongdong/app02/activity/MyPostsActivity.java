@@ -21,6 +21,7 @@ import java.util.List;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.GetListener;
 
 /**
  * Created by xiedongdong on 16/7/1.
@@ -41,7 +42,7 @@ public class MyPostsActivity extends BaseActivity implements View.OnClickListene
         tv_back.setOnClickListener(this);
 
         /**先从数据库中获取数据，在数组中存放数据**/
-        User user= BmobUser.getCurrentUser(MyPostsActivity.this,User.class);
+        final User user= BmobUser.getCurrentUser(MyPostsActivity.this,User.class);
 
         BmobQuery<News> query=new BmobQuery<News>();
         query.setLimit(50);
@@ -55,12 +56,31 @@ public class MyPostsActivity extends BaseActivity implements View.OnClickListene
                 for (final News newsList : list) {
                     /**定义一个动态数组**/
 
-                    HashMap<String, String> map = new HashMap<String, String>();
+                    final HashMap<String, String> map = new HashMap<String, String>();
                     map.put(NewsListViewAdapter.KEY_TITLE, newsList.getTitle());
                     map.put(NewsListViewAdapter.KEY_FROM, newsList.getFrom());
                     map.put(NewsListViewAdapter.KEY_TIME,newsList.getCreatedAt());
                     map.put(NewsListViewAdapter.KEY_URL,newsList.getUrl());
+                    map.put(NewsListViewAdapter.KEY_READCOUNT,newsList.getReadCount());
                     map.put(NewsListViewAdapter.KEY_TITLEIMG,newsList.getImgTitleUrl());
+                    //获取用户名
+                    map.put(NewsListViewAdapter.KEY_USERNAME,user.getUsername());
+                    //加载用户名和用户头像
+                    String userId=newsList.getId();
+                    BmobQuery<User> queryUser=new BmobQuery<User>();
+                    queryUser.getObject(MyPostsActivity.this, userId, new GetListener<User>() {
+                        @Override
+                        public void onSuccess(User user) {
+                            //map.put(NewsListViewAdapter.KEY_USERNAME,user.getUsername());
+                            map.put(NewsListViewAdapter.KEY_HEADIMG,user.getHeadImgUrl());
+                        }
+
+                        @Override
+                        public void onFailure(int i, String s) {
+
+                        }
+                    });
+
 
                     listItem.add(map);
                 }
@@ -77,7 +97,7 @@ public class MyPostsActivity extends BaseActivity implements View.OnClickListene
                         Log.e("MyPostsActivity",url);
                         Intent intent=new Intent();
                         intent.putExtra("Url",url);
-                        intent.setClass(MyPostsActivity.this,NewsWebView.class);
+                        intent.setClass(MyPostsActivity.this,NewsWebViewActivity.class);
                         startActivity(intent);
                     }
                 });

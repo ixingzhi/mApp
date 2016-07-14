@@ -13,6 +13,7 @@ import com.example.xiedongdong.app02.R;
  */
 public class WebViewActivity extends BaseActivity {
     private WebView web_content;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +21,7 @@ public class WebViewActivity extends BaseActivity {
 
         Intent intent=getIntent();
         String url=intent.getStringExtra("Url");
+
 
         web_content=(WebView)findViewById(R.id.web_content);
         web_content.setWebViewClient(new WebViewClient());

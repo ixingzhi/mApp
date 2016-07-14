@@ -1,20 +1,17 @@
 package com.example.xiedongdong.app02.fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.xiedongdong.app02.Base.BaseFragment;
-import com.example.xiedongdong.app02.activity.NewsWebView;
+import com.example.xiedongdong.app02.activity.NewsWebViewActivity;
 import com.example.xiedongdong.app02.adapter.ImagePagerAdapter;
 import com.example.xiedongdong.app02.adapter.ImageHandler;
 import com.example.xiedongdong.app02.R;
@@ -134,7 +131,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
     public void throwUrlOpenWeb(String url){
         Intent intent=new Intent();
         intent.putExtra("Url",url);
-        intent.setClass(getActivity(),NewsWebView.class);
+        intent.setClass(getActivity(),NewsWebViewActivity.class);
         startActivity(intent);
 
     }

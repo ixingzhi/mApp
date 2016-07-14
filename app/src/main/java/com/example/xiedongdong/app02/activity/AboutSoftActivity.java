@@ -86,7 +86,8 @@ public class AboutSoftActivity extends BaseActivity implements View.OnClickListe
     private TextView tv_back;
     private TextView tv_version;
     private Button btn_checkUpdate;
-
+    private Button btn_userFeedback;
+    private Button btn_contractUs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +101,12 @@ public class AboutSoftActivity extends BaseActivity implements View.OnClickListe
         btn_checkUpdate= (Button) findViewById(R.id.btn_checkUpdate);
         btn_checkUpdate.setOnClickListener(this);
 
+        btn_userFeedback=(Button)findViewById(R.id.btn_userFeedback);
+        btn_userFeedback.setOnClickListener(this);
+
+        btn_contractUs=(Button)findViewById(R.id.btn_contactUs);
+        btn_contractUs.setOnClickListener(this);
+
         //从程序中读取版本号
         tv_version.setText(getVersion());
         //获得数据库中的版本号
@@ -112,6 +119,12 @@ public class AboutSoftActivity extends BaseActivity implements View.OnClickListe
         switch (view.getId()){
             case R.id.tv_back:
                 finish();
+                break;
+            case R.id.btn_userFeedback:
+                startActivity(new Intent(AboutSoftActivity.this,FeedbackInfoActivity.class));
+                break;
+            case R.id.btn_contactUs:
+                startActivity(new Intent(AboutSoftActivity.this,ContactUsActivity.class));
                 break;
             case R.id.btn_checkUpdate:
                 //判断有没有网络

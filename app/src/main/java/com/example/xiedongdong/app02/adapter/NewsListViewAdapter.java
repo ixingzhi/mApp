@@ -28,12 +28,15 @@ public class NewsListViewAdapter extends BaseAdapter {
 
     private ImageLoader imageLoader;
 
+    public static final String KEY_ITEMID="itemId";
+    public static final String KEY_ID="id";
     public static final String KEY_TITLE="title";   //标题
     public static final String KEY_FROM="fromUrl";   //文章来自哪里
     public static final String KEY_HEADIMG="headImg"; //用户头像
     public static final String KEY_USERNAME="username"; //用户名
     public static final String KEY_TIME="time";   //时间
     public static final String KEY_TITLEIMG="titleImg";  //文章配图
+    public static final String KEY_READCOUNT="readCount"; //阅读量
     public static final String KEY_URL="url";  //文章链接
 
     private Activity activity;
@@ -79,6 +82,7 @@ public class NewsListViewAdapter extends BaseAdapter {
         TextView tv_username=(TextView)ll.findViewById(R.id.tv_username);//用户名
         TextView tv_time= (TextView) ll.findViewById(R.id.tv_time);//时间
         ImageView img_title= (ImageView) ll.findViewById(R.id.img_title);//标题头像
+        TextView tv_readCount=(TextView)ll.findViewById(R.id.tv_readCount);  //阅读量
 
         HashMap<String,String> news=new HashMap<>();
         news=data.get(postion);
@@ -91,6 +95,7 @@ public class NewsListViewAdapter extends BaseAdapter {
         imageLoader.displayImage(news.get(KEY_HEADIMG),img_headImg);
         tv_username.setText(news.get(KEY_USERNAME));
         tv_time.setText(news.get(KEY_TIME));
+        tv_readCount.setText(news.get(KEY_READCOUNT));
         //设置标题图片 img_title
         imageLoader.displayImage(news.get(KEY_TITLEIMG), img_title, new ImageLoadingListener() {
             @Override

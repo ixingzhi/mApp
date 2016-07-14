@@ -14,7 +14,7 @@
 
         <TextView
             android:id="@+id/tv_title"
-            android:layout_width="260dp"
+            android:layout_width="270dp"
             android:layout_height="wrap_content"
             android:text="开箱视频，一加3开箱视频，内涵段子"
             android:textColor="#000000"
@@ -94,14 +94,14 @@
             android:paddingBottom="5dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="21dp"
             android:text="已阅读 "
             android:textSize="12dp"/>
 
         <TextView
             android:id="@+id/tv_readCount"
             android:paddingBottom="5dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="9dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"

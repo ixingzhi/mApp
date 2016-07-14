@@ -54,7 +54,7 @@ public class MoreFunctionActivity extends BaseActivity implements View.OnClickLi
         dialog.setTitle("重要的事说一遍！");
         dialog.setMessage("将会彻底删除该用户的所有信息，包括注册信息！");
         //设置该对话窗是否可取消
-        dialog.setCancelable(false);
+        dialog.setCancelable(true);
         dialog.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
