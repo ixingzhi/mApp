@@ -214,8 +214,8 @@ public class AboutSoftActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onClick(DialogInterface dialog, int i) {
                 dialog.dismiss();
-                //显示下载资源
-                showDownloadResourcesDialog();
+                //显示下载框
+                showDownloadDialog();
 
 
             }
@@ -228,42 +228,6 @@ public class AboutSoftActivity extends BaseActivity implements View.OnClickListe
         });
 
         dialog.show();
-    }
-
-    /**
-     * 选择下载资源
-     */
-    private void showDownloadResourcesDialog(){
-
-        //构建对话窗
-        final AlertDialog.Builder dialog=new AlertDialog.Builder(AboutSoftActivity.this);
-        dialog.setTitle("下载资源");
-        dialog.setCancelable(true);
-
-        dialog.setPositiveButton("网页下载", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-                dialog.dismiss();
-                //向跳转的网页传递网址
-                Intent intent=new Intent();
-                intent.putExtra("Url",url);
-                intent.setClass(AboutSoftActivity.this,WebViewActivity.class);
-                startActivity(intent);
-
-            }
-        });
-        dialog.setNegativeButton("直接下载", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-                dialog.dismiss();
-                //显示下载对话窗
-                showDownloadDialog();
-
-            }
-        });
-
-        dialog.show();
-
     }
 
 
@@ -290,6 +254,7 @@ public class AboutSoftActivity extends BaseActivity implements View.OnClickListe
                 cancelUpdate=true;
             }
         });
+
         mDownloadDialog.show();
 
         //下载Apk文件
@@ -297,14 +262,6 @@ public class AboutSoftActivity extends BaseActivity implements View.OnClickListe
 
     }
 
-    private class CancelButtonListener implements DialogInterface.OnClickListener {
-        @Override
-        public void onClick(DialogInterface dialog, int i) {
-            dialog.dismiss();
-            //取消下载，从网络获取下载数据中断
-            cancelUpdate=true;
-        }
-    }
 
     /**
      * 下载Apk文件
@@ -345,7 +302,7 @@ public class AboutSoftActivity extends BaseActivity implements View.OnClickListe
                     file.mkdir();
                 }
 
-                File apkFile=new File(mSavePath,"Geek");
+                File apkFile=new File(mSavePath,"Geek.apk");
                 //输出流
                 FileOutputStream fos=new FileOutputStream(apkFile);
 
@@ -398,7 +355,7 @@ public class AboutSoftActivity extends BaseActivity implements View.OnClickListe
     }
     //安装Apk文件
     private void installApk() {
-        File apkFile = new File(mSavePath,"Geek");
+        File apkFile = new File(mSavePath,"Geek.apk");
         if(! apkFile.exists()){
             return;
         }

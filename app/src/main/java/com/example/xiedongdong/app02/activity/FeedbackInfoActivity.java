@@ -2,6 +2,7 @@ package com.example.xiedongdong.app02.activity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -47,6 +48,7 @@ public class FeedbackInfoActivity extends BaseActivity implements View.OnClickLi
                 if(checkInfoFrom()){
                     commitFeedbackInfo();
                 }
+                finish();
                 break;
             default:
                 break;
@@ -64,16 +66,11 @@ public class FeedbackInfoActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void commitFeedbackInfo() {
-        User user=BmobUser.getCurrentUser(FeedbackInfoActivity.this,User.class);
-        String txt_username=user.getUsername();
-        String txt_MobilePhoneNumber=user.getMobilePhoneNumber();
 
         String txt_feedbackInfo=et_feedbackInfo.getText().toString().trim();
         String txt_contactInfo=et_contactInfo.getText().toString().trim();
 
         FeedbackInfo feedbackInfo=new FeedbackInfo();
-        feedbackInfo.setUsername(txt_username);
-        feedbackInfo.setMobilePhoneNumber(txt_MobilePhoneNumber);
         feedbackInfo.setFeedbackInfo(txt_feedbackInfo);
         feedbackInfo.setContactInfo(txt_contactInfo);
 

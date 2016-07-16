@@ -27,7 +27,7 @@ public class NewsWebViewActivity extends BaseActivity implements View.OnClickLis
     private TextView tv_comments;
     private TextView tv_praise;
 
-    private String itemId;
+    private String itemId=null;
 
 
     @Override
@@ -67,7 +67,7 @@ public class NewsWebViewActivity extends BaseActivity implements View.OnClickLis
             case R.id.tv_collect:
                 //上传至数据库中
                 if(isLogin()){
-                    showToast("请登陆后收藏");
+                    showToast("请登录后收藏");
                 }else{
                     saveCollect();
                 }
@@ -91,10 +91,6 @@ public class NewsWebViewActivity extends BaseActivity implements View.OnClickLis
         Collect collect=new Collect();
         collect.setUserId(txt_objectId);
         collect.setItemId(itemId);
-
-        Log.e(">>>>>>>>",txt_objectId);
-        Log.e(">>>>>>>>",itemId);
-
 
         collect.save(NewsWebViewActivity.this, new SaveListener() {
             @Override

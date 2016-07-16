@@ -1,6 +1,7 @@
 package com.example.xiedongdong.app02.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -49,45 +50,32 @@ public class MyCollectActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onSuccess(List<Collect> list) {
                 final ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
-                for(Collect itemIdList:list){
-                    String itemId=itemIdList.getItemId();
+                for(Collect idList:list){
+                    String itemId=idList.getItemId();
+
+                    Log.e("itemId",""+itemId);
 
                     BmobQuery<News> query=new BmobQuery<News>();
                     query.getObject(MyCollectActivity.this, itemId, new GetListener<News>() {
                         @Override
                         public void onSuccess(News news) {
 
+
+                            Log.e("from",""+news.getFrom());
                             final HashMap<String, String> map = new HashMap<String, String>();
                             map.put(NewsListViewAdapter.KEY_ID,news.getObjectId());
                             map.put(NewsListViewAdapter.KEY_TITLE, news.getTitle());
                             map.put(NewsListViewAdapter.KEY_FROM, news.getFrom());
+                            map.put(NewsListViewAdapter.KEY_HEADIMG,news.getHeadImgUrl());
+                            map.put(NewsListViewAdapter.KEY_USERNAME,news.getUsername());
                             map.put(NewsListViewAdapter.KEY_TIME,news.getCreatedAt());
                             map.put(NewsListViewAdapter.KEY_URL,news.getUrl());
                             map.put(NewsListViewAdapter.KEY_READCOUNT,news.getReadCount());
                             map.put(NewsListViewAdapter.KEY_TITLEIMG,news.getImgTitleUrl());
 
-                            //加载用户名和用户头像
-                            String userId=news.getId();
-                            BmobQuery<User> queryUser=new BmobQuery<User>();
-                            queryUser.getObject(MyCollectActivity.this, userId, new GetListener<User>() {
-                                @Override
-                                public void onSuccess(User user) {
-                                    map.put(NewsListViewAdapter.KEY_USERNAME,user.getUsername());
-                                    map.put(NewsListViewAdapter.KEY_HEADIMG,user.getHeadImgUrl());
-                                }
-
-                                @Override
-                                public void onFailure(int i, String s) {
-
-                                }
-                            });
 
                             listItem.add(map);
                         }
-
-
-
-
 
                         @Override
                         public void onFailure(int i, String s) {

@@ -180,7 +180,6 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
 
         // 用户没有进行有效的设置操作，返回
         if (resultCode == RESULT_CANCELED) {//取消
-            showToast("取消");
             return;
         }
 
@@ -319,6 +318,10 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
         User user= BmobUser.getCurrentUser(PublishNewsActivity.this,User.class);
         //获取到当前用户的id
         final String txt_objectId=user.getObjectId();
+        //获取用户的头像url
+        String txt_headImgUrl=user.getHeadImgUrl();
+        //获取用户名
+        String txt_username=user.getUsername();
 
 
         final String txt_title=et_title.getText().toString().trim();
@@ -355,6 +358,8 @@ public class PublishNewsActivity extends BaseActivity implements View.OnClickLis
         news.setTitle(txt_title);
         news.setUrl(txt_url);
         news.setFrom(txt_from);
+        news.setHeadImgUrl(txt_headImgUrl);
+        news.setUsername(txt_username);
         news.setMessageType(finalTxt_messageType);
         news.setReadCount("0");
 

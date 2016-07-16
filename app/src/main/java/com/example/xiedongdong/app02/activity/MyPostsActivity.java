@@ -59,28 +59,14 @@ public class MyPostsActivity extends BaseActivity implements View.OnClickListene
                     final HashMap<String, String> map = new HashMap<String, String>();
                     map.put(NewsListViewAdapter.KEY_TITLE, newsList.getTitle());
                     map.put(NewsListViewAdapter.KEY_FROM, newsList.getFrom());
+                    map.put(NewsListViewAdapter.KEY_HEADIMG,newsList.getHeadImgUrl());
+                    map.put(NewsListViewAdapter.KEY_USERNAME,newsList.getUsername());
                     map.put(NewsListViewAdapter.KEY_TIME,newsList.getCreatedAt());
                     map.put(NewsListViewAdapter.KEY_URL,newsList.getUrl());
                     map.put(NewsListViewAdapter.KEY_READCOUNT,newsList.getReadCount());
                     map.put(NewsListViewAdapter.KEY_TITLEIMG,newsList.getImgTitleUrl());
                     //获取用户名
-                    map.put(NewsListViewAdapter.KEY_USERNAME,user.getUsername());
-                    //加载用户名和用户头像
-                    String userId=newsList.getId();
-                    BmobQuery<User> queryUser=new BmobQuery<User>();
-                    queryUser.getObject(MyPostsActivity.this, userId, new GetListener<User>() {
-                        @Override
-                        public void onSuccess(User user) {
-                            //map.put(NewsListViewAdapter.KEY_USERNAME,user.getUsername());
-                            map.put(NewsListViewAdapter.KEY_HEADIMG,user.getHeadImgUrl());
-                        }
-
-                        @Override
-                        public void onFailure(int i, String s) {
-
-                        }
-                    });
-
+                    map.put(NewsListViewAdapter.KEY_USERNAME,"我");
 
                     listItem.add(map);
                 }

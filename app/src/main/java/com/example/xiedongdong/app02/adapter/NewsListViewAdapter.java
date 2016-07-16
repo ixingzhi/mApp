@@ -28,8 +28,8 @@ public class NewsListViewAdapter extends BaseAdapter {
 
     private ImageLoader imageLoader;
 
-    public static final String KEY_ITEMID="itemId";
-    public static final String KEY_ID="id";
+    public static final String KEY_ITEMID="itemId";  //每个item的id
+    public static final String KEY_ID="id";   //用户id
     public static final String KEY_TITLE="title";   //标题
     public static final String KEY_FROM="fromUrl";   //文章来自哪里
     public static final String KEY_HEADIMG="headImg"; //用户头像

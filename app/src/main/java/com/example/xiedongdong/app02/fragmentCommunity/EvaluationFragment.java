@@ -37,6 +37,8 @@ public class EvaluationFragment extends BaseFragment {
     private String id=null;
     //阅读量
     private String readCount=null;
+    //文章编号
+    private String itemId=null;
 
     private int count=0;
     @Nullable
@@ -59,29 +61,16 @@ public class EvaluationFragment extends BaseFragment {
                     /**定义一个动态数组**/
 
                     final HashMap<String, String> map = new HashMap<String, String>();
-                    map.put(NewsListViewAdapter.KEY_ID,newsList.getObjectId());
+
+                    map.put(NewsListViewAdapter.KEY_ITEMID,newsList.getObjectId());
                     map.put(NewsListViewAdapter.KEY_TITLE, newsList.getTitle());
                     map.put(NewsListViewAdapter.KEY_FROM, newsList.getFrom());
+                    map.put(NewsListViewAdapter.KEY_HEADIMG,newsList.getHeadImgUrl());
+                    map.put(NewsListViewAdapter.KEY_USERNAME,newsList.getUsername());
                     map.put(NewsListViewAdapter.KEY_TIME,newsList.getCreatedAt());
                     map.put(NewsListViewAdapter.KEY_URL,newsList.getUrl());
                     map.put(NewsListViewAdapter.KEY_READCOUNT,newsList.getReadCount());
                     map.put(NewsListViewAdapter.KEY_TITLEIMG,newsList.getImgTitleUrl());
-
-                    //加载用户名和用户头像
-                    String userId=newsList.getId();
-                    BmobQuery<User> queryUser=new BmobQuery<User>();
-                    queryUser.getObject(getActivity(), userId, new GetListener<User>() {
-                        @Override
-                        public void onSuccess(User user) {
-                            map.put(NewsListViewAdapter.KEY_USERNAME,user.getUsername());
-                            map.put(NewsListViewAdapter.KEY_HEADIMG,user.getHeadImgUrl());
-                        }
-
-                        @Override
-                        public void onFailure(int i, String s) {
-
-                        }
-                    });
 
                     listItem.add(map);
                 }
@@ -94,7 +83,7 @@ public class EvaluationFragment extends BaseFragment {
                     public void onItemClick(AdapterView<?> adapterView, View view, int postion, long l) {
 
                         String url=listItem.get(postion).get(NewsListViewAdapter.KEY_URL);
-                        id=listItem.get(postion).get(NewsListViewAdapter.KEY_ID);
+                        itemId=listItem.get(postion).get(NewsListViewAdapter.KEY_ITEMID);
                         readCount=listItem.get(postion).get(NewsListViewAdapter.KEY_READCOUNT);
 
                         addReadCount();

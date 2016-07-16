@@ -224,7 +224,6 @@ public class UserInfoHeadImgActivity extends BaseActivity implements View.OnClic
 
         // 用户没有进行有效的设置操作，返回
         if (resultCode == RESULT_CANCELED) {//取消
-            showToast("取消");
             return;
         }
         switch (requestCode) {

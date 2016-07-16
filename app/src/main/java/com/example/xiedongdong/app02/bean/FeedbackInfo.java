@@ -6,26 +6,9 @@ import cn.bmob.v3.BmobObject;
  * Created by xiedongdong on 16/7/15.
  */
 public class FeedbackInfo extends BmobObject {
-    private String username;
-    private String mobilePhoneNumber;
     private String feedbackInfo;
     private String contactInfo;
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getMobilePhoneNumber() {
-        return mobilePhoneNumber;
-    }
-
-    public void setMobilePhoneNumber(String mobilePhoneNumber) {
-        this.mobilePhoneNumber = mobilePhoneNumber;
-    }
 
     public String getFeedbackInfo() {
         return feedbackInfo;
