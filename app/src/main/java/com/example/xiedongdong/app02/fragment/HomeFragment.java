@@ -9,9 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.example.xiedongdong.app02.Base.BaseFragment;
+import com.example.xiedongdong.app02.activity.MoreVideoActivity;
 import com.example.xiedongdong.app02.activity.NewsWebViewActivity;
+import com.example.xiedongdong.app02.activity.WebViewActivity;
 import com.example.xiedongdong.app02.adapter.ImagePagerAdapter;
 import com.example.xiedongdong.app02.adapter.ImageHandler;
 import com.example.xiedongdong.app02.R;
@@ -33,7 +36,20 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
     public ImageHandler handler = new ImageHandler(new WeakReference<HomeFragment>(this));
     public android.support.v4.view.ViewPager viewPager;
 
+    //智能家居
     private ImageView img_smartHome;
+    //出行方式
+    private ImageView img_tripMode;
+    //玩客系列
+    private ImageView img_walkerSerial;
+    //生活健康
+    private ImageView img_lifeHealth;
+    //更多视频
+    private LinearLayout ll_moreVideo;
+    //视屏栏目
+    private LinearLayout ll_video;
+    //极客工厂
+    private LinearLayout ll_factory;
 
     @Nullable
     @Override
@@ -109,6 +125,25 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         img_smartHome=(ImageView)view.findViewById(R.id.img_smartHome);
         img_smartHome.setOnClickListener(this);
 
+        img_tripMode=(ImageView)view.findViewById(R.id.img_tripMode);
+        img_tripMode.setOnClickListener(this);
+
+        img_walkerSerial=(ImageView)view.findViewById(R.id.img_walkerSerial);
+        img_walkerSerial.setOnClickListener(this);
+
+        img_lifeHealth=(ImageView)view.findViewById(R.id.img_lifeHealth);
+        img_lifeHealth.setOnClickListener(this);
+
+
+        ll_moreVideo=(LinearLayout)view.findViewById(R.id.ll_moreVideo);
+        ll_moreVideo.setOnClickListener(this);
+
+        ll_video=(LinearLayout)view.findViewById(R.id.ll_video);
+        ll_video.setOnClickListener(this);
+
+        ll_factory=(LinearLayout)view.findViewById(R.id.ll_factory);
+        ll_factory.setOnClickListener(this);
+
 
         return view;
 
@@ -118,8 +153,51 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.img_smartHome:
-                String url="http://www.zealer.com";
-                throwUrlOpenWeb(url);
+                String smartHomeUrl="https://mp.weixin.qq.com/s?__biz=MjM5NzYwNjk2Mg==&mid=2653189866&idx=3" +
+                        "&sn=87ff6142b32fe8dfdf537bb8a04fdc82&scene=0&key=77421cf58af4a65390263c189e57be2" +
+                        "2b15ce6a5d340ae05ab1d8ce6f2d80ddf4610c2c987b7584792e4b302161f2572&ascene=7&uin=MjA" +
+                        "zMzU5NTQyMQ%3D%3D&devicetype=iPhone+OS10.0&version=16031610&nettype=WIFI&fontScal" +
+                        "e=100&pass_ticket=DGQHy%2FI%2F6JOvZoFSrzmyBpbPRzDKgFAEmpGjjBGKnj%2BgEztO9phZm2L090t0pXZb";
+                throwUrlOpenWeb(smartHomeUrl);
+                break;
+            case R.id.img_tripMode:
+                String tripModeUrl="https://mp.weixin.qq.com/s?__biz=MjM5NzYwNjk2Mg==&mid=2653189945&idx" +
+                        "=3&sn=15ca098f03e58f27ee972498d476b8f4&scene=0&key=77421cf58af4a653c451917feef7f" +
+                        "91ccab3cd1c8bb9ec8e233188d88df8ca6b564fa8dc350bfaa2dcfd0032c56c74f6&ascene=7&uin=" +
+                        "MjAzMzU5NTQyMQ%3D%3D&devicetype=iPhone+OS10.0&version=16031610&nettype=WIFI&fontS" +
+                        "cale=100&pass_ticket=DGQHy%2FI%2F6JOvZoFSrzmyBpbPRzDKgFAEmpGjjBGKnj%2BgEztO9phZm2L090t0pXZb";
+                throwUrlOpenWeb(tripModeUrl);
+                break;
+            case R.id.img_walkerSerial:
+                String walkerSerialUrl="https://mp.weixin.qq.com/s?__biz=MjM5NzYwNjk2Mg==&mid=2653189925&id" +
+                        "x=1&sn=eff72435e519aefcc1997e0a838cccfd&scene=0&key=77421cf58af4a6538bf280b764159c769" +
+                        "ae72f390d2923b6111a9da53896a4a73df0b14ea655ffb3293827ec768e3b1b&ascene=7&uin=MjAzMzU5NTQ" +
+                        "yMQ%3D%3D&devicetype=iPhone+OS10.0&version=16031610&nettype=WIFI&fontScale=100&pass_ticke" +
+                        "t=DGQHy%2FI%2F6JOvZoFSrzmyBpbPRzDKgFAEmpGjjBGKnj%2BgEztO9phZm2L090t0pXZb";
+                throwUrlOpenWeb(walkerSerialUrl);
+                break;
+            case R.id.img_lifeHealth:
+                String lifeHealthUrl="https://mp.weixin.qq.com/s?__biz=MjM5NzYwNjk2Mg==&mid=207106897&idx=1&sn=014" +
+                        "0b73277f06e62fa3c567e16301712&scene=20&key=77421cf58af4a6538a79853fe45059906d1f3a64fa1d05cf1c6" +
+                        "43a9316cdec4eea81bf53047df60820f95180a50e3b2a&ascene=7&uin=MjAzMzU5NTQyMQ%3D%3D&devicetype=i" +
+                        "Phone+OS10.0&version=16031610&nettype=WIFI&fontScale=100&pass_ticket=DGQHy%2FI%2F6JOvZoFSrzmyBpbP" +
+                        "RzDKgFAEmpGjjBGKnj%2BgEztO9phZm2L090t0pXZb";
+                throwUrlOpenWeb(lifeHealthUrl);
+                break;
+            case R.id.ll_moreVideo:
+                startActivity(new Intent(getActivity(), MoreVideoActivity.class));
+                break;
+            case R.id.ll_video:
+                String videoUrl="https://mp.weixin.qq.com/s?__biz=MjM5NzYwNjk2Mg==&mid=402252485&idx=" +
+                        "1&sn=7574cc930102772e7ade4736cf072e28&scene=21&uin=MjAzMzU5NTQyMQ%3D%3D&key" +
+                        "=77421cf58af4a653804cbbac0318f72c45da03690602edcb01aa67031ea65c8d51af3985e5a5b2" +
+                        "59a18069284c4021e0&devicetype=iPhone+OS10.0&version=16031610&lang=zh_CN&nettype" +
+                        "=3G+&fontScale=100&pass_ticket=DGQHy%2FI%2F6JOvZoFSrzmyBpbPRzDKgFAEmpGjjBGKnj%2B" +
+                        "gEztO9phZm2L090t0pXZb";
+                throwUrlOpenWeb(videoUrl);
+                break;
+            case R.id.ll_factory:
+                showToast("正在开发中，敬请期待");
                 break;
             default:
                 break;
@@ -130,8 +208,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
     //通过网页链接打开相应的网页
     public void throwUrlOpenWeb(String url){
         Intent intent=new Intent();
-        intent.putExtra("Url",url);
-        intent.setClass(getActivity(),NewsWebViewActivity.class);
+        intent.putExtra("url",url);
+        intent.setClass(getActivity(),WebViewActivity.class);
         startActivity(intent);
 
     }

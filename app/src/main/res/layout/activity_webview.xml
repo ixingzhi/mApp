@@ -3,6 +3,29 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="#CCCCCC">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:text="详情"
+            android:textSize="18dp"/>
+
+    </RelativeLayout>
     <WebView
         android:id="@+id/web_content"
         android:layout_width="match_parent"

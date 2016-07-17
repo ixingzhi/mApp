@@ -85,16 +85,34 @@ public class DisassemblyFragment extends BaseFragment {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int postion, long l) {
 
-                        String url=listItem.get(postion).get(NewsListViewAdapter.KEY_URL);
-                        itemId=listItem.get(postion).get(NewsListViewAdapter.KEY_ITEMID);
+                        String itemId=listItem.get(postion).get(NewsListViewAdapter.KEY_ITEMID);
+                        String title=listItem.get(postion).get(NewsListViewAdapter.KEY_TITLE);
+                        String from=listItem.get(postion).get(NewsListViewAdapter.KEY_FROM);
+                        String headImgUrl=listItem.get(postion).get(NewsListViewAdapter.KEY_HEADIMG);
+                        String username=listItem.get(postion).get(NewsListViewAdapter.KEY_USERNAME);
+                        String shareTime=listItem.get(postion).get(NewsListViewAdapter.KEY_TIME);  //分享时间
+                        String titleImageUrl=listItem.get(postion).get(NewsListViewAdapter.KEY_TITLEIMG);
                         readCount=listItem.get(postion).get(NewsListViewAdapter.KEY_READCOUNT);
+                        String url=listItem.get(postion).get(NewsListViewAdapter.KEY_URL);
 
+                        //每次点击，阅读量加1
                         addReadCount();
 
                         Intent intent=new Intent();
-                        intent.putExtra("Url",url);
+
+                        intent.putExtra("itemId",itemId);
+                        intent.putExtra("title",title);
+                        intent.putExtra("from",from);
+                        intent.putExtra("headImgUrl",headImgUrl);
+                        intent.putExtra("username",username);
+                        intent.putExtra("shareTime",shareTime);
+                        intent.putExtra("titleImageUrl",titleImageUrl);
+                        intent.putExtra("readCount",readCount);
+                        intent.putExtra("url",url);
+
                         intent.setClass(getActivity(),NewsWebViewActivity.class);
                         startActivity(intent);
+
                     }
                 });
 

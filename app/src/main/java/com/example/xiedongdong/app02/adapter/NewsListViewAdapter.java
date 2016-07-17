@@ -38,6 +38,7 @@ public class NewsListViewAdapter extends BaseAdapter {
     public static final String KEY_TITLEIMG="titleImg";  //文章配图
     public static final String KEY_READCOUNT="readCount"; //阅读量
     public static final String KEY_URL="url";  //文章链接
+    public static final String KEY_SHARETIME="shareTime";  //分享时间，用于收藏表
 
     private Activity activity;
     private static LayoutInflater inflater=null;

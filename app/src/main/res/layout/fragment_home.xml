@@ -97,9 +97,11 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_moreVideo"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:padding="5dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -137,6 +139,7 @@
 
 
             <LinearLayout
+                android:id="@+id/ll_video"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
@@ -146,9 +149,46 @@
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/xiaomi"/>
+                    android:src="@mipmap/geek"/>
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:orientation="horizontal"
+                android:background="#CCCCCC">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingLeft="5dp"
+                    android:layout_weight="1"
+                    android:textColor="#3366FF"
+                    android:textSize="16dp"
+                    android:text="Geek | Factory"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_factory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/factory"/>
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
 

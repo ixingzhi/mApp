@@ -78,6 +78,8 @@
 
         <activity android:name=".activity.MyCollectActivity"/>
 
+        <activity android:name=".activity.MoreVideoActivity"/>
+
     </application>
 
 </manifest>

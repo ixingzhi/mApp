@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="#000000">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="20dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_back"/>
+
+
+        <TextView
+            android:id="@+id/tv_userInfoTitle_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="更多视频"
+            android:textSize="24dp"
+            android:textColor="#FFFFFF"/>
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/img_moreVideo01"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:scaleType="fitXY"
+                android:padding="5dp"
+                android:src="@mipmap/home_more_video01"/>
+
+            <ImageView
+                android:id="@+id/img_moreVideo02"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:scaleType="fitXY"
+                android:padding="5dp"
+                android:src="@mipmap/home_more_video02"/>
+
+            <ImageView
+                android:id="@+id/img_moreVideo03"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:scaleType="fitXY"
+                android:padding="5dp"
+                android:src="@mipmap/home_more_video03"/>
+
+            <ImageView
+                android:id="@+id/img_moreVideo04"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:scaleType="fitXY"
+                android:padding="5dp"
+                android:src="@mipmap/home_more_video04"/>
+
+            <ImageView
+                android:id="@+id/img_moreVideo05"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:scaleType="fitXY"
+                android:padding="5dp"
+                android:src="@mipmap/home_more_video05"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

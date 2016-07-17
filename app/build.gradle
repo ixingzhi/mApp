@@ -7,7 +7,8 @@ android {
         applicationId "com.example.xiedongdong.app02"
         minSdkVersion 19
         targetSdkVersion 23
-        versionName '1.1.2'
+        versionName '1.0'
+        versionCode 1
     }
     buildTypes {
         release {

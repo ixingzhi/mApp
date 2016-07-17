@@ -27,7 +27,15 @@ public class NewsWebViewActivity extends BaseActivity implements View.OnClickLis
     private TextView tv_comments;
     private TextView tv_praise;
 
-    private String itemId=null;
+    String itemId=null;
+    String title=null;
+    String from=null;
+    String headImgUrl=null;
+    String username=null;
+    String shareTime=null;
+    String titleImageUrl=null;
+    String readCount=null;
+    String url=null;
 
 
     @Override
@@ -47,9 +55,19 @@ public class NewsWebViewActivity extends BaseActivity implements View.OnClickLis
         tv_praise=(TextView)findViewById(R.id.tv_praise);
         tv_praise.setOnClickListener(this);
 
+        /**每次打开item时，传递过来item的信息，用于收藏**/
         Intent intent=getIntent();
-        String url=intent.getStringExtra("Url");
-        itemId=intent.getStringExtra("ItemId");
+
+        itemId=intent.getStringExtra("itemId");
+        title=intent.getStringExtra("title");
+        from=intent.getStringExtra("from");
+        headImgUrl=intent.getStringExtra("headImgUrl");
+        username=intent.getStringExtra("username");
+        shareTime=intent.getStringExtra("shareTime");
+        titleImageUrl=intent.getStringExtra("titleImageUrl");
+        readCount=intent.getStringExtra("readCount");
+        url=intent.getStringExtra("url");
+
 
         web_news=(android.webkit.WebView)findViewById(R.id.web_news);
         web_news.setWebViewClient(new WebViewClient());
@@ -89,8 +107,17 @@ public class NewsWebViewActivity extends BaseActivity implements View.OnClickLis
         String txt_objectId=userInfo.getObjectId();
 
         Collect collect=new Collect();
+
         collect.setUserId(txt_objectId);
         collect.setItemId(itemId);
+        collect.setTitle(title);
+        collect.setFrom(from);
+        collect.setHeadImgUrl(headImgUrl);
+        collect.setUsername(username);
+        collect.setShareTime(shareTime);
+        collect.setTitleImageUrl(titleImageUrl);
+        collect.setReadCount(readCount);
+        collect.setUrl(url);
 
         collect.save(NewsWebViewActivity.this, new SaveListener() {
             @Override

@@ -1,11 +1,17 @@
 package com.example.xiedongdong.app02.activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.xiedongdong.app02.Base.BaseActivity;
@@ -20,6 +26,7 @@ import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.listener.DeleteListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.GetListener;
 
@@ -32,6 +39,8 @@ public class MyPostsActivity extends BaseActivity implements View.OnClickListene
 
     private TextView tv_back;
 
+    private Handler handler;
+    private static final int DELETE=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +66,7 @@ public class MyPostsActivity extends BaseActivity implements View.OnClickListene
                     /**定义一个动态数组**/
 
                     final HashMap<String, String> map = new HashMap<String, String>();
+                    map.put(NewsListViewAdapter.KEY_ITEMID,newsList.getObjectId());
                     map.put(NewsListViewAdapter.KEY_TITLE, newsList.getTitle());
                     map.put(NewsListViewAdapter.KEY_FROM, newsList.getFrom());
                     map.put(NewsListViewAdapter.KEY_HEADIMG,newsList.getHeadImgUrl());
@@ -82,9 +92,33 @@ public class MyPostsActivity extends BaseActivity implements View.OnClickListene
                         String url=listItem.get(postion).get(NewsListViewAdapter.KEY_URL);
                         Log.e("MyPostsActivity",url);
                         Intent intent=new Intent();
-                        intent.putExtra("Url",url);
+                        intent.putExtra("url",url);
                         intent.setClass(MyPostsActivity.this,NewsWebViewActivity.class);
                         startActivity(intent);
+                    }
+                });
+
+                lv_myPosts.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int postion, long l) {
+                        //获取到要删除的item id
+                        String itemId=listItem.get(postion).get(NewsListViewAdapter.KEY_ITEMID);
+                        //显示删除对话框
+                        showDeleteDialog(itemId);
+
+                        handler=new Handler(){
+                            @Override
+                            public void handleMessage(Message msg) {
+                                super.handleMessage(msg);
+                                //从listItem中删除选中的postion
+                                listItem.remove(postion);
+                                //动态更新listview
+                                adapter.notifyDataSetChanged();
+                            }
+                        };
+
+
+                        return true;
                     }
                 });
             }
@@ -107,5 +141,53 @@ public class MyPostsActivity extends BaseActivity implements View.OnClickListene
                 break;
         }
 
+    }
+
+    private void showDeleteDialog(final String itemId) {
+
+        final AlertDialog dialog = new AlertDialog.Builder(this).create();  //创建一个Dialog
+        View view = getLayoutInflater().inflate(R.layout.layout_del_news_item, null);  //自定义布局
+        dialog.setView(view, 0, 0, 0, 0);  //把自定义布局添加到dialog中，从第二个参数开始分别表示填充内容与边缘之间的像素 左上右下。
+        dialog.show();  //一定要在dialog，show之后在设置dialog的参数，不然会不会显示
+
+        //int width=getWindowManager().getDefaultDisplay().getWidth();  //获取当前设备的显示宽度
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();  //得到这个dialog界面的参数对象
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;   //设置显示宽度和屏幕宽度相同
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;//设置dialog的高度为包裹内容。
+        params.gravity = Gravity.CENTER;  //设置重心为显示到最下面
+
+        dialog.getWindow().setAttributes(params);// 将设置的内容与dialog绑定
+
+        RelativeLayout rl_delete= (RelativeLayout) view.findViewById(R.id.rl_delete);
+        rl_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //从数据库中删除item
+                News news=new News();
+                news.setObjectId(itemId);
+                news.delete(MyPostsActivity.this, new DeleteListener() {
+                    @Override
+                    public void onSuccess() {
+                        showToast("删除成功");
+                        dialog.dismiss();
+                        handler.sendEmptyMessage(DELETE);
+                    }
+
+                    @Override
+                    public void onFailure(int i, String s) {
+
+                    }
+                });
+
+            }
+        });
+        RelativeLayout rl_cancel= (RelativeLayout) view.findViewById(R.id.rl_cancel);
+        rl_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
     }
 }

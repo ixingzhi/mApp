@@ -110,7 +110,7 @@ public class ImagePagerAdapter extends PagerAdapter{
     //通过网页链接打开相应的网页
     public void throwUrlOpenWeb(String url) {
         Intent intent = new Intent();
-        intent.putExtra("Url", url);
+        intent.putExtra("url", url);
         intent.setClass(context, NewsWebViewActivity.class);
         context.startActivity(intent);
     }
