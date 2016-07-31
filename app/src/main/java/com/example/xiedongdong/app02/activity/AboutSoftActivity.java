@@ -60,8 +60,7 @@ public class AboutSoftActivity extends BaseActivity implements View.OnClickListe
     private String downloadLink=null;
     //数据库中获取更新内容
     private String updateContent=null;
-    //数据库中获得网页下载链接
-    private String url=null;
+
 
     Handler mHandler=new Handler(){
 
@@ -177,7 +176,6 @@ public class AboutSoftActivity extends BaseActivity implements View.OnClickListe
                 serverCode=version.getVersionNumber();
                 downloadLink=version.getDownloadLink();
                 updateContent=version.getUpdateContent();
-                url=version.getUrl();
 
             }
 

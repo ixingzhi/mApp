@@ -1,6 +1,9 @@
 package com.example.xiedongdong.app02.activity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -23,10 +26,37 @@ import cn.bmob.v3.listener.VerifySMSCodeListener;
  * Created by xiedongdong on 16/6/21.
  */
 public class UserInfoPhoneNumActivity extends BaseActivity implements View.OnClickListener{
-    private TextView tv_cancel,tv_save,tv_currentPhoneNum,tv_sendSecurityCode;
+    private TextView tv_cancel,tv_save,tv_currentPhoneNum,tv_getSecurityCode;
     private EditText et_phoneNum,et_securityCode;
 
-    private boolean blag=true;
+    //验证码正确
+    private static final int CODE_RIGHT=0;
+    //验证码错误
+    private static final int CODE_ERROR=1;
+
+    ProgressDialog progress;
+
+    Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case CODE_RIGHT:
+                    Log.e("code","验证码正确");
+                    //验证码正确，注册账号
+                    updataPhoneNum();
+                    break;
+                case CODE_ERROR:
+                    progress.dismiss();
+                    showToast("修改失败，验证码错误");
+                    break;
+                default:
+                    break;
+
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +76,7 @@ public class UserInfoPhoneNumActivity extends BaseActivity implements View.OnCli
     private void initEvent() {
         tv_cancel.setOnClickListener(this);
         tv_save.setOnClickListener(this);
-        tv_sendSecurityCode.setOnClickListener(this);
+        tv_getSecurityCode.setOnClickListener(this);
     }
 
     private void initView() {
@@ -55,7 +85,7 @@ public class UserInfoPhoneNumActivity extends BaseActivity implements View.OnCli
         tv_currentPhoneNum=(TextView)findViewById(R.id.tv_currentPhoneNum);
         et_phoneNum=(EditText)findViewById(R.id.et_phoneNum);
         et_securityCode=(EditText)findViewById(R.id.et_securityCode);
-        tv_sendSecurityCode=(TextView)findViewById(R.id.tv_sendSecurityCode);
+        tv_getSecurityCode=(TextView)findViewById(R.id.tv_getSecurityCode);
     }
 
     @Override
@@ -65,15 +95,10 @@ public class UserInfoPhoneNumActivity extends BaseActivity implements View.OnCli
                 UserInfoPhoneNumActivity.this.finish();
                 break;
             case R.id.tv_save:
-                if(checkInfoFrom() && checkSecurityCode()){
-                    upDataPhoneNum();
-                }
-
+                checkInfoFrom();
                 break;
-            case R.id.tv_sendSecurityCode:
-                if(checkInfoFrom()){
-                    sendSecurityCode();
-                }
+            case R.id.tv_getSecurityCode:
+                getSecurityCode();
 
                 break;
             default:
@@ -83,22 +108,27 @@ public class UserInfoPhoneNumActivity extends BaseActivity implements View.OnCli
     }
 
     /**
-     * 发送验证码前判断是否输入手机号
+     * 获取验证码前判断是否输入手机号
      * @return
      */
-    private boolean checkInfoFrom() {
+    private void checkInfoFrom() {
         String txt_phoneNum=et_phoneNum.getText().toString().trim();
+        String txt_SecurityCode=et_securityCode.getText().toString().trim();
         if(TextUtils.isEmpty(txt_phoneNum)){
             showToast("手机号不能为空");
-            return false;
         }
-        return true;
+        else if(TextUtils.isEmpty(txt_SecurityCode)){
+            showToast("验证码不能为空");
+        }
+        else{
+            checkSecurityCode();
+        }
     }
 
     /**
      * 发送验证码
      */
-    private void sendSecurityCode() {
+    private void getSecurityCode() {
         String txt_phoneNum=et_phoneNum.getText().toString().trim();
 
         if(!TextUtils.isEmpty(txt_phoneNum)){
@@ -107,10 +137,12 @@ public class UserInfoPhoneNumActivity extends BaseActivity implements View.OnCli
                 public void done(Integer smsId, BmobException ex) {
                     if(ex==null){
                         showToast("短信发送成功");
-                        new TimeCount(UserInfoPhoneNumActivity.this,60000,1000,tv_sendSecurityCode).start();
+                        new TimeCount(UserInfoPhoneNumActivity.this,60000,1000,tv_getSecurityCode).start();
                     }
                 }
             });
+        }else{
+            showToast("请填写手机号");
         }
     }
 
@@ -118,31 +150,36 @@ public class UserInfoPhoneNumActivity extends BaseActivity implements View.OnCli
      * 验证验证码是否正确
      */
 
-    private boolean checkSecurityCode() {
+    private void checkSecurityCode() {
         String txt_phoneNum = et_phoneNum.getText().toString().trim();
         String txt_securityCode = et_securityCode.getText().toString().trim();
+
+        //显示注册进度条，防止用户重复点击
+        progress=new ProgressDialog(UserInfoPhoneNumActivity.this);
+        progress.setCanceledOnTouchOutside(false);
+        progress.setCancelable(false);
+        progress.setMessage("正在修改中...");
+        progress.show();
 
         Bmob.verifySmsCode(UserInfoPhoneNumActivity.this, txt_phoneNum, txt_securityCode, new VerifySMSCodeListener() {
             @Override
             public void done(BmobException e) {
                 if(e==null){
+                    handler.sendEmptyMessage(CODE_RIGHT);
                     Log.e("RegisterActivity","验证码验证成功");
-                    blag=true;
                 }else{
-                    showToast("验证码错误");
+                    handler.sendEmptyMessage(CODE_ERROR);
                     Log.e("RegisterActivity","验证码错误");
-                    blag=false;
 
                 }
             }
         });
-        return blag;
     }
 
     /**
      * 保存手机号
      */
-    private void upDataPhoneNum() {
+    private void updataPhoneNum() {
         String txt_phoneNum=et_phoneNum.getText().toString().trim();
         String txt_objectId=BmobUser.getCurrentUser(UserInfoPhoneNumActivity.this,User.class).getObjectId();
         User user=new User();
@@ -150,6 +187,8 @@ public class UserInfoPhoneNumActivity extends BaseActivity implements View.OnCli
         user.update(UserInfoPhoneNumActivity.this, txt_objectId, new UpdateListener() {
             @Override
             public void onSuccess() {
+                progress.dismiss();
+                showToast("修改手机号成功");
                 finish();
             }
 

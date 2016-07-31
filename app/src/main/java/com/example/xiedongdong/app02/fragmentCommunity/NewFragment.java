@@ -84,7 +84,7 @@ public class NewFragment extends BaseFragment {
                 lv_new.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int postion, long l) {
-                        String itemId=listItem.get(postion).get(NewsListViewAdapter.KEY_ITEMID);
+                        itemId=listItem.get(postion).get(NewsListViewAdapter.KEY_ITEMID);
                         String title=listItem.get(postion).get(NewsListViewAdapter.KEY_TITLE);
                         String from=listItem.get(postion).get(NewsListViewAdapter.KEY_FROM);
                         String headImgUrl=listItem.get(postion).get(NewsListViewAdapter.KEY_HEADIMG);
@@ -95,6 +95,7 @@ public class NewFragment extends BaseFragment {
                         String url=listItem.get(postion).get(NewsListViewAdapter.KEY_URL);
 
                         //每次点击，阅读量加1
+                        Log.e("点击item时",""+readCount);
                         addReadCount();
 
                         Intent intent=new Intent();
@@ -138,10 +139,12 @@ public class NewFragment extends BaseFragment {
         //在将int类型转换成String类型，上传到数据库中
         readCount=Integer.toString(count);
 
+        Log.e("上传时",""+readCount);
+
         //上传点击量到数据库中
         News news=new News();
         news.setReadCount(readCount);
-        news.update(getActivity(),id, new UpdateListener() {
+        news.update(getActivity(),itemId, new UpdateListener() {
             @Override
             public void onSuccess() {
                 Log.e("readCount","阅读量加1");

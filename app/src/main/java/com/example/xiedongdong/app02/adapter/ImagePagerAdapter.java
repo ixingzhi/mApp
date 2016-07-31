@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import com.example.xiedongdong.app02.activity.NewsWebViewActivity;
+import com.example.xiedongdong.app02.activity.WebViewActivity;
 
 import java.util.List;
 
@@ -111,7 +112,7 @@ public class ImagePagerAdapter extends PagerAdapter{
     public void throwUrlOpenWeb(String url) {
         Intent intent = new Intent();
         intent.putExtra("url", url);
-        intent.setClass(context, NewsWebViewActivity.class);
+        intent.setClass(context, WebViewActivity.class);
         context.startActivity(intent);
     }
 

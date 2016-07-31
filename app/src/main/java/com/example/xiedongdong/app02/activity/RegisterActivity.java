@@ -1,7 +1,10 @@
 package com.example.xiedongdong.app02.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -15,11 +18,8 @@ import com.example.xiedongdong.app02.R;
 import com.example.xiedongdong.app02.bean.User;
 import com.example.xiedongdong.app02.util.TimeCount;
 
-import java.io.File;
 
 import cn.bmob.v3.Bmob;
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.RequestSMSCodeListener;
 import cn.bmob.v3.listener.SaveListener;
@@ -34,13 +34,42 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private EditText et_newPassword;
     private EditText et_usernmae;
     private EditText et_securityCode;
-    private TextView tv_sendSecurityCode;
+    private TextView tv_getSecurityCode;
     private CheckBox cb_agreeTerms;
     private TextView tv_terms;
     private Button btn_register;
     private TextView tv_existAccount;
 
-    boolean blag=true;
+    //验证码正确
+    private static final int CODE_RIGHT=0;
+    //验证码错误
+    private static final int CODE_ERROR=1;
+
+    ProgressDialog progress;
+
+    Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case CODE_RIGHT:
+                    Log.e("code","验证码正确");
+                    //验证码正确，注册账号
+                    register();
+                    break;
+                case CODE_ERROR:
+                    progress.dismiss();
+                    showToast("注册失败，验证码错误");
+                    break;
+                default:
+                    break;
+
+            }
+
+
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +83,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initEvent() {
-        tv_sendSecurityCode.setOnClickListener(this);
+        tv_getSecurityCode.setOnClickListener(this);
         tv_terms.setOnClickListener(this);
         btn_register.setOnClickListener(this);
         tv_existAccount.setOnClickListener(this);
@@ -66,7 +95,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         et_newPassword=(EditText)findViewById(R.id.et_newPassword);
         et_usernmae=(EditText)findViewById(R.id.et_userName);
         et_securityCode=(EditText)findViewById(R.id.et_securityCode);
-        tv_sendSecurityCode=(TextView) findViewById(R.id.tv_sendSecurityCode);
+        tv_getSecurityCode=(TextView) findViewById(R.id.tv_getSecurityCode);
         cb_agreeTerms=(CheckBox)findViewById(R.id.cb_agreeTerms);
         tv_terms=(TextView)findViewById(R.id.tv_terms);
         btn_register=(Button)findViewById(R.id.btn_register);
@@ -77,14 +106,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.tv_sendSecurityCode:
-                //发送验证码
-                sendSecurityCode();
+            case R.id.tv_getSecurityCode:
+                //获取验证码
+                getSecurityCode();
                 break;
             case R.id.btn_register:
-                if(checkInfoFrom()){
-                    register();
-                }
+                checkInfoFrom();
                 break;
             case R.id.tv_terms:
                 startActivity(new Intent(RegisterActivity.this,TermsActivity.class));
@@ -99,10 +126,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     /**
-     * 发送验证码
+     * 获取验证码
      */
 
-    private void sendSecurityCode() {
+    private void getSecurityCode() {
         String txt_phoneNum=et_phoneNum.getText().toString().trim();
 
         if(!TextUtils.isEmpty(txt_phoneNum)){
@@ -111,7 +138,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 public void done(Integer smsId, BmobException ex) {
                     if(ex==null){
                         showToast("短信发送成功");
-                        new TimeCount(RegisterActivity.this,60000,1000,tv_sendSecurityCode).start();
+                        new TimeCount(RegisterActivity.this,60000,1000,tv_getSecurityCode).start();
                     }
                 }
             });
@@ -124,51 +151,72 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
      * 验证验证码是否正确
      */
 
-    private boolean checkSecurityCode() {
+    private void checkSecurityCode() {
         String txt_phoneNum = et_phoneNum.getText().toString().trim();
         String txt_securityCode = et_securityCode.getText().toString().trim();
+
+        //显示注册进度条，防止用户重复点击注册
+        progress=new ProgressDialog(RegisterActivity.this);
+        progress.setCanceledOnTouchOutside(false);
+        progress.setCancelable(false);
+        progress.setMessage("正在注册中...");
+        progress.show();
 
         Bmob.verifySmsCode(RegisterActivity.this, txt_phoneNum, txt_securityCode, new VerifySMSCodeListener() {
             @Override
             public void done(BmobException e) {
                 if(e==null){
+                    //验证码正确，注册账号
+                    handler.sendEmptyMessage(CODE_RIGHT);
                     Log.e("RegisterActivity","验证码验证成功");
-                    blag=true;
                 }else{
+                    handler.sendEmptyMessage(CODE_ERROR);
                     Log.e("RegisterActivity","验证码错误");
-                    blag=false;
 
                 }
             }
         });
-        return blag;
+
     }
 
     /**
      * 检查输入信息是否正确
      * @return
      */
-    private boolean checkInfoFrom() {
+    private void checkInfoFrom() {
         String txt_phoneNum = et_phoneNum.getText().toString().trim();
         String txt_newPassword = et_newPassword.getText().toString().trim();
         String txt_username = et_usernmae.getText().toString().trim();
         String txt_securityCode = et_securityCode.getText().toString().trim();
 
-        if (TextUtils.isEmpty(txt_phoneNum) && TextUtils.isEmpty(txt_newPassword)
-                && TextUtils.isEmpty(txt_username) && TextUtils.isEmpty(txt_securityCode)) {
+        if (TextUtils.isEmpty(txt_phoneNum)){
 
             showToast("请完善信息");
-        } else if (!cb_agreeTerms.isChecked()) {
+        }
+        else if(TextUtils.isEmpty(txt_newPassword)){
+            showToast("请完善信息");
+        }
+        else if(txt_newPassword.length()<6){
+            showToast("密码需大于等于6位");
+        }
+        else if(TextUtils.isEmpty(txt_username)) {
+            showToast("请完善信息");
+        }
+        else if(txt_username.length()<2){
+            showToast("用户名需大于2个字符");
+        }
+        else if(TextUtils.isEmpty(txt_securityCode)) {
+            showToast("请获取验证码");
+        }
+        else if (!cb_agreeTerms.isChecked()) {
             showToast("未同意条款");
         }
-        else if(checkSecurityCode()==false){
-            showToast("验证码错误");
-        }
         else {
-            return true;
+            //最后检查验证码是否正确，需要在子线程冲检查。
+            checkSecurityCode();
+
         }
 
-        return false;
     }
 
 
@@ -186,7 +234,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         user.setPassword(txt_password);
         user.setUsername(txt_username);
         user.setSex("未知");
-        user.setLocation("未知");
+        user.setLocation("江苏无锡");
         user.setAutograph("无");
         user.setHeadImgUrl("");
         user.setHeadImgFileUrl("");
@@ -194,6 +242,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         user.signUp(RegisterActivity.this, new SaveListener() {
             @Override
             public void onSuccess() {
+                progress.dismiss();
                 showToast("注册成功");
                 finish();
                 Log.d("RegisterActivity","注册成功");

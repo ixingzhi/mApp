@@ -147,7 +147,7 @@
             android:hint="验证码"
             android:textSize="20dp"/>
         <TextView
-            android:id="@+id/tv_sendSecurityCode"
+            android:id="@+id/tv_getSecurityCode"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
@@ -155,7 +155,7 @@
             android:layout_marginRight="20dp"
             android:singleLine="true"
             android:background="#3399FF"
-            android:text="发送验证码"
+            android:text="获取验证码"
             android:textSize="20dp"/>
 
     </RelativeLayout>

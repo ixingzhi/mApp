@@ -113,7 +113,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 }else{
                     fragmentTransaction.show(tab01);
                 }
-                tv_home.setTextColor(Color.GREEN);
+                tv_home.setTextColor(getResources().getColor(R.color.orange));
                 tv_home.setTextSize(23);
                 break;
             case 1:
@@ -123,7 +123,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 }else{
                     fragmentTransaction.show(tab02);
                 }
-                tv_community.setTextColor(Color.GREEN);
+                tv_community.setTextColor(getResources().getColor(R.color.orange));
                 tv_community.setTextSize(23);
                 break;
             case 2:
@@ -133,7 +133,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 }else{
                     fragmentTransaction.show(tab03);
                 }
-                tv_me.setTextColor(Color.GREEN);
+                tv_me.setTextColor(getResources().getColor(R.color.orange));
                 tv_me.setTextSize(23);
                 break;
             default:
